@@ -1,0 +1,49 @@
+{
+    "name": "daytwo/craft-cookiemng",
+    "description": "Interface to manage cookies preferences",
+    "type": "craft-plugin",
+    "license": "proprietary",
+    "support": {
+        "email": "tech@daytwo.no",
+        "issues": "https://github.com/daytwo/craft-cookiemng/issues?state=open",
+        "source": "https://github.com/daytwo/craft-cookiemng",
+        "docs": "https://github.com/daytwo/craft-cookiemng",
+        "rss": "https://github.com/daytwo/craft-cookiemng/releases.atom"
+    },
+    "require": {
+        "php": ">=8.0.2",
+        "craftcms/cms": "^4.5.0"
+    },
+    "require-dev": {
+        "craftcms/ecs": "dev-main",
+        "craftcms/phpstan": "dev-main"
+    },
+    "autoload": {
+        "psr-4": {
+            "daytwo\\cookiemng\\": "src/"
+        }
+    },
+    "extra": {
+        "handle": "craft-cookiemng",
+        "name": "daytwo/craft-cookiemng",
+        "developer": "Daytwo",
+        "documentationUrl": "https://github.com/daytwo/craft-cookiemng",
+        "class": "daytwo\\cookiemng\\CookieMng"
+    },
+    "scripts": {
+        "check-cs": "ecs check --ansi",
+        "fix-cs": "ecs check --ansi --fix",
+        "phpstan": "phpstan --memory-limit=1G"
+    },
+    "config": {
+        "sort-packages": true,
+        "platform": {
+            "php": "8.0.2"
+        },
+        "allow-plugins": {
+            "yiisoft/yii2-composer": true,
+            "craftcms/plugin-installer": true
+        }
+    }
+}
+
