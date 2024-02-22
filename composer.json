@@ -24,8 +24,8 @@
         }
     },
     "extra": {
-        "handle": "craft-cookiemng",
-        "name": "daytwo/craft-cookiemng",
+        "handle": "cookiemng",
+        "name": "Cookie Manager",
         "developer": "Daytwo",
         "documentationUrl": "https://github.com/daytwo/craft-cookiemng",
         "class": "daytwo\\cookiemng\\CookieMng"

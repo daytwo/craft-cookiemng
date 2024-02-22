@@ -3,4 +3,231 @@
 
 {% import '_includes/forms.twig' as forms %}
 
-{# ... #}
+<div class="flex-fields">
+    {# ... #}
+    <h2>Cookie Name</h2>
+
+    {{ forms.autosuggestField({
+        label: 'Cookie Name',
+        name: 'cookieName',
+        value: settings.cookieName,
+        suggestEnvVars: true,
+        required: true,
+        fieldClass: 'width-25',
+        instructions: 'The cookie name that will be used to store the user preferences. This should be unique to your site and preferably per enviroment to avoid conflicts.',
+    }) }}
+
+    {{ forms.autosuggestField({
+        label: 'Cookie Domain',
+        name: 'cookieDomain',
+        value: settings.cookieDomain,
+        suggestEnvVars: true,
+        required: false,
+        fieldClass: 'width-25',
+        instructions: 'The domain that the cookie will be set on. Leave blank to use the current domain.',
+    }) }}
+
+
+    <hr/>
+    
+    <h2>Theme</h2>
+    
+    {{ forms.selectField({
+        label: "Theme",
+        instructions: 'Choose your theme',
+        name: 'theme',
+        options: {"blue":"Blue","green":"Green","red":"Red","yellow":"Yellow","purple":"Purple","black":"Black"},
+        value: settings.theme,
+        fieldClass: 'width-25',
+        required: true,
+    }) }}
+
+    {{ forms.lightswitchField({
+        label: "Inverted",
+        name: 'inverted',
+        instructions: "Use theme color as background instead of accept color",
+        fieldClass: 'width-25',
+        on: settings.inverted
+    }) }}
+
+    <hr/>
+    
+    <h2>Button labels</h2>
+
+
+    {{ forms.textField({
+        label: "Accept all",
+        name: 'acceptAllButton',
+        fieldClass: 'width-25',
+        value: settings.acceptAllButton,
+    }) }}
+
+    {{ forms.textField({
+        label: "Deny all",
+        name: 'denyAllButton',
+        fieldClass: 'width-25',
+        value: settings.denyAllButton,
+    }) }}
+
+    {{ forms.textField({
+        label: "Save",
+        name: 'saveButton',
+        fieldClass: 'width-25',
+        value: settings.saveButton,
+    }) }}
+
+    {{ forms.textField({
+        label: "Customize",
+        name: 'customizeButton',
+        fieldClass: 'width-25',
+        value: settings.customizeButton,
+    }) }}
+
+    {{ forms.textField({
+        label: "Close/Dismiss",
+        name: 'closeButton',
+        fieldClass: 'width-25',
+        value: settings.closeButton,
+    }) }}
+
+    <hr/>
+
+<h2>Functional</h2>
+{{ forms.lightswitchField({
+    label: 'Use functional cookies',
+    name: 'functionalCookies',
+    on: settings.functionalCookies,
+    fieldClass: 'width-25',
+    instructions: 'Display the functional cookie in the preferences. The event will be triggered when user accepts the functional cookies (value: functional).',
+}) }}
+
+{{ forms.textField({
+    label: "Functional cookie title",
+    name: 'functionalTitle',
+    fieldClass: 'width-25',
+    value: settings.functionalTitle,
+}) }}
+
+{{ forms.textAreaField({
+    label: "Functional cookie description",
+    name: 'functionalDescription',
+    rows: 2,
+    fieldClass: 'width-50',
+    value: settings.functionalDescription,
+}) }}
+
+<hr />
+
+<h2>Analytics</h2>
+{{ forms.lightswitchField({
+    label: 'Use analytics cookies',
+    name: 'analyticsCookies',
+    on: settings.analyticsCookies,
+    fieldClass: 'width-25',
+    instructions: 'Display the analytics cookie in the preferences. The event will be triggered when user accepts the analytics cookies (value: analytics).',
+}) }}
+
+
+{{ forms.textField({
+    label: "Analytics Title"|t('cookiemng'),
+    name: 'analyticsTitle',
+    fieldClass: 'width-25',
+    value: settings.analyticsTitle,
+}) }}
+
+
+{{ forms.textAreaField({
+    label: "Analytics Description"|t('cookiemng'),
+    name: 'analyticsDescription',
+    rows: 2,
+    fieldClass: 'width-50',
+    value: settings.analyticsDescription,
+}) }}
+
+<hr />
+
+
+<h2>Advertising</h2>
+{{ forms.lightswitchField({
+    label: 'Use advertising cookies',
+    name: 'advertisingCookies',
+    on: settings.advertisingCookies,
+    fieldClass: 'width-25',
+    instructions: 'Display the advertising cookie in the preferences. The event will be triggered when user accepts the advertising cookies (value: advertising).',
+}) }}
+
+{{ forms.textField({
+    label: "Advertising Title"|t('cookiemng'),
+    name: 'advertisingTitle',
+    fieldClass: 'width-25',
+    value: settings.advertisingTitle,
+}) }}
+
+{{ forms.textAreaField({
+    label: "Advertising Description"|t('cookiemng'),
+    name: 'advertisingDescription',
+    rows: 2,
+    fieldClass: 'width-50',
+    value: settings.advertisingDescription,
+}) }}
+
+<hr/>
+
+<h2>Customization</h2>
+{{ forms.lightswitchField({
+    label: 'Use customization cookies',
+    name: 'customizationCookies',
+    on: settings.customizationCookies,
+    fieldClass: 'width-25',
+    instructions: 'Display the customization cookie in the preferences. The event will be triggered when user accepts the customization cookies (value: customization).',
+}) }}
+
+{{ forms.textField({
+    label: "Customization Title"|t('cookiemng'),
+    name: 'customizationTitle',
+    fieldClass: 'width-25',
+    value: settings.customizationTitle,
+}) }}
+
+{{ forms.textAreaField({
+    label: "Customization Description"|t('cookiemng'),
+    name: 'customizationDescription',
+    rows: 2,
+    fieldClass: 'width-50',
+    value: settings.customizationDescription,
+}) }}
+
+<hr/>
+
+<h2>Custom (extra)</h2>
+
+{{ forms.lightswitchField({
+    label: 'Use extra cookies',
+    name: 'extraCookies',
+    on: settings.extraCookies,
+    fieldClass: 'width-25',
+    instructions: 'Display and extra cookie in the preferences. The event will be triggered when user accepts the extra cookies (value: {the cookie property bellow}).',
+}) }}
+
+{{ forms.textField({
+    label: "Cookie property"|t('cookiemng'),
+    name: 'extraCookieProperty',
+    fieldClass: 'width-25',
+    value: settings.extraCookieProperty,
+}) }}
+
+{{ forms.textField({
+    label: "Extra Title"|t('cookiemng'),
+    name: 'extraTitle',
+    fieldClass: 'width-25',
+    value: settings.extraTitle,
+}) }}
+
+{{ forms.textAreaField({
+    label: "Extra Description"|t('cookiemng'),
+    name: 'extraDescription',
+    rows: 2,
+    fieldClass: 'width-25',
+    value: settings.extraDescription,
+}) }}
+</div>

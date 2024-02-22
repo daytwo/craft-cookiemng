@@ -1,0 +1,12 @@
+{% extends "_layouts/cp.twig" %}
+{% import '_includes/forms.twig' as forms %}
+
+{% set title = "Cookie Manager"|t('cookiemng') %}
+{% set fullPageForm = true %}
+
+{% block content %}
+
+    {{ actionInput('cookiemng/setup/save') }}
+    {% include 'cookiemng/_settings' %}
+
+{% endblock %}

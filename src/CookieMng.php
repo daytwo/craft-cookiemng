@@ -3,9 +3,20 @@
 namespace daytwo\cookiemng;
 
 use Craft;
+
+use daytwo\cookiemng\models\Settings;
+use daytwo\cookiemng\services\PermissionServices;
+use daytwo\cookiemng\variables\CookieMngVariables;
+
 use craft\base\Model;
 use craft\base\Plugin;
-use daytwo\cookiemng\models\Settings;
+use craft\events\RegisterCpNavItemsEvent;
+use craft\events\RegisterUrlRulesEvent;
+use craft\web\twig\variables\CraftVariable;
+use craft\web\twig\variables\Cp;
+use craft\web\UrlManager;
+
+use yii\base\Event;
 
 /**
  * daytwo/craft-cookiemng plugin
@@ -20,6 +31,10 @@ class CookieMng extends Plugin
 {
     public string $schemaVersion = '1.0.0';
     public bool $hasCpSettings = true;
+    public bool $hasCpSection = true;
+
+    public static $instance;
+    public static $plugin;
 
     public static function config(): array
     {
@@ -32,13 +47,27 @@ class CookieMng extends Plugin
 
     public function init(): void
     {
+
+        // Set instance of this module
+        self::$instance = $this;
+        self::$plugin = $this;
+
+        // Set alias for this module
+        Craft::setAlias('@daytwo/cookiemng', __DIR__);
+        $this->controllerNamespace = 'daytwo\cookiemng\controllers';
+
         parent::init();
 
+        // Register services
+        $this->setComponents([
+        'services' => PermissionServices::class
+        ]);
+        
         // Defer most setup tasks until Craft is fully initialized
         Craft::$app->onInit(function() {
             $this->attachEventHandlers();
-            // ...
         });
+
     }
 
     protected function createSettingsModel(): ?Model
@@ -48,15 +77,36 @@ class CookieMng extends Plugin
 
     protected function settingsHtml(): ?string
     {
-        return Craft::$app->view->renderTemplate('craft-cookiemng/_settings.twig', [
+        return Craft::$app->view->renderTemplate('cookiemng/_settings.twig', [
             'plugin' => $this,
-            'settings' => $this->getSettings(),
+            'settings' => $this->getSettings()
         ]);
+    }
+    
+    public function getCpNavItem(): ?array
+    {
+        $navItem = parent::getCpNavItem();
+        $navItem['label'] = "Cookie Manager";
+
+        return $navItem;
     }
 
     private function attachEventHandlers(): void
     {
-        // Register event handlers here ...
-        // (see https://craftcms.com/docs/4.x/extend/events.html to get started)
+        // Register variables
+        Event::on(
+        CraftVariable::class,
+        CraftVariable::EVENT_INIT,
+            function (Event $event) {
+                $variable = $event->sender;
+                $variable->set('cookiemng', CookieMngVariables::class);
+            }
+        );
+
+        Event::on(UrlManager::class, UrlManager::EVENT_REGISTER_CP_URL_RULES, function(RegisterUrlRulesEvent $event) {
+            $event->rules = array_merge($event->rules, [
+                'cookiemng' => 'cookiemng/setup/edit'
+            ]);
+        });
     }
 }
