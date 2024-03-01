@@ -1,7 +1,7 @@
 <?php
 
-
 namespace daytwo\cookiemng\controllers;
+
 use Craft;
 use craft\web\Controller;
 

@@ -14,6 +14,8 @@ namespace daytwo\cookiemng\variables;
 use Craft;
 
 use daytwo\cookiemng\CookieMng;
+use daytwo\cookiemng\pluginassets\PluginAssets;
+use craft\web\View;
 
 /**
 * Class PermissionVariables
@@ -36,6 +38,25 @@ class CookieMngVariables
   #TWIG => {{ craft.cookiemng.getPermissionCookie($name) }}
   public function getPermissionCookie()
   {
-    return CookieMng::$instance->services->getPermissionCookie($this->cookieName);
+    return CookieMng::$instance->services->getPermissionCookie();
+  }
+  
+  #TWIG => {{ craft.cookiemng.render()|raw }}
+  public function render()
+  {
+    Craft::$app->view->registerAssetBundle(PluginAssets::class);
+    $settings = CookieMng::$instance->getSettings();
+    $permissions = CookieMng::$instance->services->getPermissionCookie();
+    $permissions = $permissions ? $permissions : '';
+    return Craft::$app->view->renderTemplate('cookiemng/panel/bar.twig',['settings'=>$settings,'permissions'=>$permissions ? explode(',',$permissions) : false],View::TEMPLATE_MODE_CP);
+  }
+
+  #TWIG => {{ craft.cookiemng.consentTemplate()|raw }}
+  public function consentTemplate()
+  {
+    Craft::$app->view->registerAssetBundle(PluginAssets::class);
+    $permissions = CookieMng::$instance->services->getPermissionCookie();
+    $permissions = $permissions ? $permissions : '';
+    return Craft::$app->view->renderTemplate('cookiemng/panel/consentTemplate.twig',['permissions'=>explode(',',$permissions)],View::TEMPLATE_MODE_CP);
   }
 }

@@ -45,9 +45,33 @@
     {{ forms.lightswitchField({
         label: "Inverted",
         name: 'inverted',
-        instructions: "Use theme color as background instead of accept color",
+        instructions: "Use theme color as background instead of accent color",
         fieldClass: 'width-25',
         on: settings.inverted
+    }) }}
+
+    <hr/>
+
+
+    <h2>Details</h2>
+    
+    {{ forms.textField({
+        label: "Header",
+        instructions: 'Popup header',
+        name: 'cookiesHeader',
+        value: settings.cookiesHeader,
+        fieldClass: 'width-25',
+        required: true,
+    }) }}
+
+    {{ forms.textAreaField({
+        label: "Description",
+        instructions: 'Popup description',
+        name: 'cookiesDescription',
+        fieldClass: 'width-75',
+        rows:3,
+        value: settings.cookiesDescription,
+        required: true,
     }) }}
 
     <hr/>
@@ -60,6 +84,13 @@
         name: 'acceptAllButton',
         fieldClass: 'width-25',
         value: settings.acceptAllButton,
+    }) }}
+
+    {{ forms.textField({
+        label: "Accept functional",
+        name: 'acceptFunctionalButton',
+        fieldClass: 'width-25',
+        value: settings.acceptFunctionalButton,
     }) }}
 
     {{ forms.textField({
@@ -97,7 +128,10 @@
     label: 'Use functional cookies',
     name: 'functionalCookies',
     on: settings.functionalCookies,
+    disabled: true,
     fieldClass: 'width-25',
+    inputClass: 'disabled',
+    fieldStyle: 'opacity:0.5',
     instructions: 'Display the functional cookie in the preferences. The event will be triggered when user accepts the functional cookies (value: functional).',
 }) }}
 
@@ -173,30 +207,31 @@
 
 <hr/>
 
-<h2>Customization</h2>
+<h2>Personalization</h2>
 {{ forms.lightswitchField({
-    label: 'Use customization cookies',
-    name: 'customizationCookies',
-    on: settings.customizationCookies,
+    label: 'Use personalization cookies',
+    name: 'personalizationCookies',
+    on: settings.personalizationCookies,
     fieldClass: 'width-25',
-    instructions: 'Display the customization cookie in the preferences. The event will be triggered when user accepts the customization cookies (value: customization).',
+    instructions: 'Display the personalization cookie in the preferences. The event will be triggered when user accepts the personalization cookies (value: personalization).',
 }) }}
 
 {{ forms.textField({
-    label: "Customization Title"|t('cookiemng'),
-    name: 'customizationTitle',
+    label: "Personalization Title"|t('cookiemng'),
+    name: 'personalizationTitle',
     fieldClass: 'width-25',
-    value: settings.customizationTitle,
+    value: settings.personalizationTitle,
 }) }}
 
 {{ forms.textAreaField({
-    label: "Customization Description"|t('cookiemng'),
-    name: 'customizationDescription',
+    label: "Personalization Description"|t('cookiemng'),
+    name: 'personalizationDescription',
     rows: 2,
     fieldClass: 'width-50',
-    value: settings.customizationDescription,
+    value: settings.personalizationDescription,
 }) }}
 
+<!--
 <hr/>
 
 <h2>Custom (extra)</h2>
@@ -231,3 +266,4 @@
     value: settings.extraDescription,
 }) }}
 </div>
+-->

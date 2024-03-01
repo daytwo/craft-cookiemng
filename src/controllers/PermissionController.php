@@ -1,6 +1,6 @@
 <?php
 
-namespace modules\cookiemng\controllers;
+namespace daytwo\cookiemng\controllers;
 
 /**
 * Cookie Management module for Craft CMS 4.x
@@ -14,7 +14,7 @@ namespace modules\cookiemng\controllers;
 use Craft;
 use craft\web\Controller;
 
-use modules\cookiemng\CookieMng;
+use daytwo\cookiemng\CookieMng;
 
 /**
 * Class PermissionController
@@ -39,8 +39,6 @@ class PermissionController extends Controller
 
     #In case you need to remove CSRF valiation
     protected $skipCSRF = ['example','set']; 
-
-    protected $cookieName = '_cr_cookie_policy'; 
 
     public function beforeAction($default):bool
     {
@@ -88,12 +86,12 @@ class PermissionController extends Controller
         $request = Craft::$app->getRequest();
 
         $redirect = $request->getParam('redirect', '');
-        $sample = $request->getParam('sample', 'example method via PermissionController');
+        $permissions = $request->getParam('permissions');
 
-        $result = CookieMng::$instance->services->setPermissionCookie('functional', 365, false, false);
+        $result = CookieMng::$instance->services->setPermissionCookie($permissions, 150, true, true);
 
         // if this was an ajax request, return json
-        return $this->asJson($result);
+        return $this->asJson($permissions);
         if ($request->getAcceptsJson()) {
             return $this->asJson($result);
         }

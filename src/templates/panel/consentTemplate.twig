@@ -1,0 +1,61 @@
+<script>
+    // Define dataLayer and the gtag function.
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    
+    gtag('consent', 'default', {
+        'ad_storage': '{{"advertising" in permissions ? 'granted' : 'denied'}}', //advertising
+        'ad_user_data': '{{"advertising" in permissions ? 'granted' : 'denied'}}', //advertising
+        'ad_personalization': '{{"personalization" in permissions ? 'granted' : 'denied'}}', //personalization
+        'personalization_storage': '{{"personalization" in permissions ? 'granted' : 'denied'}}', //personalization
+        'analytics_storage': '{{"analytics" in permissions ? 'granted' : 'denied'}}', //analytics
+        'functionality_storage': 'granted', //functional
+        'security_storage': 'granted' //functional
+    });
+    let cm_updateConsent = (granted,denied) => {
+        let consent_list = {};
+        granted.forEach((prop)=>{
+            switch (prop){
+                case 'functional':
+                    consent_list['functionality_storage'] = 'granted'    
+                    consent_list['security_storage'] = 'granted'
+                    break;
+                case 'analytics':
+                    consent_list['analytics_storage'] = 'granted'
+                    break;
+                case 'advertising':
+                    consent_list['ad_storage'] = 'granted'
+                    consent_list['ad_user_data'] = 'granted'
+                    break;
+                case 'personalization':
+                    consent_list['personalization_storage'] = 'granted'
+                    consent_list['ad_personalization'] = 'granted'
+                    break;
+            }
+        });
+        denied.forEach((prop)=>{
+            switch (prop){
+                case 'functional':
+                    consent_list['functionality_storage'] = 'denied'    
+                    consent_list['security_storage'] = 'denied'
+                    break;
+                case 'analytics':
+                    consent_list['analytics_storage'] = 'denied'
+                    break;
+                case 'advertising':
+                    consent_list['ad_storage'] = 'denied'
+                    consent_list['ad_user_data'] = 'denied'
+                    break;
+                case 'personalization':
+                    consent_list['personalization_storage'] = 'denied'
+                    consent_list['ad_personalization'] = 'denied'
+                    break;
+            }
+        });
+        for (const [key, value] of Object.entries(consent_list)) {
+            let object = {};
+            object[key] = value;
+            gtag('consent', 'update', object);
+        }
+    }
+</script>
