@@ -27,6 +27,46 @@
         instructions: 'The domain that the cookie will be set on. Leave blank to use the current domain.',
     }) }}
 
+    {{ forms.autosuggestField({
+        label: 'Cookie max-age',
+        name: 'cookieName',
+        value: settings.cookieExpiry,
+        suggestEnvVars: true,
+        required: true,
+        fieldClass: 'width-25',
+        instructions: 'Cookie duration in days.',
+    }) }}
+
+    {{ forms.autosuggestField({
+        label: 'Cookie path',
+        name: 'cookiePath',
+        value: settings.cookiePath,
+        suggestEnvVars: true,
+        required: true,
+        fieldClass: 'width-25',
+        instructions: 'Cookie path. Recommented is to use "/"',
+    }) }}
+
+
+    {{ forms.lightswitchField({
+        label: 'User secure cookie',
+        name: 'cookieSecure',
+        value: settings.cookieSecure,
+        required: true,
+        fieldClass: 'width-25',
+        instructions: 'Recommened to use "true". When in localhost it will always use "false"',
+    }) }}
+
+    
+    {{ forms.lightswitchField({
+        label: 'Google Consent',
+        name: 'googleConsentV2Enabled',
+        value: settings.googleConsentV2Enabled,
+        required: true,
+        fieldClass: 'width-25',
+        instructions: 'Enable dispatch of Google Consent Mode v2?',
+    }) }}
+
 
     <hr/>
     
@@ -48,6 +88,24 @@
         instructions: "Use theme color as background instead of accept color",
         fieldClass: 'width-25',
         on: settings.inverted
+    }) }}
+
+
+    {{ forms.textField({
+        label: "Custom z-index",
+        name: 'zIndex',
+        instructions: "Define a custom z-index to place the cookie settings panel",
+        fieldClass: 'width-25',
+        on: settings.zIndex
+    }) }}
+
+
+    {{ forms.lightswitchField({
+        label: "Block user interaction",
+        name: 'zIndex',
+        instructions: "Block user interaction until the cookie settings is accepted or dismissed.",
+        fieldClass: 'width-25',
+        on: settings.blockBackground
     }) }}
 
     <hr/>

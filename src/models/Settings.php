@@ -10,11 +10,19 @@ use craft\base\Model;
  */
 class Settings extends Model
 {
-    public $cookieName = 'craft_cookiemng';
+    public $cookieName = 'craft_cookiemng';    
     public $cookieDomain;
+    public $cookieExpiry = 365;
+    public $cookiePath = "/";
+    public $cookieSecure = true;
 
+    public $googleConsentV2Enabled = true;
+
+    
     public $theme = "blue";
     public $inverted = false;
+    public $zIndex = 999999;
+    public $blockBackground = false;
 
     public $saveButton = 'Save';
     public $acceptAllButton = 'Accept all';

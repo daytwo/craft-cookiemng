@@ -33,6 +33,9 @@ class PermissionServices extends Component{
         $settings = CookieMng::$instance->getSettings();
         $cookieName = Craft::parseEnv($settings->cookieName);
         $domain = Craft::parseEnv($settings->cookieDomain);
+        if(!$cookieName || $cookieName == '$COOKIE_NAME'){
+            $domain = 'craft_daytwo_cookiemng';
+        }
         if(!$domain || $domain == '$COOKIE_DOMAIN'){
             $domain = '';
         }
@@ -47,6 +50,9 @@ class PermissionServices extends Component{
     {
         $settings = CookieMng::$instance->getSettings();
         $cookieName = Craft::parseEnv($settings->cookieName);
+        if(!$cookieName || $cookieName == '$COOKIE_NAME'){
+            $domain = 'craft_daytwo_cookiemng';
+        }
 
         if(array_key_exists($this->cookieName,$_COOKIE)){
             return $_COOKIE[$this->cookieName];
