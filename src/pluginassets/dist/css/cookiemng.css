@@ -281,4 +281,11 @@
             display:block !important;
         }
     }
+    &.cm__corner{
+        .cm__inline-button{
+            @media screen and (max-width: 768px){
+               flex-direction:row !important;
+            }
+        }
+    }
 }
