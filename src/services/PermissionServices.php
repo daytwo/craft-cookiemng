@@ -30,34 +30,32 @@ class PermissionServices extends Component{
 
     public function setPermissionCookie($value, $duration, $secure=true, $http_only=true)
     {        
-       
-
         $settings = CookieMng::$instance->getSettings();
-        $cookieName = $settings->cookieName;
-        $domain = $settings->cookieDomain;
+        $cookieName = Craft::parseEnv($settings->cookieName);
+        $domain = Craft::parseEnv($settings->cookieDomain);
         if(!$cookieName || $cookieName == '$COOKIE_NAME'){
             $domain = 'craft_daytwo_cookiemng';
         }
         if(!$domain || $domain == '$COOKIE_DOMAIN'){
-            $domain = null;
+            $domain = '';
         }
 
         if(str_contains($domain, 'localhost')){
-            $secure = false;
+            $http_only = false;
         }
 
-        return setcookie($cookieName, $value, time() + 60 * 60 * 24 * $duration, '/', $domain, $secure, $http_only);
+        return setcookie($cookieName, $value, time() + 60 * 60 * 24 * $duration, $domain, $secure, $http_only);
     }
     public function getPermissionCookie()
-    {   
+    {
         $settings = CookieMng::$instance->getSettings();
-        $cookieName = $settings->cookieName;
+        $cookieName = Craft::parseEnv($settings->cookieName);
         if(!$cookieName || $cookieName == '$COOKIE_NAME'){
             $domain = 'craft_daytwo_cookiemng';
         }
 
-        if(array_key_exists($cookieName,$_COOKIE)){
-            return $_COOKIE[$cookieName];
+        if(array_key_exists($this->cookieName,$_COOKIE)){
+            return $_COOKIE[$this->cookieName];
         }
         return false;
     }

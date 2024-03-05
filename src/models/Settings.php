@@ -10,8 +10,8 @@ use craft\base\Model;
  */
 class Settings extends Model
 {
-    public $cookieName = 'craft_cookiemng';    
-    public $cookieDomain;
+    public $cookieName = '$COOKIE_NAME';    
+    public $cookieDomain = '$COOKIE_DOMAIN';
     public $cookieExpiry = 365;
     public $cookiePath = "/";
     public $cookieSecure = true;
