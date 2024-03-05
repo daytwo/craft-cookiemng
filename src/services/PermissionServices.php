@@ -28,34 +28,20 @@ use daytwo\cookiemng\CookieMng;
 
 class PermissionServices extends Component{
 
-    public function setPermissionCookie($value, $duration, $secure=true, $http_only=true)
+    public function setPermissionCookie($value)
     {        
         $settings = CookieMng::$instance->getSettings();
-        $cookieName = Craft::parseEnv($settings->cookieName);
-        $domain = Craft::parseEnv($settings->cookieDomain);
-        if(!$cookieName || $cookieName == '$COOKIE_NAME'){
-            $domain = 'craft_daytwo_cookiemng';
-        }
-        if(!$domain || $domain == '$COOKIE_DOMAIN'){
-            $domain = '';
-        }
+        $env = CookieMng::$instance->getEnvValues();
 
-        if(str_contains($domain, 'localhost')){
-            $http_only = false;
-        }
-
-        return setcookie($cookieName, $value, time() + 60 * 60 * 24 * $duration, $domain, $secure, $http_only);
+        return setcookie($env->cookieName, $value, time() + 60 * 60 * 24 * $env->cookieExpiry, $env->path, $env->cookieDomain, $env->cookieSecure, true);
     }
     public function getPermissionCookie()
     {
         $settings = CookieMng::$instance->getSettings();
-        $cookieName = Craft::parseEnv($settings->cookieName);
-        if(!$cookieName || $cookieName == '$COOKIE_NAME'){
-            $domain = 'craft_daytwo_cookiemng';
-        }
+        $env = CookieMng::$instance->getEnvValues();
 
-        if(array_key_exists($cookieName,$_COOKIE)){
-            return $_COOKIE[$cookieName];
+        if(array_key_exists($env->cookieName,$_COOKIE)){
+            return $_COOKIE[$env->cookieName];
         }
         return false;
     }

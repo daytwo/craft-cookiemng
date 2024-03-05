@@ -88,7 +88,7 @@ class PermissionController extends Controller
         $redirect = $request->getParam('redirect', '');
         $permissions = $request->getParam('permissions');
 
-        $result = CookieMng::$instance->services->setPermissionCookie($permissions, 150, true, true);
+        $result = CookieMng::$instance->services->setPermissionCookie($permissions);
 
         // if this was an ajax request, return json
         return $this->asJson($permissions);

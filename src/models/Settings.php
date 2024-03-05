@@ -10,16 +10,8 @@ use craft\base\Model;
  */
 class Settings extends Model
 {
-    public $cookieName = '$COOKIE_NAME';    
-    public $cookieDomain = '$COOKIE_DOMAIN';
-    public $cookieExpiry = 365;
-    public $cookiePath = "/";
-    public $cookieSecure = true;
-
-    public $googleConsentV2Enabled = '$COOKIE_GOOGLE_V2_ENABLED';
-    public $enabledCookieBar = '$COOKIE_ENABLED';
-
     
+
     public $theme = "blue";
     public $inverted = false;
     public $zIndex = 999999;

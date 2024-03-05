@@ -3,78 +3,78 @@
 
 {% import '_includes/forms.twig' as forms %}
 
+{% set cookieEnabled = getenv('CM_COOKIE_ENABLED') !== 1 ? false : true %}
+{% set cookieName = getenv('CM_COOKIE_NAME') === 'CM_COOKIE_NAME' ? 'craft_daytwo_cookiemng' : getenv('CM_COOKIE_NAME') %}
+{% set cookieDomain = getenv('CM_COOKIE_DOMAIN') === 'CM_COOKIE_DOMAIN' ? '' : getenv('CM_COOKIE_DOMAIN') %}
+{% set cookieExpiry = getenv('CM_COOKIE_EXPIRY') === 'CM_COOKIE_EXPIRY' ? 365 : getenv('CM_COOKIE_EXPIRY')|number_format %}
+{% set cookiePath = getenv('CM_COOKIE_PATH') === 'CM_COOKIE_PATH' ? '/' : getenv('CM_COOKIE_PATH') %}
+{% set cookieSecure = getenv('CM_COOKIE_SECURE') === 'CM_COOKIE_SECURE' ? false : true %}
+{% set cookieGoogleEnabled = getenv('CM_COOKIE_GOOGLE_ENABLED') === 'CM_COOKIE_GOOGLE_ENABLED' ? false : true %}
+
 <div class="flex-fields">
     {# ... #}
     <h2>Cookie Name</h2>
 
     {{ forms.lightswitchField({
         label: 'Enable cookie bar',
-        name: 'enabledCookieBar',
-        value: enabled,
+        value: cookieEnabled,
+        disabled:true,
         fieldClass: 'width-25',
-        instructions: 'Define if cookie bar is active or not. If not active, the cookie settings will not be displayed and google consent will nto be dispatched.',
+        instructions: 'Define if cookie bar is active or not. If not active, the cookie settings will not be displayed and google consent will nto be dispatched (.env var CM_COOKIE_ENABLED)',
     }) }}
 
     {{ forms.textField({
         label: 'Cookie Name',
-        name: 'cookieName',
-        value: settings.cookieName,
+        value: cookieName,
         disabled:true,
-        required: true,
         fieldClass: 'width-25',
-        instructions: 'The cookie name that will be used to store the user preferences. This should be unique to your site and preferably per enviroment to avoid conflicts.',
+        instructions: 'The cookie name that will be used to store the user preferences. This should be unique to your site and preferably per enviroment to avoid conflicts (.env var CM_COOKIE_NAME)',
     }) }}
 
     {{ forms.textField({
         label: 'Cookie Domain',
-        name: 'cookieDomain',
-        value: settings.cookieDomain,
+        value: cookieDomain,
         disabled:true,
-        required: false,
         fieldClass: 'width-25',
-        instructions: 'The domain that the cookie will be set on. Leave blank to use the current domain.',
+        instructions: 'The domain that the cookie will be set on. Leave blank to use the current domain (.env var CM_COOKIE_DOMAIN)',
     }) }}
 
     {{ forms.textField({
         label: 'Cookie max-age',
-        name: 'cookieExpiry',
-        min: 1,
         type:'number',
-        maxlength: 3,
-        step:1,
-        autocorrect:true,
-        value: settings.cookieExpiry,
-        inputType: 'number',
-        required: true,
+        value: cookieExpiry,
+        disabled:true,
         fieldClass: 'width-25',
-        instructions: 'Cookie duration in days.',
+        instructions: 'Cookie duration in days (.env var CM_COOKIE_EXPIRY)',
     }) }}
 
     {{ forms.textField({
         label: 'Cookie path',
-        name: 'cookiePath',
-        value: settings.cookiePath,
+        value: cookiePath,
         required: false,
+        disabled:true,
         fieldClass: 'width-25',
-        instructions: 'Cookie path. Recommented is to use "/"',
+        instructions: 'Cookie path. Recommented is to use "/" (.env var CM_COOKIE_PATH)',
     }) }}
 
 
     {{ forms.lightswitchField({
         label: 'User secure cookie',
-        name: 'cookieSecure',
-        value: settings.cookieSecure,
+        value: cookieSecure,
+        required: false,
+        disabled:true,
         fieldClass: 'width-25',
-        instructions: 'Recommened to use "true". When in localhost it will always use "false"',
+        instructions: 'Recommened to use "true". When in localhost it will always use "false" (.env var CM_COOKIE_SECURE)',
     }) }}
 
     
     {{ forms.lightswitchField({
         label: 'Google Consent',
-        name: 'googleConsentV2Enabled',
-        value: consentEnabled,
+        value: cookieGoogleEnabled,
+        required: false,
+        disabled:true,
         fieldClass: 'width-25',
-        instructions: 'Enable dispatch of Google Consent Mode v2?',
+        instructions: 'Enable dispatch of Google Consent Mode v2? (.env var CM_COOKIE_GOOGLE_ENABLED)',
     }) }}
 
 

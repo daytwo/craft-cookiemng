@@ -70,6 +70,20 @@ class CookieMng extends Plugin
 
     }
 
+    public function getEnvValues(): array{
+        $env = (object)[
+            'cookieEnabled' => Craft::parseEnv('CM_COOKIE_ENABLED') !== 1 ? false: true,
+            'cookieName' => Craft::parseEnv('CM_COOKIE_NAME') === 'CM_COOKIE_NAME' ? 'craft_daytwo_cookiemng': Craft::parseEnv('CM_COOKIE_NAME'),
+            'cookieDomain' => Craft::parseEnv('CM_COOKIE_DOMAIN') === 'CM_COOKIE_DOMAIN' ? '' : Craft::parseEnv('CM_COOKIE_DOMAIN'),
+            'cookieExpiry' => Craft::parseEnv('CM_COOKIE_EXPIRY') === 'CM_COOKIE_EXPIRY' ? 365 : Craft::parseEnv('CM_COOKIE_EXPIRY'),
+            'cookiePath' => Craft::parseEnv('CM_COOKIE_PATH') === 'CM_COOKIE_PATH' ? '/' : Craft::parseEnv('CM_COOKIE_PATH'),
+            'cookieSecure' => Craft::parseEnv('CM_COOKIE_SECURE') === 'CM_COOKIE_SECURE' ? false : true,
+            'cookieGoogleEnabled' => Craft::parseEnv('CM_COOKIE_GOOGLE_ENABLED') === 'CM_COOKIE_GOOGLE_ENABLED' ? false : true
+        ];
+
+        return $env;
+    }
+
     protected function createSettingsModel(): ?Model
     {
         return Craft::createObject(Settings::class);
@@ -78,27 +92,11 @@ class CookieMng extends Plugin
     protected function settingsHtml(): ?string
     {
         $settings = $this->getSettings();
-    
-        $enabled = Craft::parseEnv($settings->enabledCookieBar);
-        if($enabled == 1 || $enabled == '1' || $enabled == true){
-            $enabled = true;
-        }else{
-            $enabled = false;
-        }
-
-        $consentEnabled = Craft::parseEnv($settings->googleConsentV2Enabled);
-        if($consentEnabled == 1 || $consentEnabled == '1' || $consentEnabled == true){
-            $consentEnabled = true;
-        }else{
-            $consentEnabled = false;
-        }
+        $env = $this->getEnvValues();
         
         return Craft::$app->view->renderTemplate('cookiemng/_settings.twig', [
             'plugin' => $this,
             'settings' => $this->getSettings(),
-            'enabled' => $enabled,
-            'consentEnabled' => $consentEnabled
-
         ]);
     }
     

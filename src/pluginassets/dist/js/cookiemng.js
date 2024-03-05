@@ -1,4 +1,5 @@
 var cm_main = document.querySelector(".__cookiemng__");
+var cm_triggerGoogleConsentConsent = cm_main.getAttribute('data-google-consent');
 var cm_acc = document.getElementsByClassName("cm__acc-trigger");
 
 for (let i = 0; i < cm_acc.length; i++) {
@@ -56,7 +57,9 @@ let cm_onSave = () => {
             denied.push(check.getAttribute('value'));
         }
     });
-    cm_updateConsent(granted,denied);
+    if(cm_triggerGoogleConsentConsent){
+        cm_updateConsent(granted,denied);
+    }
     fetch('/actions/cookiemng/permission/set',{
         method: 'POST',
         headers: {

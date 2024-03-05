@@ -30,18 +30,13 @@ class CookieMngVariables
 {
 
   #TWIG => {{ craft.cookiemng.setPermissionCookie$value, $duration, $secure, $http_only) }}
-  public function setPermissionCookie($value, $duration, $secure=true, $http_only=true)
+  public function setPermissionCookie($value, $duration)
   {
     Craft::$app->view->registerAssetBundle(PluginAssets::class);
     $settings = CookieMng::$instance->getSettings();
+    $env = CookieMng::$instance->getEnvValues();
 
-    $enabled = Craft::parseEnv($settings->enabledCookieBar);
-    if($enabled == 1 || $enabled == '1' || $enabled == true){
-      $enabled = true;
-    }else{
-      $enabled = false;
-    }
-    if (!$enabled){
+    if (!$env->cookieEnabled){
       return null;
     }
 
@@ -53,14 +48,9 @@ class CookieMngVariables
   {
     Craft::$app->view->registerAssetBundle(PluginAssets::class);
     $settings = CookieMng::$instance->getSettings();
-    
-    $enabled = Craft::parseEnv($settings->enabledCookieBar);
-    if($enabled == 1 || $enabled == '1' || $enabled == true){
-      $enabled = true;
-    }else{
-      $enabled = false;
-    }
-    if (!$enabled){
+    $env = CookieMng::$instance->getEnvValues();
+
+    if (!$env->cookieEnabled){
       return null;
     }
 
@@ -72,30 +62,15 @@ class CookieMngVariables
   {
     Craft::$app->view->registerAssetBundle(PluginAssets::class);
     $settings = CookieMng::$instance->getSettings();
-    
-    $enabled = Craft::parseEnv($settings->enabledCookieBar);
-    if($enabled == 1 || $enabled == '1' || $enabled == true){
-      $enabled = true;
-    }else{
-      $enabled = false;
-    }
+    $env = CookieMng::$instance->getEnvValues();
 
-    $consentEnabled = Craft::parseEnv($settings->googleConsentV2Enabled);
-    if($consentEnabled == 1 || $consentEnabled == '1' || $consentEnabled == true){
-      $consentEnabled = true;
-    }else{
-      $consentEnabled = false;
-    }
-
-    if (!$enabled){
+    if (!$env->cookieEnabled){
       return '';
     }
 
-    return "ENABLED:::".$settings->enabledCookieBar;
-
     $permissions = CookieMng::$instance->services->getPermissionCookie();
     $permissions = $permissions ? $permissions : '';
-    return Craft::$app->view->renderTemplate('cookiemng/panel/bar.twig',['enabled'=>$enabled,'consentEnabled'=>$consentEnabled,'settings'=>$settings,'permissions'=>$permissions ? explode(',',$permissions) : false],View::TEMPLATE_MODE_CP);
+    return Craft::$app->view->renderTemplate('cookiemng/panel/bar.twig',['settings'=>$settings,'permissions'=>$permissions ? explode(',',$permissions) : false],View::TEMPLATE_MODE_CP);
   }
 
   #TWIG => {{ craft.cookiemng.consentTemplate()|raw }}
@@ -103,32 +78,14 @@ class CookieMngVariables
   {
     Craft::$app->view->registerAssetBundle(PluginAssets::class);
     $settings = CookieMng::$instance->getSettings();
+    $env = CookieMng::$instance->getEnvValues();
 
-    $enabled = Craft::parseEnv($settings->enabledCookieBar);
-    if($enabled == 1 || $enabled == '1' || $enabled == true){
-      $enabled = true;
-    }else{
-      $enabled = false;
-    }
-
-    $consentEnabled = Craft::parseEnv($settings->googleConsentV2Enabled);
-    if($consentEnabled == 1 || $consentEnabled == '1' || $consentEnabled == true){
-      $consentEnabled = true;
-    }else{
-      $consentEnabled = false;
-    }
-
-    if (!$enabled){
+    if (!$env->cookieEnabled || !$env->cookieGoogleEnabled){
       return '';
     }
-    
-    
+        
     $permissions = CookieMng::$instance->services->getPermissionCookie();
     $permissions = $permissions ? $permissions : '';
-    if($consentEnabled){
-      return Craft::$app->view->renderTemplate('cookiemng/panel/consentTemplateV2.twig',['enabled'=>$enabled,'consentEnabled'=>$consentEnabled,'settings'=>$settings,'permissions'=>explode(',',$permissions)],View::TEMPLATE_MODE_CP);
-    }else{
-      return '';
-    }
+    return Craft::$app->view->renderTemplate('cookiemng/panel/consentTemplateV2.twig',['settings'=>$settings,'permissions'=>explode(',',$permissions)],View::TEMPLATE_MODE_CP);
   }
 }
