@@ -70,7 +70,7 @@ class CookieMngVariables
 
     $permissions = CookieMng::$instance->services->getPermissionCookie();
     $permissions = $permissions ? $permissions : '';
-    return Craft::$app->view->renderTemplate('cookiemng/panel/bar.twig',['enabled_value'=>env->cookieEnabled,'settings'=>$settings,'permissions'=>$permissions ? explode(',',$permissions) : false],View::TEMPLATE_MODE_CP);
+    return Craft::$app->view->renderTemplate('cookiemng/panel/bar.twig',['enabled_value'=>$env->cookieEnabled,'settings'=>$settings,'permissions'=>$permissions ? explode(',',$permissions) : false],View::TEMPLATE_MODE_CP);
   }
 
   #TWIG => {{ craft.cookiemng.consentTemplate()|raw }}
