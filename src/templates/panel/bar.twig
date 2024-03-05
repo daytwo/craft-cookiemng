@@ -11,7 +11,7 @@
         <div class="cm__content {{settings.cornerPanel ? 'cm__full'}}" style="{{settings.cornerPanel ? '' ? 'text-align:center;'}}">
             {{settings.cookiesDescription|nl2br}}
             {% if settings.cookiesReadMoreLink|default %}
-                <br/><a href="{{settings.cookiesReadMoreLink}}" style="color:inherit; text-decoration:underline; font-weight:bold;">{{settings.cookiesReadMore}}</a>
+                <br/><a href="{{settings.cookiesReadMoreLink}}" target="_blank" style="margin-top:0.25rem;color:inherit; text-decoration:underline; font-weight:bold;">{{settings.cookiesReadMore}}</a>
             {% endif %}
         </div>
             {% if settings.cornerPanel %}
