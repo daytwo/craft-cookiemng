@@ -5,15 +5,17 @@
 <div class="__cookiemng__ {{settings.theme}} {{permissions == false or permissions == '' ? 'cm__active'}} {{settings.cornerPanel ? 'cm__corner'}} {{settings.inverted ? 'cm__inverted'}}" data-google-consent="{{cookieGoogleEnabled ? 1 : 0}}" style="z-index:{{(settings.zIndex + 1)}}">
     <div class="cm__button cm__close" data-cm-action="onClose"></div>
     <div class="cm__container cm__full cm__active" data-cm-view="default">
-        <div class="cm__content">
+        <div class="cm__content {{settings.cornerPanel ? 'cm__full'}}">
             <h3>{{settings.cookiesHeader}}</h3>
         </div>
-        <div class="cm__content" style="text-align:center;">
+        <div class="cm__content {{settings.cornerPanel ? 'cm__full'}}" style="{{settings.cornerPanel ? '' ? 'text-align:center;'}}">
             {{settings.cookiesDescription|nl2br}}
-            <a href="{{settings.cookiesReadMoreLink}}">{{settings.cookiesReadMore}}</a>
+            {% if settings.cookiesReadMoreLink|default %}
+                <br/><a href="{{settings.cookiesReadMoreLink}}" style="color:inherit; text-decoration:underline; font-weight:bold;">{{settings.cookiesReadMore}}</a>
+            {% endif %}
         </div>
             {% if settings.cornerPanel %}
-                <div class="cm__content">
+                <div class="cm__content {{settings.cornerPanel ? 'cm__full'}}">
                     {% if settings.functionalCookies %}
                         <div class="cm__checkbox">
                             <input disabled type="checkbox" id="cm_functionalCookies" name="functionalCookies" checked value="functional">
@@ -47,7 +49,6 @@
             {% endif %}
             {% if settings.cornerPanel %}
                 <div class="cm__button" data-cm-action="onSave">{{settings.saveButton}}</div>
-                <div class="cm__button" data-cm-action="onFunctional">{{settings.acceptFunctionalButton}}</div>
             {% endif %}
             <div class="cm__button" data-cm-action="onAll">{{settings.acceptAllButton}}</div>
         </div>

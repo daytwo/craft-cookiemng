@@ -137,6 +137,9 @@
         }
         .cm__content{
             padding:20px;
+            &.cm__full{
+                width:100%;
+            }
             .cm__checkbox{
                 &:not(:first-child){
                     margin-top:10px;
