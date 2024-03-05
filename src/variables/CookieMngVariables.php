@@ -91,7 +91,7 @@ class CookieMngVariables
       return '';
     }
 
-    return "ENABLED:::".$enabled;
+    return "ENABLED:::".$settings->enabledCookieBar;
 
     $permissions = CookieMng::$instance->services->getPermissionCookie();
     $permissions = $permissions ? $permissions : '';
