@@ -70,7 +70,8 @@ class CookieMng extends Plugin
 
     }
 
-    public function getEnvValues(): array{
+    public function getEnvValues(): object
+    {
         $env = (object)[
             'cookieEnabled' => Craft::parseEnv('CM_COOKIE_ENABLED') !== 1 ? false: true,
             'cookieName' => Craft::parseEnv('CM_COOKIE_NAME') === 'CM_COOKIE_NAME' ? 'craft_daytwo_cookiemng': Craft::parseEnv('CM_COOKIE_NAME'),
