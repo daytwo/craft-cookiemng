@@ -19,6 +19,7 @@
         label: 'Enable cookie bar',
         on: cookieEnabled,
         disabled:true,
+        static: true,
         fieldClass: 'width-25',
         instructions: 'Define if cookie bar is active or not. If not active, the cookie settings will not be displayed and google consent will nto be dispatched (.env var CM_COOKIE_ENABLED)',
     }) }}
@@ -63,6 +64,7 @@
         on: cookieSecure,
         required: false,
         disabled:true,
+        static: true,
         fieldClass: 'width-25',
         instructions: 'Recommened to use "true". When in localhost it will always use "false" (.env var CM_COOKIE_SECURE)',
     }) }}
@@ -73,6 +75,7 @@
         on: cookieGoogleEnabled,
         required: false,
         disabled:true,
+        static: true,
         fieldClass: 'width-25',
         instructions: 'Enable dispatch of Google Consent Mode v2? (.env var CM_COOKIE_GOOGLE_ENABLED)',
     }) }}
