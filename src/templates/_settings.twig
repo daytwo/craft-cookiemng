@@ -161,21 +161,12 @@
         required: true,
     }) }}
 
-    {{ forms.textField({
-        label: "Read more link url",
-        name: 'cookiesReadMoreLink',
-        value: settings.cookiesReadMoreLink,
-        fieldClass: 'width-25',
-        required: true,
-    }) }}
-
      {{ forms.autosuggestField({
-        label: "Read more link url"|t('app'),
+        label: "Read more link url",
         name: 'cookiesReadMoreLink',
         instructions: 'Leave empty for skipping the read more link',
         value: settings.cookiesReadMoreLink,
         suggestEnvVars: true,
-        required: false,
     }) }}
 
     <hr/>
