@@ -54,8 +54,8 @@ class PermissionServices extends Component{
             $domain = 'craft_daytwo_cookiemng';
         }
 
-        if(array_key_exists($this->cookieName,$_COOKIE)){
-            return $_COOKIE[$this->cookieName];
+        if(array_key_exists($cookieName,$_COOKIE)){
+            return $_COOKIE[$cookieName];
         }
         return false;
     }
