@@ -12,6 +12,7 @@
 {% set cookieGoogleEnabled = getenv('CM_COOKIE_GOOGLE_ENABLED')|number_format != 1 ? false : true %}
 
 <div style="pointer-events:none" class="flex-fields">
+
     <h2>Cookie Name</h2>
     {{ forms.lightswitchField({
         label: 'Enable cookie bar',
@@ -80,8 +81,11 @@
 
 
     <hr/>
+
 </div>
 <div class="flex-fields">
+    
+    <hr/>
     
     <h2>Theme</h2>
     
