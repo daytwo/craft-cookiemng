@@ -3,7 +3,6 @@
     "description": "Interface to manage cookies preferences",
     "type": "craft-plugin",
     "license": "proprietary",
-    "version": "0.0.1",
     "support": {
         "email": "tech@daytwo.no",
         "issues": "https://github.com/daytwo/craft-cookiemng/issues?state=open",
