@@ -3,27 +3,29 @@ var cm_blocked = document.querySelector(".cm__blocked");
 var cm_triggerGoogleConsentConsent = cm_main.getAttribute('data-google-consent');
 var cm_acc = document.getElementsByClassName("cm__acc-trigger");
 
-for (let i = 0; i < cm_acc.length; i++) {
-  cm_acc[i].addEventListener("click", function() {
+if(cm_acc && cm_acc.length > 0){
+    for (let i = 0; i < cm_acc.length; i++) {
+    cm_acc[i].addEventListener("click", function() {
 
-    let acc = this.closest(".cm__accordion");
-    
-    if(!acc.classList.contains("cm__active")){
-        let accCurrent = document.querySelector(".cm__accordion.cm__active");
-        if(accCurrent){
-            accCurrent.classList.remove("cm__active");
-            let panelCurrent = accCurrent.querySelector('.cm__acc-panel');
-            panelCurrent.style.maxHeight = "0px";
+        let acc = this.closest(".cm__accordion");
+        
+        if(!acc.classList.contains("cm__active")){
+            let accCurrent = document.querySelector(".cm__accordion.cm__active");
+            if(accCurrent){
+                accCurrent.classList.remove("cm__active");
+                let panelCurrent = accCurrent.querySelector('.cm__acc-panel');
+                panelCurrent.style.maxHeight = "0px";
+            }
         }
+        acc.classList.toggle("cm__active");
+        let panel = acc.querySelector('.cm__acc-panel');
+        if(acc.classList.contains("cm__active")){
+            panel.style.maxHeight = panel.scrollHeight + "px";
+        }else{
+            panel.style.maxHeight = "0px";
+        }
+    });
     }
-    acc.classList.toggle("cm__active");
-    let panel = acc.querySelector('.cm__acc-panel');
-    if(acc.classList.contains("cm__active")){
-        panel.style.maxHeight = panel.scrollHeight + "px";
-    }else{
-        panel.style.maxHeight = "0px";
-    }
-  });
 }
 let checks = document.querySelectorAll('.cm__checkbox input[type="checkbox"]');
 let cm_buttons = document.querySelectorAll('.cm__button[data-cm-action]');
@@ -77,7 +79,9 @@ let cm_onSave = () => {
 }
 let cm_onClose = () => {
     cm_defaultView.classList.add('cm__active');
-    cm_customizeView.classList.remove('cm__active');
+    if(cm_customizeView){
+        cm_customizeView.classList.remove('cm__active');
+    }
     cm_main.classList.remove("cm__active");
     if(cm_blocked){
         cm_blocked.classList.remove('cm__active');
@@ -89,7 +93,9 @@ cm_buttons.forEach((button,index)=>{
         switch(action){
             case  'onCustomize':
                 cm_defaultView.classList.remove('cm__active');
-                cm_customizeView.classList.add('cm__active');
+                if(cm_customizeView){
+                    cm_customizeView.classList.add('cm__active');
+                }
                 break;
             case 'onFunctional':
                 cm_onFunctional()
@@ -108,7 +114,9 @@ cm_buttons.forEach((button,index)=>{
 })
 cm_displaySettings = () => {
     cm_defaultView.classList.add('cm__active');
-    cm_customizeView.classList.remove('cm__active');
+    if(cm_customizeView){
+        cm_customizeView.classList.remove('cm__active');
+    }
     cm_main.classList.add("cm__active");
     cm_main.classList.add("cm__dismissable");
     if(cm_blocked){
