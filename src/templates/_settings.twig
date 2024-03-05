@@ -33,11 +33,13 @@
         instructions: 'The domain that the cookie will be set on. Leave blank to use the current domain.',
     }) }}
 
-    {{ forms.numberField({
+    {{ forms.textField({
         label: 'Cookie max-age',
         name: 'cookieExpiry',
         min: 1,
-        decimals:false,
+        type:'number',
+        maxlength: 3,
+        step:1,
         value: settings.cookieExpiry,
         inputType: 'number',
         required: true,
