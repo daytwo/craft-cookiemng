@@ -47,8 +47,8 @@ class CookieMng extends Plugin
 
     public function init(): void
     {
-        self::$hasCpSection = (int) Craft::parseEnv('ALLOW_ADMIN_CHANGES') !== 1 ? false: true;
-        
+        $this->hasCpSection = (int) Craft::parseEnv('ALLOW_ADMIN_CHANGES') !== 1 ? false: true;
+
         // Set instance of this module
         self::$instance = $this;
         self::$plugin = $this;
