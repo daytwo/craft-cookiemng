@@ -1,4 +1,4 @@
-{% set cookieGoogleEnabled = getenv('CM_COOKIE_GOOGLE_ENABLED')|number_format !== 1 ? false : true %}
+{% set cookieGoogleEnabled = getenv('CM_COOKIE_GOOGLE_ENABLED')|number_format != 1 ? false : true %}
  {% if settings.blockBackground %} 
    <div class="cm__blocked {{permissions == false or permissions == '' ? 'cm__active'}}" style="z-index:{{settings.zIndex}}"></div>
  {% endif %} 
