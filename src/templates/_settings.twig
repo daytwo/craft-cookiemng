@@ -11,10 +11,8 @@
 {% set cookieSecure = getenv('CM_COOKIE_SECURE')|number_format != 1 ? false : true %}
 {% set cookieGoogleEnabled = getenv('CM_COOKIE_GOOGLE_ENABLED')|number_format != 1 ? false : true %}
 
-<div class="flex-fields">
-    {# ... #}
+<div style="pointer-events:none" class="flex-fields">
     <h2>Cookie Name</h2>
-    <div style="pointer-events:none" class="text-fields">
     {{ forms.lightswitchField({
         label: 'Enable cookie bar',
         on: cookieEnabled,
@@ -79,10 +77,11 @@
         fieldClass: 'width-25',
         instructions: 'Enable dispatch of Google Consent Mode v2? (.env var CM_COOKIE_GOOGLE_ENABLED)',
     }) }}
-    </div>
 
 
     <hr/>
+</div>
+<div class="flex-fields">
     
     <h2>Theme</h2>
     
