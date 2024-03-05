@@ -105,6 +105,13 @@
         on: settings.inverted
     }) }}
 
+    {{ forms.lightswitchField({
+        label: "Use corner panel",
+        name: 'cornerPanel',
+        instructions: "Use popup preferences on the corner instead of the bottom (user interaction will not be blocked if enabled)",
+        fieldClass: 'width-25',
+        on: settings.cornerPanel
+    }) }}
 
     {{ forms.textField({
         label: "Custom z-index",
@@ -113,7 +120,6 @@
         fieldClass: 'width-25',
         value: settings.zIndex
     }) }}
-
 
     {{ forms.lightswitchField({
         label: "Block user interaction",
@@ -145,6 +151,31 @@
         rows:3,
         value: settings.cookiesDescription,
         required: true,
+    }) }}
+
+    {{ forms.textField({
+        label: "Read more link label",
+        name: 'cookiesReadMore',
+        value: settings.cookiesReadMore,
+        fieldClass: 'width-25',
+        required: true,
+    }) }}
+
+    {{ forms.textField({
+        label: "Read more link url",
+        name: 'cookiesReadMoreLink',
+        value: settings.cookiesReadMoreLink,
+        fieldClass: 'width-25',
+        required: true,
+    }) }}
+
+     {{ forms.autosuggestField({
+        label: "Read more link url"|t('app'),
+        name: 'cookiesReadMoreLink',
+        instructions: 'Leave empty for skipping the read more link',
+        value: settings.cookiesReadMoreLink,
+        suggestEnvVars: true,
+        required: false,
     }) }}
 
     <hr/>

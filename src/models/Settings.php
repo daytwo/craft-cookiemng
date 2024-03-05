@@ -14,6 +14,7 @@ class Settings extends Model
 
     public $theme = "blue";
     public $inverted = false;
+    public $cornerPanel = false;
     public $zIndex = 999999;
     public $blockBackground = false;
 
@@ -26,6 +27,8 @@ class Settings extends Model
 
     public $cookiesHeader = 'Information about cookies';
     public $cookiesDescription = 'This website uses cookies. We use cookies primarily to improve and analyze the experience of our website and for marketing purposes. Because we respect your privacy rights, you can choose not to accept certain types of cookies. Click on the different category headings to find out more and to change the default settings. Blocking some types of cookies may have a negative impact on your experience of the website and may limit the services we can provide to you.';
+    public $cookiesReadMore = 'Read more';
+    public $cookiesReadMoreLink = '';
 
     public $functionalCookies = true;
     public $functionalTitle = 'Functional cookies 1';

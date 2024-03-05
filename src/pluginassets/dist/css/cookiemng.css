@@ -100,7 +100,9 @@
     width:100%;
     z-index:999999;
     background-color:var(--cm_background_color);
-    border-top:1px solid var(--cm_text_color);
+    &:not(.cm__corner){
+        border-top:1px solid var(--cm_text_color);
+    }
     color:var(--cm_text_color);
     max-height:100vh;
     overflow:auto;
@@ -138,6 +140,12 @@
                 &:not(:first-child){
                     margin-top:10px;
                 }
+            }
+            > h2, > h3{
+                font-weight:normal;
+            }
+            &:not(:last-child) {
+                padding-bottom: 0 !important;
             }
         }
     }
@@ -237,7 +245,7 @@
             }
         }
     }
-    &.inverted{
+    &.cm__inverted{
         background-color:var(--cm_accent_color);
         color:var(--cm_button_color);
         .cm__button{

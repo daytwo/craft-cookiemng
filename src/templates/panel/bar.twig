@@ -1,8 +1,8 @@
 {% set cookieGoogleEnabled = getenv('CM_COOKIE_GOOGLE_ENABLED')|number_format != 1 ? false : true %}
- {% if settings.blockBackground %} 
+ {% if settings.blockBackground and not settings.cornerPanel %} 
    <div class="cm__blocked {{permissions == false or permissions == '' ? 'cm__active'}}" style="z-index:{{settings.zIndex}}"></div>
  {% endif %} 
-<div class="__cookiemng__ {{settings.theme}} {{permissions == false or permissions == '' ? 'cm__active'}}" data-google-consent="{{cookieGoogleEnabled ? 1 : 0}}" style="z-index:{{(settings.zIndex + 1)}}">
+<div class="__cookiemng__ {{settings.theme}} {{permissions == false or permissions == '' ? 'cm__active'}} {{settings.cornerPanel ? 'cm__corner'}} {{settings.inverted ? 'cm__inverted'}}" data-google-consent="{{cookieGoogleEnabled ? 1 : 0}}" style="z-index:{{(settings.zIndex + 1)}}">
     <div class="cm__button cm__close" data-cm-action="onClose"></div>
     <div class="cm__container cm__full cm__active" data-cm-view="default">
         <div class="cm__content">
@@ -10,82 +10,119 @@
         </div>
         <div class="cm__content" style="text-align:center;">
             {{settings.cookiesDescription|nl2br}}
+            <a href="{{settings.cookiesReadMoreLink}}">{{settings.cookiesReadMore}}</a>
         </div>
-        <div class="cm__content cm__inline-button">
-            <div class="cm__button" data-cm-action="onCustomize">{{settings.customizeButton}}</div>
-            <div class="cm__button" data-cm-action="onFunctional">{{settings.acceptFunctionalButton}}</div>
-            <div class="cm__button" data-cm-action="onAll">{{settings.acceptAllButton}}</div>
-        </div>
-    </div>
-    <div class="cm__container cm__full" data-cm-view="customize">
-        <div class="cm__content">
-            <h3>{{settings.cookiesHeader}}</h3>
-        </div>
-        <div class="cm__content" style="text-align:center;">
-            {{settings.cookiesDescription|nl2br}}
-        </div>
-        <div class="cm__content">
-            {% if settings.functionalCookies %}
-                <div class="cm__checkbox">
-                    <div class="cm__accordion">
-                        <div class="cm__acc-header">
+            {% if settings.cornerPanel %}
+                <div class="cm__content">
+                    {% if settings.functionalCookies %}
+                        <div class="cm__checkbox">
                             <input disabled type="checkbox" id="cm_functionalCookies" name="functionalCookies" checked value="functional">
                             <label for="cm_functionalCookies">{{settings.functionalTitle}}</label>
                         </div>
-                        <div class="cm__button cm__acc-trigger"></div>
-                        <div class="cm__acc-panel">
-                            <p>{{settings.functionalDescription|nl2br}}</p>
-                        </div>
-                    </div>
-                </div>
-            {% endif %}
-            {% if settings.analyticsCookies %}
-                <div class="cm__checkbox">
-                    <div class="cm__accordion">
-                        <div class="cm__acc-header">
+                    {% endif %}
+                    {% if settings.analyticsCookies %}
+                        <div class="cm__checkbox">
                             <input type="checkbox" id="cm_analyticsCookies" name="analyticsCookies" {{"analytics" in permissions ? 'checked'}} value="analytics">
                             <label for="cm_analyticsCookies">{{settings.analyticsTitle}}</label>
                         </div>
-                        <div class="cm__button cm__acc-trigger"></div>
-                        <div class="cm__acc-panel">
-                            <p>{{settings.analyticsDescription|nl2br}}</p>
-                        </div>
-                    </div>
-                </div>
-            {% endif %}
-            {% if settings.advertisingCookies %}
-                <div class="cm__checkbox">
-                    <div class="cm__accordion">
-                        <div class="cm__acc-header">
+                    {% endif %}
+                    {% if settings.advertisingCookies %}
+                        <div class="cm__checkbox">
                             <input type="checkbox" id="cm_advertisingCookies" name="advertisingCookies" {{"advertising" in permissions ? 'checked'}} value="advertising">
                             <label for="cm_advertisingCookies">{{settings.advertisingTitle}}</label>
                         </div>
-                        <div class="cm__button cm__acc-trigger"></div>
-                        <div class="cm__acc-panel">
-                            <p>{{settings.advertisingDescription|nl2br}}</p>
-                        </div>
-                    </div>
-                </div>
-            {% endif %}
-            {% if settings.personalizationCookies %}
-                <div class="cm__checkbox">
-                    <div class="cm__accordion">
-                        <div class="cm__acc-header">
+                    {% endif %}
+                    {% if settings.personalizationCookies %}
+                        <div class="cm__checkbox">
                             <input type="checkbox" id="cm_personalizationCookies" name="personalizationCookies" {{"personalization" in permissions ? 'checked'}} value="personalization">
                             <label for="cm_personalizationCookies">{{settings.personalizationTitle}}</label>
                         </div>
-                        <div class="cm__button cm__acc-trigger"></div>
-                        <div class="cm__acc-panel">
-                            <p>{{settings.personalizationDescription|nl2br}}</p>
-                        </div>
-                    </div>
+                    {% endif %}
                 </div>
             {% endif %}
-        </div>
         <div class="cm__content cm__inline-button">
-            <div class="cm__button" data-cm-action="onSave">{{settings.saveButton}}</div>
-            <div class="cm__button" data-cm-action="onFunctional">{{settings.acceptFunctionalButton}}</div>
+            {% if not settings.cornerPanel %}
+                <div class="cm__button" data-cm-action="onCustomize">{{settings.customizeButton}}</div>
+                <div class="cm__button" data-cm-action="onFunctional">{{settings.acceptFunctionalButton}}</div>
+            {% endif %}
+            {% if settings.cornerPanel %}
+                <div class="cm__button" data-cm-action="onSave">{{settings.saveButton}}</div>
+                <div class="cm__button" data-cm-action="onFunctional">{{settings.acceptFunctionalButton}}</div>
+            {% endif %}
             <div class="cm__button" data-cm-action="onAll">{{settings.acceptAllButton}}</div>
         </div>
     </div>
+    {% if not settings.cornerPanel %}
+        <div class="cm__container cm__full" data-cm-view="customize">
+            <div class="cm__content">
+                <h3>{{settings.cookiesHeader}}</h3>
+            </div>
+            <div class="cm__content" style="text-align:center;">
+                {{settings.cookiesDescription|nl2br}}
+            </div>
+            <div class="cm__content">
+                {% if settings.functionalCookies %}
+                    <div class="cm__checkbox">
+                        <div class="cm__accordion">
+                            <div class="cm__acc-header">
+                                <input disabled type="checkbox" id="cm_functionalCookies" name="functionalCookies" checked value="functional">
+                                <label for="cm_functionalCookies">{{settings.functionalTitle}}</label>
+                            </div>
+                            <div class="cm__button cm__acc-trigger"></div>
+                            <div class="cm__acc-panel">
+                                <p>{{settings.functionalDescription|nl2br}}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+                {% if settings.analyticsCookies %}
+                    <div class="cm__checkbox">
+                        <div class="cm__accordion">
+                            <div class="cm__acc-header">
+                                <input type="checkbox" id="cm_analyticsCookies" name="analyticsCookies" {{"analytics" in permissions ? 'checked'}} value="analytics">
+                                <label for="cm_analyticsCookies">{{settings.analyticsTitle}}</label>
+                            </div>
+                            <div class="cm__button cm__acc-trigger"></div>
+                            <div class="cm__acc-panel">
+                                <p>{{settings.analyticsDescription|nl2br}}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+                {% if settings.advertisingCookies %}
+                    <div class="cm__checkbox">
+                        <div class="cm__accordion">
+                            <div class="cm__acc-header">
+                                <input type="checkbox" id="cm_advertisingCookies" name="advertisingCookies" {{"advertising" in permissions ? 'checked'}} value="advertising">
+                                <label for="cm_advertisingCookies">{{settings.advertisingTitle}}</label>
+                            </div>
+                            <div class="cm__button cm__acc-trigger"></div>
+                            <div class="cm__acc-panel">
+                                <p>{{settings.advertisingDescription|nl2br}}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+                {% if settings.personalizationCookies %}
+                    <div class="cm__checkbox">
+                        <div class="cm__accordion">
+                            <div class="cm__acc-header">
+                                <input type="checkbox" id="cm_personalizationCookies" name="personalizationCookies" {{"personalization" in permissions ? 'checked'}} value="personalization">
+                                <label for="cm_personalizationCookies">{{settings.personalizationTitle}}</label>
+                            </div>
+                            <div class="cm__button cm__acc-trigger"></div>
+                            <div class="cm__acc-panel">
+                                <p>{{settings.personalizationDescription|nl2br}}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="cm__content cm__inline-button">
+                <div class="cm__button" data-cm-action="onSave">{{settings.saveButton}}</div>
+                <div class="cm__button" data-cm-action="onFunctional">{{settings.acceptFunctionalButton}}</div>
+                <div class="cm__button" data-cm-action="onAll">{{settings.acceptAllButton}}</div>
+            </div>
+        </div>
+    {% endif %}
 </div>
