@@ -145,9 +145,6 @@
                     margin-top:10px;
                 }
             }
-            > h2, > h3{
-                font-weight:normal;
-            }
             &:not(:last-child) {
                 padding-bottom: 0 !important;
             }
