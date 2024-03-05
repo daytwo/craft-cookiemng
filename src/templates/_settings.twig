@@ -7,42 +7,50 @@
     {# ... #}
     <h2>Cookie Name</h2>
 
-    {{ forms.autosuggestField({
+    {{ forms.lightswitchField({
+        label: 'Enable cookie bar',
+        name: 'enabledCookieBar',
+        value: settings.enabledCookieBar,
+        fieldClass: 'width-25',
+        instructions: 'Define if cookie bar is active or not. If not active, the cookie settings will not be displayed and google consent will nto be dispatched.',
+    }) }}
+
+    {{ forms.textField({
         label: 'Cookie Name',
         name: 'cookieName',
         value: settings.cookieName,
-        suggestEnvVars: true,
         required: true,
         fieldClass: 'width-25',
         instructions: 'The cookie name that will be used to store the user preferences. This should be unique to your site and preferably per enviroment to avoid conflicts.',
     }) }}
 
-    {{ forms.autosuggestField({
+    {{ forms.textField({
         label: 'Cookie Domain',
         name: 'cookieDomain',
         value: settings.cookieDomain,
-        suggestEnvVars: true,
         required: false,
         fieldClass: 'width-25',
         instructions: 'The domain that the cookie will be set on. Leave blank to use the current domain.',
     }) }}
 
-    {{ forms.autosuggestField({
+    {{ forms.numberField({
         label: 'Cookie max-age',
-        name: 'cookieName',
+        name: 'cookieExpiry',
+        min: 1,
+        decimals:false,
         value: settings.cookieExpiry,
-        suggestEnvVars: true,
+        inputType: 'number',
         required: true,
         fieldClass: 'width-25',
         instructions: 'Cookie duration in days.',
     }) }}
 
-    {{ forms.autosuggestField({
+    {{ forms.textField({
         label: 'Cookie path',
         name: 'cookiePath',
         value: settings.cookiePath,
         suggestEnvVars: true,
-        required: true,
+        required: false,
         fieldClass: 'width-25',
         instructions: 'Cookie path. Recommented is to use "/"',
     }) }}
@@ -52,7 +60,6 @@
         label: 'User secure cookie',
         name: 'cookieSecure',
         value: settings.cookieSecure,
-        required: true,
         fieldClass: 'width-25',
         instructions: 'Recommened to use "true". When in localhost it will always use "false"',
     }) }}
@@ -62,7 +69,6 @@
         label: 'Google Consent',
         name: 'googleConsentV2Enabled',
         value: settings.googleConsentV2Enabled,
-        required: true,
         fieldClass: 'width-25',
         instructions: 'Enable dispatch of Google Consent Mode v2?',
     }) }}

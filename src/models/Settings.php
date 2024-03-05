@@ -17,6 +17,7 @@ class Settings extends Model
     public $cookieSecure = true;
 
     public $googleConsentV2Enabled = true;
+    public $enabledCookieBar = true;
 
     
     public $theme = "blue";

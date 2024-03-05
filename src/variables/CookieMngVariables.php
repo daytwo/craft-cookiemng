@@ -44,6 +44,10 @@ class CookieMngVariables
   #TWIG => {{ craft.cookiemng.render()|raw }}
   public function render()
   {
+    if (!$settings->enabledCookieBar){
+      return '';
+    }
+    
     Craft::$app->view->registerAssetBundle(PluginAssets::class);
     $settings = CookieMng::$instance->getSettings();
     $permissions = CookieMng::$instance->services->getPermissionCookie();
@@ -55,8 +59,18 @@ class CookieMngVariables
   public function consentTemplate()
   {
     Craft::$app->view->registerAssetBundle(PluginAssets::class);
+    $settings = CookieMng::$instance->getSettings();
+    
+    if (!$settings->enabledCookieBar){
+      return '';
+    }
+    
     $permissions = CookieMng::$instance->services->getPermissionCookie();
     $permissions = $permissions ? $permissions : '';
-    return Craft::$app->view->renderTemplate('cookiemng/panel/consentTemplate.twig',['permissions'=>explode(',',$permissions)],View::TEMPLATE_MODE_CP);
+    if($settings && $settings->googleConsentV2Enabled){
+      return Craft::$app->view->renderTemplate('cookiemng/panel/consentTemplateV2.twig',['settings'=>$settings,'permissions'=>explode(',',$permissions)],View::TEMPLATE_MODE_CP);
+    }else{
+      return '';
+    }
   }
 }

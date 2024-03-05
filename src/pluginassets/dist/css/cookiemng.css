@@ -9,6 +9,7 @@
     font-family: inherit;
     font-size:0.9rem;
     line-height:1.25;
+
     &.blue{
         --cm_accent_color: #0e3da3;
         --cm_accent_color-light: #3565cc;
@@ -79,6 +80,18 @@
     display:none;
     &.cm__active{
         display:block;
+    }
+
+    &.cm__blocked{
+        &:before{
+            position:absolute;
+            bottom:0;
+            left:0;
+            width:100vh;
+            height:100vh;
+            content:'';
+            background-color:rgba(0,0,0,0.35);
+        }
     }
 
 
