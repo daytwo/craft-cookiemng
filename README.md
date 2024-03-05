@@ -26,5 +26,5 @@ cd /path/to/my-project.test
 composer require daytwo/craft-cookiemng
 
 # tell Craft to install the plugin
-./craft plugin/install craft-cookiemng
+./craft plugin/install cookiemng
 ```
