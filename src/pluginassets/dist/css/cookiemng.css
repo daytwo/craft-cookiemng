@@ -285,6 +285,14 @@
         .cm__inline-button{
             @media screen and (max-width: 768px){
                flex-direction:row !important;
+               .cm__button {
+                    margin-left:10px;
+             
+                    &:not(:first-child){
+                        margin-top:0;
+                    }
+                
+                }
             }
         }
     }
