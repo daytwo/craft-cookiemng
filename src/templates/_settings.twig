@@ -14,13 +14,10 @@
 <div class="flex-fields">
     {# ... #}
     <h2>Cookie Name</h2>
-    <h2>{{getenv('CM_COOKIE_ENABLED')|number_format}}</h2>
-    <h2>{{getenv('CM_COOKIE_SECURE')|number_format}}</h2>
-    <h2>{{getenv('CM_COOKIE_GOOGLE_ENABLED')|number_format}}</h2>
 
     {{ forms.lightswitchField({
         label: 'Enable cookie bar',
-        value: cookieEnabled,
+        on: cookieEnabled,
         disabled:true,
         fieldClass: 'width-25',
         instructions: 'Define if cookie bar is active or not. If not active, the cookie settings will not be displayed and google consent will nto be dispatched (.env var CM_COOKIE_ENABLED)',
@@ -63,7 +60,7 @@
 
     {{ forms.lightswitchField({
         label: 'User secure cookie',
-        value: cookieSecure,
+        on: cookieSecure,
         required: false,
         disabled:true,
         fieldClass: 'width-25',
@@ -73,7 +70,7 @@
     
     {{ forms.lightswitchField({
         label: 'Google Consent',
-        value: cookieGoogleEnabled,
+        on: cookieGoogleEnabled,
         required: false,
         disabled:true,
         fieldClass: 'width-25',
