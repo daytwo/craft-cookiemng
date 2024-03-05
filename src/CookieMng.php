@@ -31,7 +31,7 @@ class CookieMng extends Plugin
 {
     public string $schemaVersion = '1.0.0';
     public bool $hasCpSettings = true;
-    public bool $hasCpSection = true;
+    public bool $hasCpSection = false;
 
     public static $instance;
     public static $plugin;
@@ -47,7 +47,8 @@ class CookieMng extends Plugin
 
     public function init(): void
     {
-
+        self::$hasCpSection = (int) Craft::parseEnv('ALLOW_ADMIN_CHANGES') !== 1 ? false: true;
+        
         // Set instance of this module
         self::$instance = $this;
         self::$plugin = $this;
