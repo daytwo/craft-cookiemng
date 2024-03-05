@@ -1,3 +1,17 @@
+.cm__blocked{
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100vh;
+    height:100vh;
+    content:'';
+    background-color:rgba(0,0,0,0.35);
+    z-index:999998;
+    display:none;
+    &.cm__active{
+        display:block;
+    }
+}
 .__cookiemng__{
         
     --cm_accent_color: #0e3da3;
@@ -80,21 +94,6 @@
     display:none;
     &.cm__active{
         display:block;
-    }
-
-    .cm__blocked{
-        position:fixed;
-        bottom:0;
-        left:0;
-        width:100vh;
-        height:100vh;
-        content:'';
-        background-color:rgba(0,0,0,0.35);
-        z-index:999998;
-        display:none;
-        &.cm__active{
-            display:block;
-        }
     }
 
 
