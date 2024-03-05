@@ -25,6 +25,13 @@
     font-size:0.9rem;
     line-height:1.25;
 
+    &.cm__corner{
+        max-width:480px;
+        right:0;
+        left:initial;
+        bottom:0;
+    }
+
     &.blue{
         --cm_accent_color: #0e3da3;
         --cm_accent_color-light: #3565cc;
@@ -232,12 +239,10 @@
     }
     &.inverted{
         background-color:var(--cm_accent_color);
-        color:var(--cm_background_color);
+        color:var(--cm_button_color);
         .cm__button{
             background-color: var(--cm_text_color);
-            &:hover{
-                background-color: var(--cm_text_color-light);
-            }
+            color: var(--cm_background_color);
         }
     }
 
