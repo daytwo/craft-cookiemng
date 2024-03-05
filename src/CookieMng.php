@@ -79,7 +79,7 @@ class CookieMng extends Plugin
             'cookieExpiry' => Craft::parseEnv('$CM_COOKIE_EXPIRY') === '$CM_COOKIE_EXPIRY' ? 365 : Craft::parseEnv('$CM_COOKIE_EXPIRY'),
             'cookiePath' => Craft::parseEnv('$CM_COOKIE_PATH') === '$CM_COOKIE_PATH' ? '/' : Craft::parseEnv('$CM_COOKIE_PATH'),
             'cookieSecure' => Craft::parseEnv('$CM_COOKIE_SECURE') === '$CM_COOKIE_SECURE' ? false : true,
-            'cookieGoogleEnabled' => Craft::parseEnv('$CM_COOKIE_GOOGLE_ENABLED') === '$CM_COOKIE_GOOGLE_ENABLED' ? false : true
+            'cookieGoogleEnabled' => (int)Craft::parseEnv('$CM_COOKIE_GOOGLE_ENABLED') !== 1 ? false: true
         ];
 
         return $env;
