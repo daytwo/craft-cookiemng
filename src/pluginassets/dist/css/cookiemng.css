@@ -57,7 +57,7 @@
     }
     &.yellow{
         --cm_accent_color: #ffd400;
-        --cm_accent_color-light: #ffe876;
+        --cm_accent_color-light: #fdd923;
         --cm_accent_color-dark: #e1bc04;
         --cm_background_color: white;
         --cm_button_color: black;
