@@ -14,8 +14,8 @@
 <div class="flex-fields">
     {# ... #}
     <h2>Cookie Name</h2>
-    <h2>{{getenv('CM_COOKIE_ENABLED')|number_format !== 1 ? 'false' : 'true'}}</h2>
-    <h2>{{getenv('CM_COOKIE_SECURE')|number_format !== 1 ? 'false' : 'true'}}</h2>
+    <h2>{{getenv('CM_COOKIE_ENABLED')|number_format !== '1' ? 'false' : 'true'}}</h2>
+    <h2>{{getenv('CM_COOKIE_SECURE')|number_format != 1 ? 'false' : 'true'}}</h2>
     <h2>{{getenv('CM_COOKIE_GOOGLE_ENABLED')|number_format !== 1 ? 'false' : 'true'}}</h2>
 
     {{ forms.lightswitchField({
