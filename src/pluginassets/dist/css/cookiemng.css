@@ -2,7 +2,7 @@
     position:fixed;
     bottom:0;
     left:0;
-    width:100vh;
+    width:100vw;
     height:100vh;
     content:'';
     background-color:rgba(0,0,0,0.35);
