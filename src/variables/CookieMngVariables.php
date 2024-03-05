@@ -32,12 +32,38 @@ class CookieMngVariables
   #TWIG => {{ craft.cookiemng.setPermissionCookie$value, $duration, $secure, $http_only) }}
   public function setPermissionCookie($value, $duration, $secure=true, $http_only=true)
   {
+    Craft::$app->view->registerAssetBundle(PluginAssets::class);
+    $settings = CookieMng::$instance->getSettings();
+    
+    $enabled = Craft::parseEnv($settings->enabledCookieBar);
+    if($enabled == 1){
+      $enabled = true;
+    }else{
+      $enabled = false;
+    }
+    if (!$enabled){
+      return null;
+    }
+
     return CookieMng::$instance->services->setPermissionCookie($value, $duration, $secure, $http_only);
   }
 
   #TWIG => {{ craft.cookiemng.getPermissionCookie($name) }}
   public function getPermissionCookie()
   {
+    Craft::$app->view->registerAssetBundle(PluginAssets::class);
+    $settings = CookieMng::$instance->getSettings();
+    
+    $enabled = Craft::parseEnv($settings->enabledCookieBar);
+    if($enabled == 1){
+      $enabled = true;
+    }else{
+      $enabled = false;
+    }
+    if (!$enabled){
+      return null;
+    }
+
     return CookieMng::$instance->services->getPermissionCookie();
   }
   
@@ -51,7 +77,7 @@ class CookieMngVariables
     if($enabled == 1){
       $enabled = true;
     }else{
-      $enabledCookieBar = false;
+      $enabled = false;
     }
 
     $consentEnabled = Craft::parseEnv($settings->googleConsentV2Enabled);
@@ -64,7 +90,7 @@ class CookieMngVariables
     if (!$enabled){
       return '';
     }
-    
+
     $permissions = CookieMng::$instance->services->getPermissionCookie();
     $permissions = $permissions ? $permissions : '';
     return Craft::$app->view->renderTemplate('cookiemng/panel/bar.twig',['enabled'=>$enabled,'consentEnabled'=>$consentEnabled,'settings'=>$settings,'permissions'=>$permissions ? explode(',',$permissions) : false],View::TEMPLATE_MODE_CP);
@@ -80,7 +106,7 @@ class CookieMngVariables
     if($enabled == 1){
       $enabled = true;
     }else{
-      $enabledCookieBar = false;
+      $enabled = false;
     }
 
     $consentEnabled = Craft::parseEnv($settings->googleConsentV2Enabled);

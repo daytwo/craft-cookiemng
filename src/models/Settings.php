@@ -16,7 +16,7 @@ class Settings extends Model
     public $cookiePath = "/";
     public $cookieSecure = true;
 
-    public $googleConsentV2Enabled = true;
+    public $googleConsentV2Enabled = '$COOKIE_GOOGLE_V2_ENABLED';
     public $enabledCookieBar = '$COOKIE_ENABLED';
 
     

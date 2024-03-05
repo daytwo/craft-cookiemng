@@ -83,7 +83,7 @@ class CookieMng extends Plugin
         if($enabled == 1){
             $enabled = true;
         }else{
-            $enabledCookieBar = false;
+            $enabled = false;
         }
 
         $consentEnabled = Craft::parseEnv($settings->googleConsentV2Enabled);
