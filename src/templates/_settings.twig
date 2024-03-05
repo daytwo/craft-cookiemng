@@ -14,7 +14,7 @@
 <div class="flex-fields">
     {# ... #}
     <h2>Cookie Name</h2>
-
+    <div style="pointer-events">
     {{ forms.lightswitchField({
         label: 'Enable cookie bar',
         on: cookieEnabled,
@@ -79,6 +79,7 @@
         fieldClass: 'width-25',
         instructions: 'Enable dispatch of Google Consent Mode v2? (.env var CM_COOKIE_GOOGLE_ENABLED)',
     }) }}
+    </div>
 
 
     <hr/>
