@@ -47,12 +47,27 @@ class CookieMngVariables
     Craft::$app->view->registerAssetBundle(PluginAssets::class);
     $settings = CookieMng::$instance->getSettings();
     
-    if (!$settings->enabledCookieBar){
+    $enabled = Craft::parseEnv($settings->enabledCookieBar);
+    if($enabled == 1){
+      $enabled = true;
+    }else{
+      $enabledCookieBar = false;
+    }
+
+    $consentEnabled = Craft::parseEnv($settings->googleConsentV2Enabled);
+    if($consentEnabled == 1){
+      $consentEnabled = true;
+    }else{
+      $consentEnabled = false;
+    }
+
+    if (!$enabled){
       return '';
     }
+    
     $permissions = CookieMng::$instance->services->getPermissionCookie();
     $permissions = $permissions ? $permissions : '';
-    return Craft::$app->view->renderTemplate('cookiemng/panel/bar.twig',['settings'=>$settings,'permissions'=>$permissions ? explode(',',$permissions) : false],View::TEMPLATE_MODE_CP);
+    return Craft::$app->view->renderTemplate('cookiemng/panel/bar.twig',['enabled'=>$enabled,'consentEnabled'=>$consentEnabled,'settings'=>$settings,'permissions'=>$permissions ? explode(',',$permissions) : false],View::TEMPLATE_MODE_CP);
   }
 
   #TWIG => {{ craft.cookiemng.consentTemplate()|raw }}
@@ -60,15 +75,30 @@ class CookieMngVariables
   {
     Craft::$app->view->registerAssetBundle(PluginAssets::class);
     $settings = CookieMng::$instance->getSettings();
-    
-    if (!$settings->enabledCookieBar){
+
+    $enabled = Craft::parseEnv($settings->enabledCookieBar);
+    if($enabled == 1){
+      $enabled = true;
+    }else{
+      $enabledCookieBar = false;
+    }
+
+    $consentEnabled = Craft::parseEnv($settings->googleConsentV2Enabled);
+    if($consentEnabled == 1){
+      $consentEnabled = true;
+    }else{
+      $consentEnabled = false;
+    }
+
+    if (!$enabled){
       return '';
     }
     
+    
     $permissions = CookieMng::$instance->services->getPermissionCookie();
     $permissions = $permissions ? $permissions : '';
-    if($settings && $settings->googleConsentV2Enabled){
-      return Craft::$app->view->renderTemplate('cookiemng/panel/consentTemplateV2.twig',['settings'=>$settings,'permissions'=>explode(',',$permissions)],View::TEMPLATE_MODE_CP);
+    if($consentEnabled){
+      return Craft::$app->view->renderTemplate('cookiemng/panel/consentTemplateV2.twig',['enabled'=>$enabled,'consentEnabled'=>$consentEnabled,'settings'=>$settings,'permissions'=>explode(',',$permissions)],View::TEMPLATE_MODE_CP);
     }else{
       return '';
     }

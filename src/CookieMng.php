@@ -77,9 +77,28 @@ class CookieMng extends Plugin
 
     protected function settingsHtml(): ?string
     {
+        $settings = $this->getSettings();
+    
+        $enabled = Craft::parseEnv($settings->enabledCookieBar);
+        if($enabled == 1){
+            $enabled = true;
+        }else{
+            $enabledCookieBar = false;
+        }
+
+        $consentEnabled = Craft::parseEnv($settings->googleConsentV2Enabled);
+        if($consentEnabled == 1){
+            $consentEnabled = true;
+        }else{
+            $consentEnabled = false;
+        }
+        
         return Craft::$app->view->renderTemplate('cookiemng/_settings.twig', [
             'plugin' => $this,
-            'settings' => $this->getSettings()
+            'settings' => $this->getSettings(),
+            'enabled' => $enabled,
+            'consentEnabled' => $consentEnabled
+
         ]);
     }
     

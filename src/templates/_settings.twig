@@ -10,7 +10,7 @@
     {{ forms.lightswitchField({
         label: 'Enable cookie bar',
         name: 'enabledCookieBar',
-        value: settings.enabledCookieBar,
+        value: enabled,
         fieldClass: 'width-25',
         instructions: 'Define if cookie bar is active or not. If not active, the cookie settings will not be displayed and google consent will nto be dispatched.',
     }) }}
@@ -72,7 +72,7 @@
     {{ forms.lightswitchField({
         label: 'Google Consent',
         name: 'googleConsentV2Enabled',
-        value: settings.googleConsentV2Enabled,
+        value: consentEnabled,
         fieldClass: 'width-25',
         instructions: 'Enable dispatch of Google Consent Mode v2?',
     }) }}
