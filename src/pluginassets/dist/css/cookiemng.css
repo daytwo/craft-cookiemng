@@ -15,9 +15,10 @@
 .__cookiemng__{
         
     --cm_accent_color: #0e3da3;
-    --cm_background_color: white;
     --cm_background_color-mid-light: rgba(125, 125, 125,0.15);
     --cm_background_color-light: rgba(125, 125, 125,0.075);
+    --cm_background_color: white;
+    --cm_button_color: white;
     --cm_text_color: black;
     --cm_text_color-light: rgb(39, 39, 39);
     font-family: inherit;
@@ -29,6 +30,7 @@
         --cm_accent_color-light: #3565cc;
         --cm_accent_color-dark: #0c3180;
         --cm_background_color: white;
+        --cm_button_color: white;
         --cm_background_color-light: rgba(125, 125, 125,0.075);
         --cm_text_color: black;
         --cm_text_color-light: rgb(39, 39, 39);
@@ -38,6 +40,7 @@
         --cm_accent_color-light: #41ac1a;
         --cm_accent_color-dark: #256f0a;
         --cm_background_color: white;
+        --cm_button_color: white;
         --cm_background_color-light: rgba(125, 125, 125,0.075);
         --cm_text_color: black;
         --cm_text_color-light: rgb(39, 39, 39);
@@ -47,15 +50,17 @@
         --cm_accent_color-light: #c93434;
         --cm_accent_color-dark: #8f1111;
         --cm_background_color: white;
+        --cm_button_color: white;
         --cm_background_color-light: rgba(125, 125, 125,0.075);
         --cm_text_color: black;
         --cm_text_color-light: rgb(39, 39, 39);
     }
     &.yellow{
-        --cm_accent_color: #d1b31d;
-        --cm_accent_color-light: #d5b92e;
-        --cm_accent_color-dark: #b0950c;
+        --cm_accent_color: #ffd400;
+        --cm_accent_color-light: #ffe876;
+        --cm_accent_color-dark: #e1bc04;
         --cm_background_color: white;
+        --cm_button_color: black;
         --cm_background_color-light: rgba(125, 125, 125,0.075);
         --cm_text_color: black;
         --cm_text_color-light: rgb(39, 39, 39);
@@ -65,6 +70,7 @@
         --cm_accent_color-light: #681598;
         --cm_accent_color-dark: #490b6d;
         --cm_background_color: white;
+        --cm_button_color: white;
         --cm_background_color-light: rgba(125, 125, 125,0.075);
         --cm_text_color: black;
         --cm_text_color-light: rgb(39, 39, 39);
@@ -74,6 +80,7 @@
         --cm_accent_color-light: rgb(39, 39, 39);
         --cm_accent_color-dark: black;
         --cm_background_color: white;
+        --cm_button_color: white;
         --cm_background_color-light: rgba(125, 125, 125,0.075);
         --cm_text_color: black;
         --cm_text_color-light: rgb(39, 39, 39);
@@ -130,7 +137,7 @@
 
 
     .cm__button{
-        color:var(--cm_background_color);
+        color:var(--cm_button_color);
         background-color: var(--cm_accent_color);
         cursor:pointer;
         padding:10px 15px;
