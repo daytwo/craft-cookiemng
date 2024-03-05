@@ -44,12 +44,12 @@ class CookieMngVariables
   #TWIG => {{ craft.cookiemng.render()|raw }}
   public function render()
   {
+    Craft::$app->view->registerAssetBundle(PluginAssets::class);
+    $settings = CookieMng::$instance->getSettings();
+    
     if (!$settings->enabledCookieBar){
       return '';
     }
-    
-    Craft::$app->view->registerAssetBundle(PluginAssets::class);
-    $settings = CookieMng::$instance->getSettings();
     $permissions = CookieMng::$instance->services->getPermissionCookie();
     $permissions = $permissions ? $permissions : '';
     return Craft::$app->view->renderTemplate('cookiemng/panel/bar.twig',['settings'=>$settings,'permissions'=>$permissions ? explode(',',$permissions) : false],View::TEMPLATE_MODE_CP);
