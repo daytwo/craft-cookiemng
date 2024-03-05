@@ -33,7 +33,7 @@ class PermissionServices extends Component{
         $settings = CookieMng::$instance->getSettings();
         $env = CookieMng::$instance->getEnvValues();
 
-        return setcookie($env->cookieName, $value, time() + 60 * 60 * 24 * $env->cookieExpiry, $env->path, $env->cookieDomain, $env->cookieSecure, true);
+        return setcookie($env->cookieName, $value, time() + 60 * 60 * 24 * $env->cookieExpiry, $env->cookiePath, $env->cookieDomain, $env->cookieSecure, true);
     }
     public function getPermissionCookie()
     {
