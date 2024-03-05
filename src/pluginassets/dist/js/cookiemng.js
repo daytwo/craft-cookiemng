@@ -1,4 +1,5 @@
 var cm_main = document.querySelector(".__cookiemng__");
+var cm_blocked = document.querySelector(".cm__blocked");
 var cm_triggerGoogleConsentConsent = cm_main.getAttribute('data-google-consent');
 var cm_acc = document.getElementsByClassName("cm__acc-trigger");
 
@@ -78,6 +79,9 @@ let cm_onClose = () => {
     cm_defaultView.classList.add('cm__active');
     cm_customizeView.classList.remove('cm__active');
     cm_main.classList.remove("cm__active");
+    if(cm_blocked){
+        cm_blocked.classList.remove('cm__active');
+    }
 }
 cm_buttons.forEach((button,index)=>{
     button.addEventListener('click', function(){
@@ -107,4 +111,7 @@ cm_displaySettings = () => {
     cm_customizeView.classList.remove('cm__active');
     cm_main.classList.add("cm__active");
     cm_main.classList.add("cm__dismissable");
+    if(cm_blocked){
+        cm_blocked.classList.add('cm__active');
+    }
 }

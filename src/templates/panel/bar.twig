@@ -1,6 +1,8 @@
 {% set cookieGoogleEnabled = getenv('CM_COOKIE_GOOGLE_ENABLED') === 'CM_COOKIE_GOOGLE_ENABLED' ? false : true %}
-
-<div class="__cookiemng__ {{settings.theme}} {{settings.blockBackground ? 'cm__blocked'}} {{permissions == false or permissions == '' ? 'cm__active'}}" data-google-consent="{{cookieGoogleEnabled ? 1 : 0}}" style="z-index:{{settings.zIndex}}">
+ {% if settings.blockBackground %} 
+   <div class="cm__blocked {{permissions == false or permissions == '' ? 'cm__active'}}" style="z-index:{{settings.zIndex}}"></div>
+ {% endif %} 
+<div class="__cookiemng__ {{settings.theme}} {{permissions == false or permissions == '' ? 'cm__active'}}" data-google-consent="{{cookieGoogleEnabled ? 1 : 0}}" style="z-index:{{(settings.zIndex + 1)}}">
     <div class="cm__button cm__close" data-cm-action="onClose"></div>
     <div class="cm__container cm__full cm__active" data-cm-view="default">
         <div class="cm__content">
