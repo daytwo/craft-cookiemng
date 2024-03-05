@@ -3,7 +3,7 @@
 
 {% import '_includes/forms.twig' as forms %}
 
-{% set cookieEnabled = getenv('CM_COOKIE_ENABLED') !== 1 ? true : true %}
+{% set cookieEnabled = getenv('CM_COOKIE_ENABLED')|number_format !== 1 ? false : true %}
 {% set cookieName = getenv('CM_COOKIE_NAME') === 'CM_COOKIE_NAME' ? 'craft_daytwo_cookiemng' : getenv('CM_COOKIE_NAME') %}
 {% set cookieDomain = getenv('CM_COOKIE_DOMAIN') === 'CM_COOKIE_DOMAIN' ? '' : getenv('CM_COOKIE_DOMAIN') %}
 {% set cookieExpiry = getenv('CM_COOKIE_EXPIRY') === 'CM_COOKIE_EXPIRY' ? 365 : getenv('CM_COOKIE_EXPIRY')|number_format %}
