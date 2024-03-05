@@ -34,9 +34,9 @@ class CookieMngVariables
   {
     Craft::$app->view->registerAssetBundle(PluginAssets::class);
     $settings = CookieMng::$instance->getSettings();
-    
+
     $enabled = Craft::parseEnv($settings->enabledCookieBar);
-    if($enabled == 1){
+    if($enabled == 1 || $enabled == '1' || $enabled == true){
       $enabled = true;
     }else{
       $enabled = false;
@@ -55,7 +55,7 @@ class CookieMngVariables
     $settings = CookieMng::$instance->getSettings();
     
     $enabled = Craft::parseEnv($settings->enabledCookieBar);
-    if($enabled == 1){
+    if($enabled == 1 || $enabled == '1' || $enabled == true){
       $enabled = true;
     }else{
       $enabled = false;
@@ -74,14 +74,14 @@ class CookieMngVariables
     $settings = CookieMng::$instance->getSettings();
     
     $enabled = Craft::parseEnv($settings->enabledCookieBar);
-    if($enabled == 1){
+    if($enabled == 1 || $enabled == '1' || $enabled == true){
       $enabled = true;
     }else{
       $enabled = false;
     }
 
     $consentEnabled = Craft::parseEnv($settings->googleConsentV2Enabled);
-    if($consentEnabled == 1){
+    if($consentEnabled == 1 || $consentEnabled == '1' || $consentEnabled == true){
       $consentEnabled = true;
     }else{
       $consentEnabled = false;
@@ -90,6 +90,8 @@ class CookieMngVariables
     if (!$enabled){
       return '';
     }
+
+    return "ENABLED:::".$enabled;
 
     $permissions = CookieMng::$instance->services->getPermissionCookie();
     $permissions = $permissions ? $permissions : '';
@@ -103,14 +105,14 @@ class CookieMngVariables
     $settings = CookieMng::$instance->getSettings();
 
     $enabled = Craft::parseEnv($settings->enabledCookieBar);
-    if($enabled == 1){
+    if($enabled == 1 || $enabled == '1' || $enabled == true){
       $enabled = true;
     }else{
       $enabled = false;
     }
 
     $consentEnabled = Craft::parseEnv($settings->googleConsentV2Enabled);
-    if($consentEnabled == 1){
+    if($consentEnabled == 1 || $consentEnabled == '1' || $consentEnabled == true){
       $consentEnabled = true;
     }else{
       $consentEnabled = false;
