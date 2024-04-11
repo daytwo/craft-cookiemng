@@ -215,6 +215,7 @@
                 opacity:1 !important;
                 pointer-events: initial !important;
                 padding: initial !important;
+                cursor: pointer !important;
             }
         }
         .cm__acc-trigger{
