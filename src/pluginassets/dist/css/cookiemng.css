@@ -213,7 +213,7 @@
                 position: relative !important;
                 display:inline !important;
                 opacity:1 !important;
-                pointer-events: intial !important;
+                pointer-events: initial !important;
                 padding: initial !important;
             }
         }
