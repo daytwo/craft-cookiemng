@@ -205,7 +205,17 @@
                 cursor:pointer;
                 flex-grow: 2;
                 padding:5px;
-            }   
+                &:before, &:after{
+                    display:none !important;
+                }
+            }
+            input[type="checkbox"]{
+                position: relative !important;
+                display:inline !important;
+                opacity:1 !important;
+                pointer-events: intial !important;
+                padding: initial !important;
+            }
         }
         .cm__acc-trigger{
             position:relative;
