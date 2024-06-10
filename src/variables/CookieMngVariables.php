@@ -80,7 +80,7 @@ class CookieMngVariables
     $settings = CookieMng::$instance->getSettings();
     //$env = CookieMng::$instance->getEnvValues();
 
-    if (!$settings->getCookieEnabled(Craft::$app->getSites()->currentSite->handle) || !$settings->getCookieGoogleEnabled(Craft::$app->getSites()->currentSite->handle)){
+    if (!$settings->getCookieEnabled(Craft::$app->getSites()->currentSite->handle)){
       return '';
     }
         

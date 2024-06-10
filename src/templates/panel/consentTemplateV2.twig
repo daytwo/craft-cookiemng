@@ -3,16 +3,21 @@
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     
-    gtag('consent', 'default', {
-        'ad_storage': '{{"advertising" in permissions ? 'granted' : 'denied'}}', //advertising
-        'ad_user_data': '{{"advertising" in permissions ? 'granted' : 'denied'}}', //advertising
-        'ad_personalization': '{{"personalization" in permissions ? 'granted' : 'denied'}}', //personalization
-        'personalization_storage': '{{"personalization" in permissions ? 'granted' : 'denied'}}', //personalization
-        'analytics_storage': '{{"analytics" in permissions ? 'granted' : 'denied'}}', //analytics
-        'functionality_storage': 'granted', //functional
-        'security_storage': 'granted' //functional
-    });
+    {% if settings.getCookieGoogleEnabled(currentSite.handle) %}
+        gtag('consent', 'default', {
+            'ad_storage': '{{"advertising" in permissions ? 'granted' : 'denied'}}', //advertising
+            'ad_user_data': '{{"advertising" in permissions ? 'granted' : 'denied'}}', //advertising
+            'ad_personalization': '{{"personalization" in permissions ? 'granted' : 'denied'}}', //personalization
+            'personalization_storage': '{{"personalization" in permissions ? 'granted' : 'denied'}}', //personalization
+            'analytics_storage': '{{"analytics" in permissions ? 'granted' : 'denied'}}', //analytics
+            'functionality_storage': 'granted', //functional
+            'security_storage': 'granted' //functional
+        });
+    {% endif %}
     let cm_updateConsent = (granted,denied) => {
+        {% not if settings.getCookieGoogleEnabled(currentSite.handle) %}
+            return;
+        {% endif %}
         let consent_list = {};
         granted.forEach((prop)=>{
             switch (prop){
