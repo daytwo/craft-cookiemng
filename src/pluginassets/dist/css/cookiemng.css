@@ -27,7 +27,7 @@
     font-family: inherit;
     font-size:0.9rem;
     line-height:1.25;
-    
+
     &.cm__rounded{
         .cm__button{
             border-radius:7px;
@@ -181,6 +181,11 @@
                 margin: initial !important;
                 cursor: pointer !important;
                 visibility: visible !important;
+                &:focus{
+                    -webkit-appearance: auto !important;
+                    -moz-appearance: auto !important;
+                    appearance: auto !important;
+                }
             }
             input[type="checkbox"] + label{
                 cursor:pointer;
@@ -254,6 +259,11 @@
                 margin: initial !important;
                 cursor: pointer !important;
                 visibility: visible !important;
+                &:focus{
+                    -webkit-appearance: auto !important;
+                    -moz-appearance: auto !important;
+                    appearance: auto !important;
+                }
             }
             input[type="checkbox"] + label{
                 cursor:pointer;
