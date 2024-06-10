@@ -15,7 +15,7 @@
         });
     {% endif %}
     let cm_updateConsent = (granted,denied) => {
-        {% not if settings.getCookieGoogleEnabled(currentSite.handle) %}
+        {% if not settings.getCookieGoogleEnabled(currentSite.handle) %}
             return;
         {% endif %}
         let consent_list = {};
