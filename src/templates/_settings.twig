@@ -92,7 +92,7 @@
         instructions: 'Choose your theme',
         name: 'theme',
         options: {"blue":"Blue","green":"Green","red":"Red","yellow":"Yellow","purple":"Purple","black":"Black"},
-        value: settings.theme,
+        value: settings.getTheme(),
         fieldClass: 'width-25',
         required: true,
     }) }}
@@ -102,7 +102,7 @@
         name: 'inverted',
         instructions: "Use theme color as background instead of accent color",
         fieldClass: 'width-25',
-        on: settings.inverted
+        on: settings.getInverted()
     }) }}
 
     {{ forms.lightswitchField({
@@ -110,7 +110,7 @@
         name: 'cornerPanel',
         instructions: "Use popup preferences on the corner instead of the bottom (user interaction will not be blocked if enabled)",
         fieldClass: 'width-25',
-        on: settings.cornerPanel
+        on: settings.getCornerPanel()
     }) }}
 
     {{ forms.textField({
@@ -118,7 +118,7 @@
         name: 'zIndex',
         instructions: "Define a custom z-index to place the cookie settings panel",
         fieldClass: 'width-25',
-        value: settings.zIndex
+        value: settings.getZIndex()
     }) }}
 
     {{ forms.lightswitchField({
@@ -126,7 +126,7 @@
         name: 'blockBackground',
         instructions: "Block user interaction until the cookie settings is accepted or dismissed.",
         fieldClass: 'width-25',
-        on: settings.blockBackground
+        on: settings.getBlockBackground()
     }) }}
 
     <hr/>
@@ -138,7 +138,7 @@
         label: "Header",
         instructions: 'Popup header',
         name: 'cookiesHeader',
-        value: settings.cookiesHeader,
+        value: settings.getCookiesHeader(),
         fieldClass: 'width-25',
         required: true,
     }) }}
@@ -149,14 +149,14 @@
         name: 'cookiesDescription',
         fieldClass: 'width-75',
         rows:3,
-        value: settings.cookiesDescription,
+        value: settings.getCookiesDescription(),
         required: true,
     }) }}
 
     {{ forms.textField({
         label: "Read more link label",
         name: 'cookiesReadMore',
-        value: settings.cookiesReadMore,
+        value: settings.getCookiesReadMore(),
         fieldClass: 'width-25',
         required: true,
     }) }}
@@ -165,7 +165,7 @@
         label: "Read more link url",
         name: 'cookiesReadMoreLink',
         instructions: 'Leave empty for skipping the read more link',
-        value: settings.cookiesReadMoreLink,
+        value: settings.getCookiesReadMoreLink(),
         suggestEnvVars: true,
     }) }}
 
@@ -178,42 +178,42 @@
         label: "Accept all",
         name: 'acceptAllButton',
         fieldClass: 'width-25',
-        value: settings.acceptAllButton,
+        value: settings.getAcceptAllButton(),
     }) }}
 
     {{ forms.textField({
         label: "Accept functional",
         name: 'acceptFunctionalButton',
         fieldClass: 'width-25',
-        value: settings.acceptFunctionalButton,
+        value: settings.getAcceptFunctionalButton(),
     }) }}
 
     {{ forms.textField({
         label: "Deny all",
         name: 'denyAllButton',
         fieldClass: 'width-25',
-        value: settings.denyAllButton,
+        value: settings.getDenyAllButton(),
     }) }}
 
     {{ forms.textField({
         label: "Save",
         name: 'saveButton',
         fieldClass: 'width-25',
-        value: settings.saveButton,
+        value: settings.getSaveButton(),
     }) }}
 
     {{ forms.textField({
         label: "Customize",
         name: 'customizeButton',
         fieldClass: 'width-25',
-        value: settings.customizeButton,
+        value: settings.getCustomizeButton(),
     }) }}
 
     {{ forms.textField({
         label: "Close/Dismiss",
         name: 'closeButton',
         fieldClass: 'width-25',
-        value: settings.closeButton,
+        value: settings.getCloseButton(),
     }) }}
 
     <hr/>
@@ -222,7 +222,7 @@
 {{ forms.lightswitchField({
     label: 'Use functional cookies',
     name: 'functionalCookies',
-    on: settings.functionalCookies,
+    on: settings.getFunctionalCookies(),
     disabled: true,
     fieldClass: 'width-25',
     inputClass: 'disabled',
@@ -234,7 +234,7 @@
     label: "Functional cookie title",
     name: 'functionalTitle',
     fieldClass: 'width-25',
-    value: settings.functionalTitle,
+    value: settings.getFunctionalTitle(),
 }) }}
 
 {{ forms.textAreaField({
@@ -242,7 +242,7 @@
     name: 'functionalDescription',
     rows: 2,
     fieldClass: 'width-50',
-    value: settings.functionalDescription,
+    value: settings.getFunctionalDescription(),
 }) }}
 
 <hr />
@@ -251,7 +251,7 @@
 {{ forms.lightswitchField({
     label: 'Use analytics cookies',
     name: 'analyticsCookies',
-    on: settings.analyticsCookies,
+    on: settings.getAnalyticsCookies(),
     fieldClass: 'width-25',
     instructions: 'Display the analytics cookie in the preferences. The event will be triggered when user accepts the analytics cookies (value: analytics).',
 }) }}
@@ -261,7 +261,7 @@
     label: "Analytics Title"|t('cookiemng'),
     name: 'analyticsTitle',
     fieldClass: 'width-25',
-    value: settings.analyticsTitle,
+    value: settings.getAnalyticsTitle(),
 }) }}
 
 
@@ -270,7 +270,7 @@
     name: 'analyticsDescription',
     rows: 2,
     fieldClass: 'width-50',
-    value: settings.analyticsDescription,
+    value: settings.getAnalyticsDescription(),
 }) }}
 
 <hr />
@@ -280,7 +280,7 @@
 {{ forms.lightswitchField({
     label: 'Use advertising cookies',
     name: 'advertisingCookies',
-    on: settings.advertisingCookies,
+    on: settings.getAdvertisingCookies(),
     fieldClass: 'width-25',
     instructions: 'Display the advertising cookie in the preferences. The event will be triggered when user accepts the advertising cookies (value: advertising).',
 }) }}
@@ -289,7 +289,7 @@
     label: "Advertising Title"|t('cookiemng'),
     name: 'advertisingTitle',
     fieldClass: 'width-25',
-    value: settings.advertisingTitle,
+    value: settings.getAdvertisingTitle(),
 }) }}
 
 {{ forms.textAreaField({
@@ -297,7 +297,7 @@
     name: 'advertisingDescription',
     rows: 2,
     fieldClass: 'width-50',
-    value: settings.advertisingDescription,
+    value: settings.getAdvertisingDescription(),
 }) }}
 
 <hr/>
@@ -306,7 +306,7 @@
 {{ forms.lightswitchField({
     label: 'Use personalization cookies',
     name: 'personalizationCookies',
-    on: settings.personalizationCookies,
+    on: settings.getPersonalizationCookies(),
     fieldClass: 'width-25',
     instructions: 'Display the personalization cookie in the preferences. The event will be triggered when user accepts the personalization cookies (value: personalization).',
 }) }}
@@ -315,7 +315,7 @@
     label: "Personalization Title"|t('cookiemng'),
     name: 'personalizationTitle',
     fieldClass: 'width-25',
-    value: settings.personalizationTitle,
+    value: settings.getPersonalizationTitle(),
 }) }}
 
 {{ forms.textAreaField({
@@ -323,7 +323,7 @@
     name: 'personalizationDescription',
     rows: 2,
     fieldClass: 'width-50',
-    value: settings.personalizationDescription,
+    value: settings.getPersonalizationDescription(),
 }) }}
 
 <!--
@@ -334,7 +334,7 @@
 {{ forms.lightswitchField({
     label: 'Use extra cookies',
     name: 'extraCookies',
-    on: settings.extraCookies,
+    on: settings.getExtraCookies(),
     fieldClass: 'width-25',
     instructions: 'Display and extra cookie in the preferences. The event will be triggered when user accepts the extra cookies (value: {the cookie property bellow}).',
 }) }}
@@ -343,14 +343,14 @@
     label: "Cookie property"|t('cookiemng'),
     name: 'extraCookieProperty',
     fieldClass: 'width-25',
-    value: settings.extraCookieProperty,
+    value: settings.getExtraCookieProperty(),
 }) }}
 
 {{ forms.textField({
     label: "Extra Title"|t('cookiemng'),
     name: 'extraTitle',
     fieldClass: 'width-25',
-    value: settings.extraTitle,
+    value: settings.getExtraTitle(),
 }) }}
 
 {{ forms.textAreaField({
@@ -358,7 +358,7 @@
     name: 'extraDescription',
     rows: 2,
     fieldClass: 'width-25',
-    value: settings.extraDescription,
+    value: settings.getExtraDescription(),
 }) }}
 </div>
 -->
