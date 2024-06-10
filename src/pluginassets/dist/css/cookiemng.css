@@ -296,7 +296,7 @@
         color:var(--cm_button_color);
         .cm__button{
             background-color: var(--cm_inverted_button_background);
-            background-color: var(--cm_inverted_button_text);
+            color: var(--cm_inverted_button_text);
         }
     }
 
