@@ -148,6 +148,14 @@
             &:not(:last-child) {
                 padding-bottom: 0 !important;
             }
+            input[type="checkbox"]{
+                position: relative !important;
+                display:inline !important;
+                opacity:1 !important;
+                pointer-events: initial !important;
+                padding: initial !important;
+                cursor: pointer !important;
+            }
         }
     }
 
