@@ -154,7 +154,9 @@
                 opacity:1 !important;
                 pointer-events: initial !important;
                 padding: initial !important;
+                margin: initial !important;
                 cursor: pointer !important;
+                visibility: visible !important;
             }
             input[type="checkbox"] + label{
                 cursor:pointer;
@@ -227,7 +229,12 @@
                 opacity:1 !important;
                 pointer-events: initial !important;
                 padding: initial !important;
+                margin: initial !important;
                 cursor: pointer !important;
+                visibility: visible !important;
+            }
+            input[type="checkbox"] + label{
+                cursor:pointer;
             }
         }
         .cm__acc-trigger{
