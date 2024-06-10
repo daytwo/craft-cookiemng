@@ -156,6 +156,10 @@
                 padding: initial !important;
                 cursor: pointer !important;
             }
+            input[type="checkbox"] + label{
+                cursor:pointer;
+            
+            }
         }
     }
 
