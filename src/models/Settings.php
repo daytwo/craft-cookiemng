@@ -5,6 +5,8 @@ namespace daytwo\cookiemng\models;
 use Craft;
 use craft\base\Model;
 
+
+
 /**
  * daytwo/craft-cookiemng settings
  */
@@ -19,7 +21,7 @@ class Settings extends Model
     public $cookieSecure;
     public $cookieGoogleEnabled;
 
-    public function getCookieEnabled(bool $siteHandle = null){
+    public function getCookieEnabled(string $siteHandle = null){
         return \craft\helpers\ConfigHelper::localizedValue($this->cookieEnabled, $siteHandle);
     }
     public function getCookieName(string $siteHandle = null){
@@ -28,16 +30,16 @@ class Settings extends Model
     public function getCookieDomain(string $siteHandle = null){
         return \craft\helpers\ConfigHelper::localizedValue($this->cookieDomain, $siteHandle);
     }
-    public function getCookieExpiry(int $siteHandle = null){
+    public function getCookieExpiry(string $siteHandle = null){
         return \craft\helpers\ConfigHelper::localizedValue($this->cookieExpiry, $siteHandle);
     }
     public function getCookiePath(string $siteHandle = null){
         return \craft\helpers\ConfigHelper::localizedValue($this->cookiePath, $siteHandle);
     }
-    public function getCookieSecure(bool $siteHandle = null){
+    public function getCookieSecure(string $siteHandle = null){
         return \craft\helpers\ConfigHelper::localizedValue($this->cookieSecure, $siteHandle);
     }
-    public function getCookieGoogleEnabled(bool $siteHandle = null){
+    public function getCookieGoogleEnabled(string $siteHandle = null){
         return \craft\helpers\ConfigHelper::localizedValue($this->cookieGoogleEnabled, $siteHandle);
     }
     public $theme;
@@ -54,16 +56,16 @@ class Settings extends Model
             return 'blue';
         }
     }
-    public function getInverted(bool $siteHandle = null) {
+    public function getInverted(string $siteHandle = null) {
         return \craft\helpers\ConfigHelper::localizedValue($this->inverted, $siteHandle);
     }
-    public function getCornerPanel(bool $siteHandle = null) {
+    public function getCornerPanel(string $siteHandle = null) {
         return \craft\helpers\ConfigHelper::localizedValue($this->cornerPanel, $siteHandle);
     }
-    public function getZIndex(int $siteHandle = null) {
+    public function getZIndex(string $siteHandle = null) {
         return \craft\helpers\ConfigHelper::localizedValue($this->zIndex, $siteHandle);
     }
-    public function getBlockBackground(bool $siteHandle = null) {
+    public function getBlockBackground(string $siteHandle = null) {
         return \craft\helpers\ConfigHelper::localizedValue($this->blockBackground, $siteHandle);
     }
 
@@ -112,7 +114,7 @@ class Settings extends Model
     public $functionalCookies;
     public $functionalTitle;
     public $functionalDescription;
-    public function getFunctionalCookies(bool $siteHandle = null) {
+    public function getFunctionalCookies(string $siteHandle = null) {
         return \craft\helpers\ConfigHelper::localizedValue($this->functionalCookies, $siteHandle);
     }
     public function getFunctionalTitle(string $siteHandle = null) {
@@ -125,7 +127,7 @@ class Settings extends Model
     public $analyticsCookies;
     public $analyticsTitle;
     public $analyticsDescription;
-    public function getAnalyticsCookies(bool $siteHandle = null) {
+    public function getAnalyticsCookies(string $siteHandle = null) {
         return \craft\helpers\ConfigHelper::localizedValue($this->analyticsCookies, $siteHandle);
     }
     public function getAnalyticsTitle(string $siteHandle = null) {
@@ -138,7 +140,7 @@ class Settings extends Model
     public $advertisingCookies;
     public $advertisingTitle;
     public $advertisingDescription;
-    public function getAdvertisingCookies(bool $siteHandle = null) {
+    public function getAdvertisingCookies(string $siteHandle = null) {
         return \craft\helpers\ConfigHelper::localizedValue($this->advertisingCookies, $siteHandle);
     }
     public function getAdvertisingTitle(string $siteHandle = null) {
@@ -151,7 +153,7 @@ class Settings extends Model
     public $personalizationCookies;
     public $personalizationTitle;
     public $personalizationDescription;
-    public function getPersonalizationCookies(bool $siteHandle = null) {
+    public function getPersonalizationCookies(string $siteHandle = null) {
         return \craft\helpers\ConfigHelper::localizedValue($this->personalizationCookies, $siteHandle);
     }
     public function getPersonalizationTitle(string $siteHandle = null) {
@@ -165,7 +167,7 @@ class Settings extends Model
     public $extraCookieProperty;
     public $extraTitle;
     public $extraDescription;
-    public function getExtraCookies(bool $siteHandle = null) {
+    public function getExtraCookies(string $siteHandle = null) {
         return \craft\helpers\ConfigHelper::localizedValue($this->extraCookies, $siteHandle);
     }
     public function getExtraCookieProperty(string $siteHandle = null) {
