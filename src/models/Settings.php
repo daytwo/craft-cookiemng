@@ -11,13 +11,13 @@ use craft\base\Model;
 class Settings extends Model
 {
     
-    public $cookieEnabled = false;
-    public $cookieName = 'craft_daytwo_cookiemng';
-    public $cookieDomain = '';
-    public $cookieExpiry = 365;
-    public $cookiePath = '/';
-    public $cookieSecure = false;
-    public $cookieGoogleEnabled = false;
+    public $cookieEnabled;
+    public $cookieName;
+    public $cookieDomain;
+    public $cookieExpiry;
+    public $cookiePath;
+    public $cookieSecure;
+    public $cookieGoogleEnabled;
 
     public function getCookieEnabled(bool $siteHandle = null){
         return \craft\helpers\ConfigHelper::localizedValue($this->cookieEnabled, $siteHandle);
@@ -40,11 +40,11 @@ class Settings extends Model
     public function getCookieGoogleEnabled(bool $siteHandle = null){
         return \craft\helpers\ConfigHelper::localizedValue($this->cookieGoogleEnabled, $siteHandle);
     }
-    public $theme = "blue";
-    public $inverted = false;
-    public $cornerPanel = false;
-    public $zIndex = 999999;
-    public $blockBackground = false;
+    public $theme;
+    public $inverted;
+    public $cornerPanel;
+    public $zIndex;
+    public $blockBackground;
     public function getTheme(string $siteHandle = null) {   
         $allowed = ['blue', 'green', 'red', 'yellow', 'purple', 'black'];
         $color = \craft\helpers\ConfigHelper::localizedValue($this->theme, $siteHandle);
@@ -67,12 +67,12 @@ class Settings extends Model
         return \craft\helpers\ConfigHelper::localizedValue($this->blockBackground, $siteHandle);
     }
 
-    public $saveButton = 'Save';
-    public $acceptAllButton = 'Accept all';
-    public $acceptFunctionalButton = 'Accept functional';
-    public $denyAllButton = 'Deny all';
-    public $closeButton = 'Dismiss';
-    public $customizeButton = 'Customize';
+    public $saveButton;
+    public $acceptAllButton;
+    public $acceptFunctionalButton;
+    public $denyAllButton;
+    public $closeButton;
+    public $customizeButton;
     public function getSaveButton(string $siteHandle = null) {
         return \craft\helpers\ConfigHelper::localizedValue($this->saveButton, $siteHandle);
     }
@@ -92,10 +92,10 @@ class Settings extends Model
         return \craft\helpers\ConfigHelper::localizedValue($this->customizeButton, $siteHandle);
     }
 
-    public $cookiesHeader = 'Information about cookies';
-    public $cookiesDescription = 'This website uses cookies. We use cookies primarily to improve and analyze the experience of our website and for marketing purposes. Because we respect your privacy rights, you can choose not to accept certain types of cookies. Click on the different category headings to find out more and to change the default settings. Blocking some types of cookies may have a negative impact on your experience of the website and may limit the services we can provide to you.';
-    public $cookiesReadMore = 'Read more';
-    public $cookiesReadMoreLink = '';
+    public $cookiesHeader;
+    public $cookiesDescription;
+    public $cookiesReadMore;
+    public $cookiesReadMoreLink;
     public function getCookiesHeader(string $siteHandle = null) {
         return \craft\helpers\ConfigHelper::localizedValue($this->cookiesHeader, $siteHandle);
     }
@@ -109,9 +109,9 @@ class Settings extends Model
         return \craft\helpers\ConfigHelper::localizedValue($this->cookiesReadMoreLink, $siteHandle);
     }
 
-    public $functionalCookies = true;
-    public $functionalTitle = 'Functional cookies 1';
-    public $functionalDescription = 'Functional cookies are necessary for the website to function properly.';   
+    public $functionalCookies;
+    public $functionalTitle;
+    public $functionalDescription;
     public function getFunctionalCookies(bool $siteHandle = null) {
         return \craft\helpers\ConfigHelper::localizedValue($this->functionalCookies, $siteHandle);
     }
@@ -122,9 +122,9 @@ class Settings extends Model
         return \craft\helpers\ConfigHelper::localizedValue($this->functionalDescription, $siteHandle);
     }
 
-    public $analyticsCookies = true;
-    public $analyticsTitle = 'Analytics cookies';   
-    public $analyticsDescription = 'Analytics cookies help website owners to understand how visitors interact with websites by collecting and reporting information anonymously.';   
+    public $analyticsCookies;
+    public $analyticsTitle;
+    public $analyticsDescription;
     public function getAnalyticsCookies(bool $siteHandle = null) {
         return \craft\helpers\ConfigHelper::localizedValue($this->analyticsCookies, $siteHandle);
     }
@@ -135,9 +135,9 @@ class Settings extends Model
         return \craft\helpers\ConfigHelper::localizedValue($this->analyticsDescription, $siteHandle);
     }
 
-    public $advertisingCookies = true;
-    public $advertisingTitle = 'Advertising cookies';   
-    public $advertisingDescription = 'Advertising cookies are used to track visitors across websites. The intention is to display ads that are relevant and engaging for the individual user.';   
+    public $advertisingCookies;
+    public $advertisingTitle;
+    public $advertisingDescription;
     public function getAdvertisingCookies(bool $siteHandle = null) {
         return \craft\helpers\ConfigHelper::localizedValue($this->advertisingCookies, $siteHandle);
     }
@@ -148,9 +148,9 @@ class Settings extends Model
         return \craft\helpers\ConfigHelper::localizedValue($this->advertisingDescription, $siteHandle);
     }
 
-    public $personalizationCookies = true;
-    public $personalizationTitle = 'Personalization cookies';   
-    public $personalizationDescription = 'Personalization cookies are used to track visitors across websites. The intention is to display content/ads that are relevant and engaging for the individual user.';   
+    public $personalizationCookies;
+    public $personalizationTitle;
+    public $personalizationDescription;
     public function getPersonalizationCookies(bool $siteHandle = null) {
         return \craft\helpers\ConfigHelper::localizedValue($this->personalizationCookies, $siteHandle);
     }
@@ -161,7 +161,7 @@ class Settings extends Model
         return \craft\helpers\ConfigHelper::localizedValue($this->personalizationDescription, $siteHandle);
     }
 
-    public $extraCookies = false;
+    public $extraCookies;
     public $extraCookieProperty;
     public $extraTitle;
     public $extraDescription;
