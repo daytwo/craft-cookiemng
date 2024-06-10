@@ -62,9 +62,9 @@ class CookieMngVariables
   {
     Craft::$app->view->registerAssetBundle(PluginAssets::class);
     $settings = CookieMng::$instance->getSettings();
-    $env = CookieMng::$instance->getEnvValues();
+    //$env = CookieMng::$instance->getEnvValues();
 
-    if (!$env->cookieEnabled){
+    if (!$settings->getCookieEnabled(Craft::$app->getSites()->currentSite->handle)){
       return '';
     }
 
@@ -78,9 +78,9 @@ class CookieMngVariables
   {
     Craft::$app->view->registerAssetBundle(PluginAssets::class);
     $settings = CookieMng::$instance->getSettings();
-    $env = CookieMng::$instance->getEnvValues();
+    //$env = CookieMng::$instance->getEnvValues();
 
-    if (!$env->cookieEnabled || !$env->cookieGoogleEnabled){
+    if (!$settings->getCookieEnabled(Craft::$app->getSites()->currentSite->handle) || !$settings->getCookieGoogleEnabled(Craft::$app->getSites()->currentSite->handle)){
       return '';
     }
         
