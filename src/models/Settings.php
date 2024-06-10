@@ -45,6 +45,7 @@ class Settings extends Model
     public $theme;
     public $inverted;
     public $cornerPanel;
+    public $roundedCorners;
     public $zIndex;
     public $blockBackground;
     public function getTheme(string $siteHandle = null) {   
@@ -61,6 +62,9 @@ class Settings extends Model
     }
     public function getCornerPanel(string $siteHandle = null) {
         return \craft\helpers\ConfigHelper::localizedValue($this->cornerPanel, $siteHandle);
+    }
+    public function getRoundedCorners(string $siteHandle = null) {
+        return \craft\helpers\ConfigHelper::localizedValue($this->roundedCorners, $siteHandle);
     }
     public function getZIndex(string $siteHandle = null) {
         return \craft\helpers\ConfigHelper::localizedValue($this->zIndex, $siteHandle);

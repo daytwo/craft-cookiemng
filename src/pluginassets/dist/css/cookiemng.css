@@ -27,6 +27,15 @@
     font-family: inherit;
     font-size:0.9rem;
     line-height:1.25;
+    
+    &.cm__rounded{
+        .cm__button{
+            border-radius:7px;
+        }
+        .cm__accordion{
+            border-radius:10px;
+        }
+    }
 
     &.cm__corner{
         max-width:480px;
@@ -186,7 +195,6 @@
         background-color: var(--cm_accent_color);
         cursor:pointer;
         padding:10px 15px;
-        border-radius:7px;
         text-align: center;
         min-width: 140px;
         &:hover{
@@ -216,7 +224,6 @@
     .cm__accordion{
         padding:20px;
         border:1px solid rgba(125,125,125,0.35);
-        border-radius:10px;
         display:inline-block;
         min-width:initial !important;
         padding: 15px 10px;
