@@ -33,11 +33,15 @@ class PermissionServices extends Component{
         $settings = CookieMng::$instance->getSettings();
         //$env = CookieMng::$instance->getEnvValues();
 
-        return setcookie($settings->cookieName, $value, time() + 60 * 60 * 24 * $settings->getCookieExpiry(Craft::$app->getSites()->currentSite->handle),
+        return setcookie(
+            $settings->getCookieName(Craft::$app->getSites()->currentSite->handle),
+            $value, 
+            time() + 60 * 60 * 24 * $settings->getCookieExpiry(Craft::$app->getSites()->currentSite->handle),
             $settings->getCookiePath(Craft::$app->getSites()->currentSite->handle),
             $settings->getCookieDomain(Craft::$app->getSites()->currentSite->handle),
             $settings->getCookieSecure(Craft::$app->getSites()->currentSite->handle),
-            true);
+            true
+        );
     }
     public function getPermissionCookie()
     {
