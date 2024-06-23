@@ -28,7 +28,7 @@ use daytwo\cookiemng\CookieMng;
 
 class PermissionServices extends Component{
 
-    public function setPermissionCookie($value,$siteHandle)
+    public function setPermissionCookie($value,$siteHandle = "default")
     {        
         $settings = CookieMng::$instance->getSettings();
         //$env = CookieMng::$instance->getEnvValues();
@@ -43,13 +43,13 @@ class PermissionServices extends Component{
             true
         );
     }
-    public function getPermissionCookie()
+    public function getPermissionCookie($siteHandle = "default")
     {
         $settings = CookieMng::$instance->getSettings();
         //$env = CookieMng::$instance->getEnvValues();
 
-        if(array_key_exists($settings->getCookieName($siteHandle),$_COOKIE)){
-            return $_COOKIE[$settings->getCookieName($siteHandle)];
+        if(array_key_exists($siteHandle,$_COOKIE)){
+            return $_COOKIE[$siteHandle];
         }
         return false;
     }

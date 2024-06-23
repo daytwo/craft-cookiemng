@@ -58,33 +58,33 @@ class CookieMngVariables
   }
   
   #TWIG => {{ craft.cookiemng.render()|raw }}
-  public function render()
+  public function render($siteHandle = "default")
   {
     Craft::$app->view->registerAssetBundle(PluginAssets::class);
     $settings = CookieMng::$instance->getSettings();
     //$env = CookieMng::$instance->getEnvValues();
 
-    if (!$settings->getCookieEnabled(Craft::$app->getSites()->currentSite->handle)){
+    if (!$settings->getCookieEnabled($siteHandle)){
       return '';
     }
 
-    $permissions = CookieMng::$instance->services->getPermissionCookie();
+    $permissions = CookieMng::$instance->services->getPermissionCookie($siteHandle);
     $permissions = $permissions ? $permissions : '';
     return Craft::$app->view->renderTemplate('cookiemng/panel/bar.twig',['settings'=>$settings,'permissions'=>$permissions ? explode(',',$permissions) : false],View::TEMPLATE_MODE_CP);
   }
 
   #TWIG => {{ craft.cookiemng.consentTemplate()|raw }}
-  public function consentTemplate()
+  public function consentTemplate($siteHandle = "default")
   {
     Craft::$app->view->registerAssetBundle(PluginAssets::class);
     $settings = CookieMng::$instance->getSettings();
     //$env = CookieMng::$instance->getEnvValues();
 
-    if (!$settings->getCookieEnabled(Craft::$app->getSites()->currentSite->handle)){
+    if (!$settings->getCookieEnabled($siteHandle)){
       return '';
     }
         
-    $permissions = CookieMng::$instance->services->getPermissionCookie();
+    $permissions = CookieMng::$instance->services->getPermissionCookie($siteHandle);
     $permissions = $permissions ? $permissions : '';
     return Craft::$app->view->renderTemplate('cookiemng/panel/consentTemplateV2.twig',['settings'=>$settings,'permissions'=>explode(',',$permissions)],View::TEMPLATE_MODE_CP);
   }
