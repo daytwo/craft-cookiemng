@@ -1,8 +1,10 @@
+<pre>
+{{dump(permissions)}}
+</pre>
 <script>
     // Define dataLayer and the gtag function.
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
-    {{dump(permissions)}}
     {% if settings.getCookieGoogleEnabled(siteHandle) %}
         gtag('consent', 'default', {
             'ad_storage': '{{"advertising" in permissions ? 'granted' : 'denied'}}', //advertising
