@@ -1,10 +1,8 @@
 <script>
     // Define dataLayer and the gtag function.
-    window.siteHandle1 = "{{currentSite.handle}}";
-    window.siteHandle2 = "{{siteHandle}}";
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
-    
+    {{dump(permissions)}}
     {% if settings.getCookieGoogleEnabled(siteHandle) %}
         gtag('consent', 'default', {
             'ad_storage': '{{"advertising" in permissions ? 'granted' : 'denied'}}', //advertising
