@@ -28,18 +28,18 @@ use daytwo\cookiemng\CookieMng;
 
 class PermissionServices extends Component{
 
-    public function setPermissionCookie($value)
+    public function setPermissionCookie($value,$siteHandle)
     {        
         $settings = CookieMng::$instance->getSettings();
         //$env = CookieMng::$instance->getEnvValues();
 
         return setcookie(
-            $settings->getCookieName(Craft::$app->getSites()->currentSite->handle),
+            $settings->getCookieName($siteHandle),
             $value, 
-            time() + 60 * 60 * 24 * $settings->getCookieExpiry(Craft::$app->getSites()->currentSite->handle),
-            $settings->getCookiePath(Craft::$app->getSites()->currentSite->handle),
-            $settings->getCookieDomain(Craft::$app->getSites()->currentSite->handle),
-            $settings->getCookieSecure(Craft::$app->getSites()->currentSite->handle),
+            time() + 60 * 60 * 24 * $settings->getCookieExpiry($siteHandle),
+            $settings->getCookiePath($siteHandle),
+            $settings->getCookieDomain($siteHandle),
+            $settings->getCookieSecure($siteHandle),
             true
         );
     }
@@ -48,8 +48,8 @@ class PermissionServices extends Component{
         $settings = CookieMng::$instance->getSettings();
         //$env = CookieMng::$instance->getEnvValues();
 
-        if(array_key_exists($settings->getCookieName(Craft::$app->getSites()->currentSite->handle),$_COOKIE)){
-            return $_COOKIE[$settings->getCookieName(Craft::$app->getSites()->currentSite->handle)];
+        if(array_key_exists($settings->getCookieName($siteHandle),$_COOKIE)){
+            return $_COOKIE[$settings->getCookieName($siteHandle)];
         }
         return false;
     }

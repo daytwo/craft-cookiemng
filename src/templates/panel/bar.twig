@@ -1,6 +1,6 @@
 {% set cookieGoogleEnabled = settings.getCookieGoogleEnabled(currentSite.handle) %}
 {% if settings.getBlockBackground(currentSite.handle) and not settings.getCornerPanel(currentSite.handle) %} 
-    <div class="cm__blocked {{permissions == false or permissions == '' ? 'cm__active'}}" style="z-index:{{settings.getZIndex(currentSite.handle)}}"></div>
+    <div class="cm__blocked {{permissions == false or permissions == '' ? 'cm__active'}}" style="z-index:{{settings.getZIndex(currentSite.handle)}}" data-site-handle="{{currentSite.handle}}"></div>
 {% endif %} 
 <div class="__cookiemng__ {{settings.getTheme(currentSite.handle)}} {{permissions == false or permissions == '' ? 'cm__active'}} {{settings.getCornerPanel(currentSite.handle) ? 'cm__corner'}} {{settings.getRoundedCorners(currentSite.handle) ? 'cm__rounded'}} {{settings.getInverted(currentSite.handle) ? 'cm__inverted'}}" data-google-consent="{{cookieGoogleEnabled ? 1 : 0}}" style="z-index:{{(settings.getZIndex(currentSite.handle) + 1)}}">
      <div class="cm__button cm__close" data-cm-action="onClose"></div>

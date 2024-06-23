@@ -70,7 +70,7 @@ if(cm_main){
             Accept: 'application/json',
             'Content-Type': 'application/json'
             },
-            body: JSON.stringify({permissions:values})
+            body: JSON.stringify({permissions:values,siteHandle:cm_main.getAttribute('data-site-handle')})
         })
         .then(response => response.json())
         .then(data => {
