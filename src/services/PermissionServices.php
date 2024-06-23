@@ -48,8 +48,8 @@ class PermissionServices extends Component{
         $settings = CookieMng::$instance->getSettings();
         //$env = CookieMng::$instance->getEnvValues();
 
-        if(array_key_exists($siteHandle,$_COOKIE)){
-            return $_COOKIE[$siteHandle];
+        if(array_key_exists($settings->getCookieName($siteHandle),$_COOKIE)){
+            return $_COOKIE[$settings->getCookieName($siteHandle)];
         }
         return false;
     }
