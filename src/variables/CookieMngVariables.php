@@ -70,7 +70,7 @@ class CookieMngVariables
 
     $permissions = CookieMng::$instance->services->getPermissionCookie($siteHandle);
     $permissions = $permissions ? $permissions : '';
-    return Craft::$app->view->renderTemplate('cookiemng/panel/bar.twig',['settings'=>$settings,'permissions'=>$permissions ? explode(',',$permissions) : false],View::TEMPLATE_MODE_CP);
+    return Craft::$app->view->renderTemplate('cookiemng/panel/bar.twig',['settings'=>$settings,'permissions'=>$permissions ? explode(',',$permissions) : false,'siteHandle'=>$siteHandle],View::TEMPLATE_MODE_CP);
   }
 
   #TWIG => {{ craft.cookiemng.consentTemplate()|raw }}
@@ -86,6 +86,6 @@ class CookieMngVariables
         
     $permissions = CookieMng::$instance->services->getPermissionCookie($siteHandle);
     $permissions = $permissions ? $permissions : '';
-    return Craft::$app->view->renderTemplate('cookiemng/panel/consentTemplateV2.twig',['settings'=>$settings,'permissions'=>explode(',',$permissions)],View::TEMPLATE_MODE_CP);
+    return Craft::$app->view->renderTemplate('cookiemng/panel/consentTemplateV2.twig',['settings'=>$settings,'permissions'=>explode(',',$permissions),'siteHandle'=>$siteHandle],View::TEMPLATE_MODE_CP);
   }
 }

@@ -1,9 +1,11 @@
 <script>
     // Define dataLayer and the gtag function.
+    window.siteHandle1 = "{{currentSite.handle}}";
+    window.siteHandle1 = "{{siteHandle}}";
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     
-    {% if settings.getCookieGoogleEnabled(currentSite.handle) %}
+    {% if settings.getCookieGoogleEnabled(siteHandle) %}
         gtag('consent', 'default', {
             'ad_storage': '{{"advertising" in permissions ? 'granted' : 'denied'}}', //advertising
             'ad_user_data': '{{"advertising" in permissions ? 'granted' : 'denied'}}', //advertising
@@ -15,7 +17,7 @@
         });
     {% endif %}
     let cm_updateConsent = (granted,denied) => {
-        {% if not settings.getCookieGoogleEnabled(currentSite.handle) %}
+        {% if not settings.getCookieGoogleEnabled(siteHandle) %}
             return;
         {% endif %}
         let consent_list = {};
