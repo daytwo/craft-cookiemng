@@ -1,11 +1,10 @@
 {% set cookieGoogleEnabled = settings.getCookieGoogleEnabled(currentSite.handle) %}
 {% if settings.getBlockBackground(currentSite.handle) and not settings.getCornerPanel(currentSite.handle) %} 
-    <div class="cm__blocked {{permissions == false or permissions == '' ? 'cm__active'}}" style="z-index:{{settings.getZIndex(currentSite.handle)}}" data-site-handle="{{currentSite.handle}}"></div>
+    <div class="cm__blocked {{permissions == false or permissions == '' ? 'cm__active'}}" style="z-index:{{settings.getZIndex(currentSite.handle)}}"></div>
 {% endif %} 
-<div class="__cookiemng__ {{settings.getTheme(currentSite.handle)}} {{permissions == false or permissions == '' ? 'cm__active'}} {{settings.getCornerPanel(currentSite.handle) ? 'cm__corner'}} {{settings.getRoundedCorners(currentSite.handle) ? 'cm__rounded'}} {{settings.getInverted(currentSite.handle) ? 'cm__inverted'}}" data-google-consent="{{cookieGoogleEnabled ? 1 : 0}}" style="z-index:{{(settings.getZIndex(currentSite.handle) + 1)}}">
+<div class="__cookiemng__ {{settings.getTheme(currentSite.handle)}} {{permissions == false or permissions == '' ? 'cm__active'}} {{settings.getCornerPanel(currentSite.handle) ? 'cm__corner'}} {{settings.getRoundedCorners(currentSite.handle) ? 'cm__rounded'}} {{settings.getInverted(currentSite.handle) ? 'cm__inverted'}}" data-google-consent="{{cookieGoogleEnabled ? 1 : 0}}" style="z-index:{{(settings.getZIndex(currentSite.handle) + 1)}}"  data-site-handle="{{currentSite.handle}}">
      <div class="cm__button cm__close" data-cm-action="onClose"></div>
      <div class="cm__container cm__full cm__active" data-cm-view="default">
-          {{currentSite.handle}}
           <div class="cm__content {{settings.getCornerPanel(currentSite.handle) ? 'cm__full'}}">
                 <h3>{{settings.getCookiesHeader(currentSite.handle)}}</h3>
           </div>
