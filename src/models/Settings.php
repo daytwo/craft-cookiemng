@@ -119,7 +119,7 @@ class Settings extends Model
     public $functionalTitle;
     public $functionalDescription;
     public function getFunctionalCookies(string $siteHandle = null) {
-        return \craft\helpers\ConfigHelper::localizedValue($this->functionalCookies, $siteHandle);
+        return true; //return \craft\helpers\ConfigHelper::localizedValue($this->functionalCookies, $siteHandle);
     }
     public function getFunctionalTitle(string $siteHandle = null) {
         return \craft\helpers\ConfigHelper::localizedValue($this->functionalTitle, $siteHandle);
