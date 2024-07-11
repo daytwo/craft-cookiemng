@@ -31,6 +31,7 @@ class CookieMngVariables
 
   public function skipCookiePanelDisplay($siteHandle = "default",$segments){
     if($segments && count($segments) > 0){
+      $settings = CookieMng::$instance->getSettings();
       $split = explode('/',$settings->getCookiesReadMoreLink($siteHandle));
       return ($segments[count($segments) - 1]) === $split[count($split) - 1];
     }
