@@ -29,7 +29,7 @@ use craft\web\View;
 class CookieMngVariables
 {
 
-  public function getCookieLinkSlug($siteHandle = "default",$segments){
+  public function skipCookiePanelDisplay($siteHandle = "default",$segments){
     if($segments && count($segments) > 0){
       $split = explode('/',$settings->getCookiesReadMoreLink($siteHandle));
       return ($segments[count($segments) - 1]) === $split[count($split) - 1];
