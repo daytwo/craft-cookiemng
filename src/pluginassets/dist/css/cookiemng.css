@@ -205,6 +205,14 @@
         &:hover{
             background-color: var(--cm_accent_color-light);
         }
+
+        &.outline{
+            border-color:var(--cm_button_color);
+            background-color:var(--cm_background_color);
+            &:hover{
+                background-color: var(--cm_accent_color-light);
+            }
+        }
     
         &.cm__close{
             display:none;
@@ -314,6 +322,15 @@
         .cm__button{
             background-color: var(--cm_inverted_button_background);
             color: var(--cm_inverted_button_text);
+            &:hover{
+                background-color: var(--cm_accent_color-dark);
+            }
+
+            &.outline{
+                border-color:var(--cm_inverted_button_text);
+                background-color:var(--cm_accent_color);                
+            }
+
         }
     }
 
