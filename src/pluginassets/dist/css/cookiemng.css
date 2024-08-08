@@ -319,7 +319,7 @@
     }
     &.cm__inverted{
         background-color:var(--cm_accent_color);
-        color:var(--cm_button_color);
+        color:var(--cm_button_color); 
         .cm__button{
             background-color: var(--cm_inverted_button_background);
             color: var(--cm_inverted_button_text);
