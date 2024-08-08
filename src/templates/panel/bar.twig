@@ -45,12 +45,12 @@
           <div class="cm__content cm__inline-button">
                 {% if not settings.getCornerPanel(siteHandle) %}
                      <div class="cm__button" data-cm-action="onFunctional">{{settings.getAcceptFunctionalButton(siteHandle)}}</div>
-                     <div class="cm__button" data-cm-action="onCustomize outline">{{settings.getCustomizeButton(siteHandle)}}</div>
+                     <div class="cm__button cm__outline" data-cm-action="onCustomize">{{settings.getCustomizeButton(siteHandle)}}</div>
                 {% endif %}
                 {% if settings.getCornerPanel(siteHandle) %}
-                     <div class="cm__button" data-cm-action="onSave outline">{{settings.getSaveButton(siteHandle)}}</div>
+                     <div class="cm__button cm__outline" data-cm-action="onSave">{{settings.getSaveButton(siteHandle)}}</div>
                 {% endif %}
-                <div class="cm__button" data-cm-action="onAll outline">{{settings.getAcceptAllButton(siteHandle)}}</div>
+                <div class="cm__button cm__outline" data-cm-action="onAll">{{settings.getAcceptAllButton(siteHandle)}}</div>
           </div>
      </div>
      {% if not settings.getCornerPanel(siteHandle) %}
@@ -121,8 +121,8 @@
                 </div>
                 <div class="cm__content cm__inline-button">
                      <div class="cm__button" data-cm-action="onSave">{{settings.getSaveButton(siteHandle)}}</div>
-                     <div class="cm__button outline" data-cm-action="onFunctional">{{settings.getAcceptFunctionalButton(siteHandle)}}</div>
-                     <div class="cm__button outline" data-cm-action="onAll">{{settings.getAcceptAllButton(siteHandle)}}</div>
+                     <div class="cm__button cm__outline" data-cm-action="onFunctional">{{settings.getAcceptFunctionalButton(siteHandle)}}</div>
+                     <div class="cm__button cm__outline" data-cm-action="onAll">{{settings.getAcceptAllButton(siteHandle)}}</div>
                 </div>
           </div>
      {% endif %}

@@ -206,8 +206,9 @@
             background-color: var(--cm_accent_color-light);
         }
 
-        &.outline{
-            border-color:var(--cm_button_color);
+        &.cm__outline{
+            color:var(--cm_accent_color);
+            border-color:var(--cm_accent_color);
             background-color:var(--cm_background_color);
             &:hover{
                 background-color: var(--cm_accent_color-light);
@@ -326,8 +327,9 @@
                 background-color: var(--cm_accent_color-dark);
             }
 
-            &.outline{
-                border-color:var(--cm_inverted_button_text);
+            &.cm__outline{
+                color: var(--cm_inverted_button_background);
+                border-color: var(--cm_inverted_button_background);
                 background-color:var(--cm_accent_color);                
             }
 
