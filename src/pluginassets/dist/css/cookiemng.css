@@ -21,8 +21,11 @@
     --cm_button_color: white;
     --cm_text_color: black;
     --cm_text_color-light: rgb(39, 39, 39);
-    --cm_inverted_button_background: black;
-    --cm_inverted_button_text: white;
+    --cm_inverted_button_background: white;
+    --cm_inverted_button_text: black;
+
+    --cm_inverted_button_background_outline: #0e3da3;
+    --cm_inverted_button_text_outline: white;
 
     font-family: inherit;
     font-size:0.9rem;
@@ -54,8 +57,11 @@
         --cm_background_color-light: rgba(125, 125, 125,0.075);
         --cm_text_color: black;
         --cm_text_color-light: rgb(39, 39, 39);
-        --cm_inverted_button_background: black;
-        --cm_inverted_button_text: white;
+        --cm_inverted_button_background: white;
+        --cm_inverted_button_text: black;
+
+        --cm_inverted_button_background_outline: #0e3da3;
+        --cm_inverted_button_text_outline: white;
     }
     &.green{
         --cm_accent_color: #349610;
@@ -66,8 +72,11 @@
         --cm_background_color-light: rgba(125, 125, 125,0.075);
         --cm_text_color: black;
         --cm_text_color-light: rgb(39, 39, 39);
-        --cm_inverted_button_background: black;
-        --cm_inverted_button_text: white;
+        --cm_inverted_button_background: white;
+        --cm_inverted_button_text: black;
+
+        --cm_inverted_button_background_outline: #349610;
+        --cm_inverted_button_text_outline: white;
     }
     &.red{
         --cm_accent_color: #a71c1c;
@@ -78,8 +87,11 @@
         --cm_background_color-light: rgba(125, 125, 125,0.075);
         --cm_text_color: black;
         --cm_text_color-light: rgb(39, 39, 39);
-        --cm_inverted_button_background: black;
-        --cm_inverted_button_text: white;
+        --cm_inverted_button_background: white;
+        --cm_inverted_button_text: black;
+
+        --cm_inverted_button_background_outline: #a71c1c;
+        --cm_inverted_button_text_outline: white;
     }
     &.yellow{
         --cm_accent_color: #ffd400;
@@ -92,6 +104,9 @@
         --cm_text_color-light: rgb(39, 39, 39);
         --cm_inverted_button_background: black;
         --cm_inverted_button_text: white;
+
+        --cm_inverted_button_background_outline: #ffd400;
+        --cm_inverted_button_text_outline: black;
     }
     &.purple{
         --cm_accent_color: #5b0c88;
@@ -102,8 +117,11 @@
         --cm_background_color-light: rgba(125, 125, 125,0.075);
         --cm_text_color: black;
         --cm_text_color-light: rgb(39, 39, 39);
-        --cm_inverted_button_background: black;
-        --cm_inverted_button_text: white;
+        --cm_inverted_button_background: white;
+        --cm_inverted_button_text: black;
+
+        --cm_inverted_button_background_outline: #5b0c88;
+        --cm_inverted_button_text_outline: white;
     }
     &.black{
         --cm_accent_color: black;
@@ -116,6 +134,9 @@
         --cm_text_color-light: rgb(39, 39, 39);
         --cm_inverted_button_background: white;
         --cm_inverted_button_text: black;        
+
+        --cm_inverted_button_background_outline: black;
+        --cm_inverted_button_text_outline: white;
     }
 
     position:fixed;
@@ -211,6 +232,7 @@
             color:var(--cm_accent_color);
             border-color:var(--cm_accent_color);
             background-color:var(--cm_background_color);
+
             &:hover{
                 border-color:var(--cm_accent_color-light);
                 background-color: var(--cm_accent_color-light);
@@ -331,10 +353,12 @@
             }
 
             &.cm__outline{
-                border-color: var(--cm_inverted_button_background);
-                color: var(--cm_inverted_button_background);
-                background-color:var(--cm_accent_color);         
+                border-color: var(--cm_inverted_button_text_outline);
+                color: var(--cm_inverted_button_text_outline);
+                background-color:var(--cm_inverted_button_background_outline);    
+
                 &:hover{
+                    border-color: var(--cm_inverted_button_background);
                     background-color: var(--cm_inverted_button_background);
                     color: var(--cm_inverted_button_text);
                 }       
