@@ -44,7 +44,7 @@
           {% endif %}
           <div class="cm__content cm__inline-button">
                 {% if not settings.getCornerPanel(siteHandle) %}
-                     <div class="cm__button" data-cm-action="onFunctional" role="button" tabindex="0" aria-label="Accept {{settings.getAcceptFunctionalButton(siteHandle)}}">{{settings.getAcceptFunctionalButton(siteHandle)}}</div>
+                     <div class="cm__button" data-cm-action="onFunctional" role="button" tabindex="0" aria-label="{{settings.getAcceptFunctionalButton(siteHandle)}}">{{settings.getAcceptFunctionalButton(siteHandle)}}</div>
                      <div class="cm__button cm__outline" data-cm-action="onCustomize" role="button" tabindex="0" aria-label="{{settings.getCustomizeButton(siteHandle)}}">{{settings.getCustomizeButton(siteHandle)}}</div>
                 {% endif %}
                 {% if settings.getCornerPanel(siteHandle) %}
