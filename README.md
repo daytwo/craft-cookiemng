@@ -111,3 +111,17 @@ return [
 
 6. The configuration changes will now take effect.
 
+## OUTPUT
+
+In order to do add the cookie manager panel to your website you must add this to your templates:
+
+Right after the opening the `<head>` tag
+```
+    {{craft.cookiemng.consentTemplate(currentSite.handle)|raw}}
+````
+
+Right before closing the `<body/>` tag
+```
+    {{ craft.cookiemng.render(currentSite.handle)|raw }}
+```
+			
