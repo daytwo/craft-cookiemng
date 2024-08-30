@@ -68,20 +68,24 @@ class CookieMngVariables
   #TWIG => {{ craft.cookiemng.render()|raw }}
   public function render($siteHandle = "default", $segments=null)
   {
-    $deactiveate == false;
-    //if($segments && count($segments) > 0){
+    $deactivated = false;
+    if($segments && count($segments) > 0){
       $settings = CookieMng::$instance->getSettings();
       $split = explode('/',$settings->getCookiesReadMoreLink($siteHandle));
+      if($settings->getCookiesReadMoreLink($siteHandle) != '/' && substr($settings->getCookiesReadMoreLink($siteHandle), 0, 1) == '/'){
+        array_shift($split);
+      }
       $matches = 0;
-      for($i=count($segments)-1; $i>=0; $i--){
-        if($segments[$i] === $split[$i]){
-          $matches++;
+      if(count($segments) == count($split)){
+        for($i=count($segments)-1; $i>=0; $i--){
+          if($segments[$i] === $split[$i]){
+            $matches++;
+          }
         }
       }
-      return "<p>".implode('--',$segments)."<br />".implode('--',$split)."</p>";
+      $deactivated = ($matches === count($split));
+    }
 
-      $deactiveate = ($matches === count($split));
-    //
 
     Craft::$app->view->registerAssetBundle(PluginAssets::class);
     $settings = CookieMng::$instance->getSettings();
@@ -93,7 +97,7 @@ class CookieMngVariables
 
     $permissions = CookieMng::$instance->services->getPermissionCookie($siteHandle);
     $permissions = $permissions ? $permissions : '';
-    return Craft::$app->view->renderTemplate('cookiemng/panel/bar.twig',['settings'=>$settings,'permissions'=>$permissions ? explode(',',$permissions) : false,'siteHandle'=>$siteHandle,'deactivated'=>$deactiveate],View::TEMPLATE_MODE_CP);
+    return Craft::$app->view->renderTemplate('cookiemng/panel/bar.twig',['settings'=>$settings,'permissions'=>$permissions ? explode(',',$permissions) : false,'siteHandle'=>$siteHandle,'deactivated'=>$deactivated],View::TEMPLATE_MODE_CP);
   }
 
   #TWIG => {{ craft.cookiemng.consentTemplate()|raw }}
