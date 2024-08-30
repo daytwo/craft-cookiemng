@@ -78,6 +78,8 @@ class CookieMngVariables
           $matches++;
         }
       }
+      return "<p>".implode('--',$segments)."<br />".implode('--',$split)."</p>";
+
       $deactiveate = ($matches === count($split));
     }
 
