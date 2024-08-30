@@ -11,7 +11,7 @@
         "rss": "https://github.com/daytwo/craft-cookiemng/releases.atom"
     },
     "require": {
-        "craftcms/cms": "^4.5.0"
+        
     },
     "require-dev": {
         "craftcms/ecs": "dev-main",
