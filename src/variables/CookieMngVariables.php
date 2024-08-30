@@ -69,7 +69,7 @@ class CookieMngVariables
   public function render($siteHandle = "default", $segments=null)
   {
     $deactiveate == false;
-    if($segments && count($segments) > 0){
+    //if($segments && count($segments) > 0){
       $settings = CookieMng::$instance->getSettings();
       $split = explode('/',$settings->getCookiesReadMoreLink($siteHandle));
       $matches = 0;
@@ -81,7 +81,7 @@ class CookieMngVariables
       return "<p>".implode('--',$segments)."<br />".implode('--',$split)."</p>";
 
       $deactiveate = ($matches === count($split));
-    }
+    //
 
     Craft::$app->view->registerAssetBundle(PluginAssets::class);
     $settings = CookieMng::$instance->getSettings();
