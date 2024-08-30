@@ -117,11 +117,20 @@ In order to do add the cookie manager panel to your website you must add this to
 
 Right after the opening the `<head>` tag
 ```
-    {{craft.cookiemng.consentTemplate(currentSite.handle)|raw}}
+{{craft.cookiemng.consentTemplate(currentSite.handle)|raw}}
 ````
 
 Right before closing the `<body/>` tag
 ```
-    {{ craft.cookiemng.render(currentSite.handle)|raw }}
+{{ craft.cookiemng.render(currentSite.handle,craft.app.request.segments)|raw }}
 ```
-			
+
+The segments is an optional parameter. When passed the plugin will check if this matches the url pattern from the "read more" page, which is usually a privacy policy page, and hide the popup form that page (so users can properly read it)
+
+7. Trigger the cookie panel to be displayed after the user has dismissed it
+
+This is a mandatory feature and should be available for users to change their preferences at any time.
+You can trigger it via javascript by calling:
+```
+cm_displaySettings();
+```
