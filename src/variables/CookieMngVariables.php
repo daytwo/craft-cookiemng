@@ -66,24 +66,27 @@ class CookieMngVariables
   }
   
   #TWIG => {{ craft.cookiemng.render()|raw }}
-  public function render($siteHandle = "default", $segments=null)
+  public function render($siteHandle = "default", $hidenInReadMore = false)
   {
     $deactivated = false;
-    if($segments && count($segments) > 0){
-      $settings = CookieMng::$instance->getSettings();
-      $split = explode('/',$settings->getCookiesReadMoreLink($siteHandle));
-      if($settings->getCookiesReadMoreLink($siteHandle) != '/' && substr($settings->getCookiesReadMoreLink($siteHandle), 0, 1) == '/'){
-        array_shift($split);
-      }
-      $matches = 0;
-      if(count($segments) == count($split)){
-        for($i=count($segments)-1; $i>=0; $i--){
-          if($segments[$i] === $split[$i]){
-            $matches++;
+    if($hidenInReadMore){
+      $segments =Craft::$app->getRequest()->segments;
+      if($segments && count($segments) > 0){
+        $settings = CookieMng::$instance->getSettings();
+        $split = explode('/',$settings->getCookiesReadMoreLink($siteHandle));
+        if($settings->getCookiesReadMoreLink($siteHandle) != '/' && substr($settings->getCookiesReadMoreLink($siteHandle), 0, 1) == '/'){
+          array_shift($split);
+        }
+        $matches = 0;
+        if(count($segments) == count($split)){
+          for($i=count($segments)-1; $i>=0; $i--){
+            if($segments[$i] === $split[$i]){
+              $matches++;
+            }
           }
         }
+        $deactivated = ($matches === count($split));
       }
-      $deactivated = ($matches === count($split));
     }
 
 

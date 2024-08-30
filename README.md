@@ -122,10 +122,10 @@ Right after the opening the `<head>` tag
 
 Right before closing the `<body/>` tag
 ```
-{{ craft.cookiemng.render(currentSite.handle,craft.app.request.segments)|raw }}
+{{ craft.cookiemng.render(currentSite.handle,true|false)|raw }}
 ```
 
-The segments is an optional parameter. When passed the plugin will check if this matches the url pattern from the "read more" page, which is usually a privacy policy page, and hide the popup form that page (so users can properly read it)
+THe second parameter defines if the popup should be hidden when the user access the "Read More" link. When 'true' the plugin will check if the current requested url matches the url pattern from the "read more" page, which is usually a privacy policy page, and hide the popup automatically (so users can properly read it).
 
 7. Trigger the cookie panel to be displayed after the user has dismissed it
 
