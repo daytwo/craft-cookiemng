@@ -10,9 +10,10 @@
         "docs": "https://github.com/daytwo/craft-cookiemng",
         "rss": "https://github.com/daytwo/craft-cookiemng/releases.atom"
     },
-    "require": {
-        
-    },
+      "require": {
+        "craftcms/cms": "^4.5.0",
+        "php": "^8.0.2"
+      },
     "require-dev": {
         "craftcms/ecs": "dev-main",
         "craftcms/phpstan": "dev-main"
@@ -35,10 +36,6 @@
         "phpstan": "phpstan --memory-limit=1G"
     },
     "config": {
-        "sort-packages": true,
-        "platform": {
-            "php": "8.0.2"
-        },
         "allow-plugins": {
             "yiisoft/yii2-composer": true,
             "craftcms/plugin-installer": true
