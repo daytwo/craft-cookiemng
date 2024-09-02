@@ -39,9 +39,9 @@
         "allow-plugins": {
             "yiisoft/yii2-composer": true,
             "craftcms/plugin-installer": true
-        }
+        },
         "platform": {
-            "php": "8.2.0"
+            "php": "8.2"
         }
     }
 }
