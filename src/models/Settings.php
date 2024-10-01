@@ -101,7 +101,7 @@ class Settings extends Model
     public function getPrimaryButtons(string $siteHandle = null) {
         $data = \craft\helpers\ConfigHelper::localizedValue($this->primaryButtons, $siteHandle);
         if(!$data || $data == []){
-            return null;
+            return ['functional','save'];
         }
         return $data;
     }
