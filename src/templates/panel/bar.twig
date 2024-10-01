@@ -44,13 +44,13 @@
           {% endif %}
           <div class="cm__content cm__inline-button">
                 {% if not settings.getCornerPanel(siteHandle) %}
-                     <div class="cm__button" data-cm-action="onFunctional" role="button" tabindex="0" aria-label="{{settings.getAcceptFunctionalButton(siteHandle)}}">{{settings.getAcceptFunctionalButton(siteHandle)}}</div>
-                     <div class="cm__button cm__outline" data-cm-action="onCustomize" role="button" tabindex="0" aria-label="{{settings.getCustomizeButton(siteHandle)}}">{{settings.getCustomizeButton(siteHandle)}}</div>
+                     <div class="cm__button {{'functional' not in settings.getPrimaryButtons(siteHandle) ? 'cm__outline'}}" data-cm-action="onFunctional" role="button" tabindex="0" aria-label="{{settings.getAcceptFunctionalButton(siteHandle)}}">{{settings.getAcceptFunctionalButton(siteHandle)}}</div>
+                     <div class="cm__button {{'customize' not in settings.getPrimaryButtons(siteHandle) ? 'cm__outline'}}" data-cm-action="onCustomize" role="button" tabindex="0" aria-label="{{settings.getCustomizeButton(siteHandle)}}">{{settings.getCustomizeButton(siteHandle)}}</div>
                 {% endif %}
                 {% if settings.getCornerPanel(siteHandle) %}
-                     <div class="cm__button cm__outline" data-cm-action="onSave" role="button" tabindex="0" aria-label="{{settings.getSaveButton(siteHandle)}}">{{settings.getSaveButton(siteHandle)}}</div>
+                     <div class="cm__button {{'save' not in settings.getPrimaryButtons(siteHandle) ? 'cm__outline'}}" data-cm-action="onSave" role="button" tabindex="0" aria-label="{{settings.getSaveButton(siteHandle)}}">{{settings.getSaveButton(siteHandle)}}</div>
                 {% endif %}
-                <div class="cm__button cm__outline" data-cm-action="onAll" role="button" tabindex="0" aria-label="{{settings.getAcceptAllButton(siteHandle)}}">{{settings.getAcceptAllButton(siteHandle)}}</div>
+                <div class="cm__button {{'all' not in settings.getPrimaryButtons(siteHandle) ? 'cm__outline'}}" data-cm-action="onAll" role="button" tabindex="0" aria-label="{{settings.getAcceptAllButton(siteHandle)}}">{{settings.getAcceptAllButton(siteHandle)}}</div>
           </div>
      </div>
      {% if not settings.getCornerPanel(siteHandle) %}
@@ -120,9 +120,9 @@
                      {% endif %}
                 </div>
                 <div class="cm__content cm__inline-button">
-                     <div class="cm__button" data-cm-action="onSave">{{settings.getSaveButton(siteHandle)}}</div>
-                     <div class="cm__button cm__outline" data-cm-action="onFunctional">{{settings.getAcceptFunctionalButton(siteHandle)}}</div>
-                     <div class="cm__button cm__outline" data-cm-action="onAll">{{settings.getAcceptAllButton(siteHandle)}}</div>
+                     <div class="cm__button {{'save' not in settings.getPrimaryButtons(siteHandle) ? 'cm__outline'}}" data-cm-action="onSave">{{settings.getSaveButton(siteHandle)}}</div>
+                     <div class="cm__button {{'functional' not in settings.getPrimaryButtons(siteHandle) ? 'cm__outline'}}" data-cm-action="onFunctional">{{settings.getAcceptFunctionalButton(siteHandle)}}</div>
+                     <div class="cm__button {{'all' not in settings.getPrimaryButtons(siteHandle) ? 'cm__outline'}}" data-cm-action="onAll">{{settings.getAcceptAllButton(siteHandle)}}</div>
                 </div>
           </div>
      {% endif %}
