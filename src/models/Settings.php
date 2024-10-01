@@ -79,6 +79,7 @@ class Settings extends Model
     public $denyAllButton;
     public $closeButton;
     public $customizeButton;
+    public $primaryButtons;
     public function getSaveButton(string $siteHandle = null) {
         return \craft\helpers\ConfigHelper::localizedValue($this->saveButton, $siteHandle);
     }
@@ -96,6 +97,13 @@ class Settings extends Model
     }
     public function getCustomizeButton(string $siteHandle = null) {
         return \craft\helpers\ConfigHelper::localizedValue($this->customizeButton, $siteHandle);
+    }
+    public function getPrimaryButtons(string $siteHandle = null) {
+        $data = \craft\helpers\ConfigHelper::localizedValue($this->primaryButtons, $siteHandle);
+        if(!$data || $data == []){
+            return null;
+        }
+        return $data;
     }
 
     public $cookiesHeader;
