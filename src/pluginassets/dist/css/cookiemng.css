@@ -202,6 +202,9 @@
                 margin: initial !important;
                 cursor: pointer !important;
                 visibility: visible !important;
+                -webkit-appearance: auto !important;
+                -moz-appearance: auto !important;
+                appearance: auto !important;
                 &:focus{
                     -webkit-appearance: auto !important;
                     -moz-appearance: auto !important;
