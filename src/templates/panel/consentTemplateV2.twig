@@ -3,7 +3,7 @@
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     {% if settings.getCookieGoogleEnabled(siteHandle) %}
-        let data = {
+        let object = {
             'ad_storage': '{{"advertising" in permissions ? 'granted' : 'denied'}}', //advertising
             'ad_user_data': '{{"advertising" in permissions ? 'granted' : 'denied'}}', //advertising
             'ad_personalization': '{{"personalization" in permissions ? 'granted' : 'denied'}}', //personalization
@@ -12,9 +12,19 @@
             'functionality_storage': 'granted', //functional
             'security_storage': 'granted' //functional
         }
-        gtag('consent', 'default', data);
+        gtag('consent', 'default', object);
 
-        data['event'] = 'd2_cookiemng_consent_update';
+        let data = {
+            'event': 'd2_cookiemng_consent_update',
+            'ad_storage': '{{"advertising" in permissions ? 'granted' : 'denied'}}', //advertising
+            'ad_user_data': '{{"advertising" in permissions ? 'granted' : 'denied'}}', //advertising
+            'ad_personalization': '{{"personalization" in permissions ? 'granted' : 'denied'}}', //personalization
+            'personalization_storage': '{{"personalization" in permissions ? 'granted' : 'denied'}}', //personalization
+            'analytics_storage': '{{"analytics" in permissions ? 'granted' : 'denied'}}', //analytics
+            'functionality_storage': 'granted', //functional
+            'security_storage': 'granted' //functional
+        }
+
         dataLayer.push(data);
         
     {% endif %}
