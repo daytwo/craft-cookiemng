@@ -3,7 +3,7 @@
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     {% if settings.getCookieGoogleEnabled(siteHandle) %}
-        gtag('consent', 'default', {
+        let data = {
             'ad_storage': '{{"advertising" in permissions ? 'granted' : 'denied'}}', //advertising
             'ad_user_data': '{{"advertising" in permissions ? 'granted' : 'denied'}}', //advertising
             'ad_personalization': '{{"personalization" in permissions ? 'granted' : 'denied'}}', //personalization
@@ -11,7 +11,12 @@
             'analytics_storage': '{{"analytics" in permissions ? 'granted' : 'denied'}}', //analytics
             'functionality_storage': 'granted', //functional
             'security_storage': 'granted' //functional
-        });
+        }
+        gtag('consent', 'default', data);
+
+        data['event'] = 'd2_cookiemng_consent_update';
+        dataLayer.push(data);
+        
     {% endif %}
     let cm_updateConsent = (granted,denied) => {
         {% if not settings.getCookieGoogleEnabled(siteHandle) %}
@@ -56,14 +61,16 @@
                     break;
             }
         });
-        for (const [key, value] of Object.entries(consent_list)) {
-            let object = {};
-            object[key] = value;
-            gtag('consent', 'update', object);
-        }
-
-        dataLayer.push({
+        let object = {};
+        let data = {
             'event': 'd2_cookiemng_consent_update',
-        });
+        }
+        for (const [key, value] of Object.entries(consent_list)) {
+            object[key] = value;
+            data[key] = value;
+        }
+        gtag('consent', 'update', object);
+
+        dataLayer.push(data);
     }
 </script>
