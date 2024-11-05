@@ -61,5 +61,9 @@
             object[key] = value;
             gtag('consent', 'update', object);
         }
+
+        dataLayer.push({
+            'event': 'd2_cookiemng_consent_update',
+        });
     }
 </script>
