@@ -29,10 +29,10 @@ use yii\base\Event;
  */
 class CookieMng extends Plugin
 {
-    public string $schemaVersion = '1.0.0';
+    public $schemaVersion = '1.0.0';
     //public bool $hasCpSettings = true;
-    public bool $hasCpSettings = false;
-    public bool $hasCpSection = false;
+    public $hasCpSettings = false;
+    public $hasCpSection = false;
 
     public static $instance;
     public static $plugin;
@@ -66,10 +66,9 @@ class CookieMng extends Plugin
         ]);
         
         // Defer most setup tasks until Craft is fully initialized
-        Craft::$app->onInit(function() {
+        if (Craft::$app instanceof \craft\web\Application) {
             $this->attachEventHandlers();
-        });
-
+        }
     }
 
     public function getEnvValues(): object

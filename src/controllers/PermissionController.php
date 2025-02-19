@@ -35,7 +35,7 @@ class PermissionController extends Controller
     //protected bool|array|int $allowAnonymous = true;
 
     //allow non-looged in calls to specific methods
-    protected bool|array|int $allowAnonymous = ['example','set'];
+    protected $allowAnonymous = ['example','set'];
 
     #In case you need to remove CSRF valiation
     protected $skipCSRF = ['example','set']; 
