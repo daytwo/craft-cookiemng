@@ -64,9 +64,9 @@
         --cm_inverted_button_text_outline: white;
     }
     &.green{
-        --cm_accent_color: #349610;
-        --cm_accent_color-light: #41ac1a;
-        --cm_accent_color-dark: #256f0a;
+        --cm_accent_color: #236510;
+        --cm_accent_color-light: rgb(77, 184, 38);
+        --cm_accent_color-dark: #1f650c;
         --cm_background_color: white;
         --cm_button_color: white;
         --cm_background_color-light: rgba(125, 125, 125,0.075);
@@ -75,7 +75,7 @@
         --cm_inverted_button_background: white;
         --cm_inverted_button_text: black;
 
-        --cm_inverted_button_background_outline: #349610;
+        --cm_inverted_button_background_outline: #236510;
         --cm_inverted_button_text_outline: white;
     }
     &.red{
