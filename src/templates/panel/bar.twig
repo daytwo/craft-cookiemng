@@ -9,10 +9,10 @@
                 <h3>{{settings.getCookiesHeader(siteHandle)}}</h3>
           </div>
           <div class="cm__content {{settings.getCornerPanel(siteHandle) ? 'cm__full'}}" style="{{settings.getCornerPanel(siteHandle) ? '' ? 'text-align:center;'}}">
-                {{settings.getCookiesDescription(siteHandle)|nl2br}}
-                {% if settings.getCookiesReadMoreLink(siteHandle)|default %}
-                     <br/><a href="{{settings.getCookiesReadMoreLink(siteHandle)}}" aria-label="{{settings.getCookiesReadMore(siteHandle)}} in a new window" target="_blank" style="margin-top:0.25rem;color:inherit; text-decoration:underline; font-weight:bold;">{{settings.getCookiesReadMore(siteHandle)}}</a>
-                {% endif %}
+               {{settings.getCookiesDescription(siteHandle)|raw|nl2br}}
+               {% if settings.getCookiesReadMoreLink(siteHandle)|default %}
+                    <br/><a href="{{settings.getCookiesReadMoreLink(siteHandle)}}" aria-label="{{settings.getCookiesReadMore(siteHandle)}} in a new window" target="_blank" style="margin-top:0.25rem;color:inherit; text-decoration:underline; font-weight:bold;">{{settings.getCookiesReadMore(siteHandle)}}</a>
+               {% endif %}
           </div>
           {% if settings.getCornerPanel(siteHandle) %}
                 <div class="cm__content {{settings.getCornerPanel(siteHandle) ? 'cm__full'}}">
@@ -59,7 +59,10 @@
                      <h3>{{settings.getCookiesHeader(siteHandle)}}</h3>
                 </div>
                 <div class="cm__content" style="text-align:center;">
-                     {{settings.getCookiesDescription(siteHandle)|nl2br}}
+                    {{settings.getCookiesDescription(siteHandle)|raw|nl2br}}
+                    {% if settings.getCookiesReadMoreLink(siteHandle)|default %}
+                         <br/><a href="{{settings.getCookiesReadMoreLink(siteHandle)}}" aria-label="{{settings.getCookiesReadMore(siteHandle)}} in a new window" target="_blank" style="margin-top:0.25rem;color:inherit; text-decoration:underline; font-weight:bold;">{{settings.getCookiesReadMore(siteHandle)}}</a>
+                    {% endif %}
                 </div>
                 <div class="cm__content">
                      {% if settings.getFunctionalCookies(siteHandle) %}
