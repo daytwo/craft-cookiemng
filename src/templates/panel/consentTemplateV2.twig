@@ -56,8 +56,8 @@
                     break;
             }
         });
+        let object = {};
         for (const [key, value] of Object.entries(consent_list)) {
-            let object = {};
             object[key] = value;
             gtag('consent', 'update', object);
         }
