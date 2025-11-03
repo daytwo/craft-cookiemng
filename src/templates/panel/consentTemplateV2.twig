@@ -3,7 +3,7 @@
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     {% if settings.getCookieGoogleEnabled(siteHandle) %}
-        gtag('consent', 'default', {
+        let consent = {
             'ad_storage': '{{"advertising" in permissions ? 'granted' : 'denied'}}', //advertising
             'ad_user_data': '{{"advertising" in permissions ? 'granted' : 'denied'}}', //advertising
             'ad_personalization': '{{"personalization" in permissions ? 'granted' : 'denied'}}', //personalization
@@ -11,7 +11,13 @@
             'analytics_storage': '{{"analytics" in permissions ? 'granted' : 'denied'}}', //analytics
             'functionality_storage': 'granted', //functional
             'security_storage': 'granted' //functional
-        });
+        };
+        {% if settings.getCookieGoogleEnabled(siteHandle) %}
+            consent['{{setting.getExtraCookieProperty(siteHandle)}}'] = {{setting.getExtraCookieProperty(siteHandle) in permissions ? 'granted' : 'denied'}};
+        {% endif %}
+        
+        gtag('consent', 'default', consent);
+
     {% endif %}
     let cm_updateConsent = (granted,denied) => {
         {% if not settings.getCookieGoogleEnabled(siteHandle) %}
@@ -35,6 +41,11 @@
                     consent_list['personalization_storage'] = 'granted'
                     consent_list['ad_personalization'] = 'granted'
                     break;
+                {% if settings.getCookieGoogleEnabled(siteHandle) %}
+                    case '{{setting.getExtraCookieProperty(siteHandle)}}':
+                        consent_list['{{setting.getExtraCookieProperty(siteHandle)}}'] = 'granted';
+                        break;
+                {% endif %}
             }
         });
         denied.forEach((prop)=>{
@@ -54,6 +65,11 @@
                     consent_list['personalization_storage'] = 'denied'
                     consent_list['ad_personalization'] = 'denied'
                     break;
+                {% if settings.getCookieGoogleEnabled(siteHandle) %}
+                    case '{{setting.getExtraCookieProperty(siteHandle)}}':
+                        consent_list['{{setting.getExtraCookieProperty(siteHandle)}}'] = 'denied';
+                        break;
+                {% endif %}
             }
         });
         let object = {};
