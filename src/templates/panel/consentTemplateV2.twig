@@ -72,10 +72,9 @@
                 {% endif %}
             }
         });
-        let object = {};
         for (const [key, value] of Object.entries(consent_list)) {
             object[key] = value;
-            gtag('consent', 'update', object);
+            data[key] = value;
         }
         dataLayer.push({'event': 'consent_update', 'consent': object});
     }

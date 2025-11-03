@@ -66,9 +66,8 @@ class CookieMngVariables
   }
   
   #TWIG => {{ craft.cookiemng.render()|raw }}
-  public function render($siteHandle = "default", $hidenInReadMore = false)
+  public function render($siteHandle = "default", $hidenInReadMore = false, $deactivated = false)
   {
-    $deactivated = false;
     if($hidenInReadMore){
       $segments =Craft::$app->getRequest()->segments;
       if($segments && count($segments) > 0){
