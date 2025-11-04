@@ -13,7 +13,7 @@
             'functionality_storage': 'granted', //functional
             'security_storage': 'granted' //functional
         };
-        var tet = {{settings.getExtraCookies(siteHandle)}};
+        
         {% if settings.getExtraCookies(siteHandle) %}
             consent['{{settings.getExtraCookieProperty(siteHandle)}}'] = "{{settings.getExtraCookieProperty(siteHandle) in permissions ? 'granted' : 'denied'}}";
         {% endif %}
@@ -74,10 +74,10 @@
                 {% endif %}
             }
         });
+        let data = {};
         for (const [key, value] of Object.entries(consent_list)) {
-            object[key] = value;
             data[key] = value;
         }
-        dataLayer.push({'event': 'consent_update', 'consent': object});
+        dataLayer.push({'event': 'consent_update', 'consent': data});
     }
 </script>
