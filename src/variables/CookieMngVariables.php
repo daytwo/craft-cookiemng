@@ -105,14 +105,14 @@ class CookieMngVariables
   {
     Craft::$app->view->registerAssetBundle(PluginAssets::class);
     $settings = CookieMng::$instance->getSettings();
-    //$env = CookieMng::$instance->getEnvValues();
 
     if (!$settings->getCookieEnabled($siteHandle)){
       return '';
     }
-        
-    $permissions = CookieMng::$instance->services->getPermissionCookie($siteHandle);
-    $permissions = $permissions ? $permissions : '';
-    return Craft::$app->view->renderTemplate('cookiemng/panel/consentTemplateV2.twig',['settings'=>$settings,'permissions'=>explode(',',$permissions),'siteHandle'=>$siteHandle],View::TEMPLATE_MODE_CP);
+    
+    // Return empty string - consent template is now loaded asynchronously
+    // The async loader (cookiemng-async.js) will inject the consent script
+    // This prevents cookie state from being cached in the HTML
+    return '';
   }
 }
