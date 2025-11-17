@@ -91,15 +91,13 @@ class CookieMngVariables
 
     Craft::$app->view->registerAssetBundle(PluginAssets::class);
     $settings = CookieMng::$instance->getSettings();
-    //$env = CookieMng::$instance->getEnvValues();
 
     if (!$settings->getCookieEnabled($siteHandle)){
       return '';
     }
 
-    $permissions = CookieMng::$instance->services->getPermissionCookie($siteHandle);
-    $permissions = $permissions ? $permissions : '';
-    return Craft::$app->view->renderTemplate('cookiemng/panel/bar.twig',['settings'=>$settings,'permissions'=>$permissions ? explode(',',$permissions) : false,'siteHandle'=>$siteHandle,'deactivated'=>$deactivated],View::TEMPLATE_MODE_CP);
+    // Return placeholder template for async loading to avoid CDN caching
+    return Craft::$app->view->renderTemplate('cookiemng/panel/placeholder.twig',['siteHandle'=>$siteHandle,'deactivated'=>$deactivated],View::TEMPLATE_MODE_CP);
   }
 
   #TWIG => {{ craft.cookiemng.consentTemplate()|raw }}
