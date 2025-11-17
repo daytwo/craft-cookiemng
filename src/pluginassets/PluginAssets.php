@@ -32,7 +32,7 @@ class PluginAssets extends AssetBundle
 		$this->sourcePath =
 			"@daytwo/cookiemng/pluginassets/dist";
 
-		$this->js = ['js/cookiemng.js'];
+		$this->js = ['js/cookiemng.js', 'js/cookiemng-async.js'];
 
 		$this->css = ['css/cookiemng.css'];
 
