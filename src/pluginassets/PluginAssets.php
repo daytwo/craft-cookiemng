@@ -28,7 +28,7 @@ class PluginAssets extends AssetBundle
 	/**
 	 * @inheritdoc
 	 */
-	public array $publishOptions = [
+	public $publishOptions = [
 		'hashCallback' => [self::class, 'hashForCookieMng'],
 	];
 
