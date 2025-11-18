@@ -11,6 +11,7 @@ namespace daytwo\cookiemng\pluginassets;
 */
 
 use Craft;
+use craft\helpers\App;
 use craft\web\AssetBundle;
 use craft\web\assets\cp\CpAsset;
 
@@ -27,6 +28,10 @@ class PluginAssets extends AssetBundle
 	/**
 	 * @inheritdoc
 	 */
+	public array $publishOptions = [
+		'hashCallback' => [self::class, 'hashForCookieMng'],
+	];
+
 	public function init()
 	{
 		$this->sourcePath =
@@ -37,5 +42,21 @@ class PluginAssets extends AssetBundle
 		$this->css = ['css/cookiemng.css'];
 
 		parent::init();
+	}
+
+	public static function hashForCookieMng(string $path): string
+	{
+		$realPath = App::normalizePath($path);
+		$source = App::normalizePath(Craft::getAlias('@daytwo/cookiemng/pluginassets/dist'));
+
+		if ($realPath === $source) {
+			$plugin = Craft::$app->getPlugins()->getPlugin('cookiemng');
+			$version = $plugin ? $plugin->getVersion() : 'latest';
+			$versionSlug = preg_replace('/[^A-Za-z0-9\-]/', '-', $version);
+
+			return sprintf('cookiemng-%s', $versionSlug ?: 'latest');
+		}
+
+		return md5($path);
 	}
 }

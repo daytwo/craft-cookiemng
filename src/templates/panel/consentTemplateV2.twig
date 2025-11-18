@@ -21,6 +21,21 @@
         gtag('consent', 'default', consent);
 
     {% endif %}
+    window.cmSyncConsentState = function(granted, denied, source){
+        const grantList = Array.from(new Set(['functional'].concat(granted || [])));
+        const denyList = Array.from(new Set((denied || []).filter((value)=>grantList.indexOf(value) === -1)));
+        const normalizedGranted = grantList.slice().sort();
+        const normalizedDenied = denyList.slice().sort();
+        window.cmConsentState = {
+            granted: normalizedGranted,
+            denied: normalizedDenied,
+            signature: normalizedGranted.join('|') + '::' + normalizedDenied.join('|'),
+            source: source,
+            lastUpdated: Date.now()
+        };
+        return window.cmConsentState;
+    };
+
     let cm_updateConsent = (granted,denied) => {
         {% if not settings.getCookieGoogleEnabled(siteHandle) %}
             return;
@@ -79,5 +94,39 @@
             data[key] = value;
         }
         dataLayer.push({'event': 'consent_update', 'consent': data});
+        window.cmSyncConsentState(granted, denied, 'user-action');
     }
+
+    const cmInitialGranted = ['functional'];
+    const cmInitialDenied = [];
+    {% if settings.getAnalyticsCookies(siteHandle) %}
+        {% if permissions is iterable and 'analytics' in permissions %}
+            cmInitialGranted.push('analytics');
+        {% else %}
+            cmInitialDenied.push('analytics');
+        {% endif %}
+    {% endif %}
+    {% if settings.getAdvertisingCookies(siteHandle) %}
+        {% if permissions is iterable and 'advertising' in permissions %}
+            cmInitialGranted.push('advertising');
+        {% else %}
+            cmInitialDenied.push('advertising');
+        {% endif %}
+    {% endif %}
+    {% if settings.getPersonalizationCookies(siteHandle) %}
+        {% if permissions is iterable and 'personalization' in permissions %}
+            cmInitialGranted.push('personalization');
+        {% else %}
+            cmInitialDenied.push('personalization');
+        {% endif %}
+    {% endif %}
+    {% if settings.getExtraCookies(siteHandle) %}
+        {% if permissions is iterable and settings.getExtraCookieProperty(siteHandle) in permissions %}
+            cmInitialGranted.push('{{settings.getExtraCookieProperty(siteHandle)}}');
+        {% else %}
+            cmInitialDenied.push('{{settings.getExtraCookieProperty(siteHandle)}}');
+        {% endif %}
+    {% endif %}
+
+    window.cmSyncConsentState(cmInitialGranted, cmInitialDenied, 'consent-script');
 </script>
