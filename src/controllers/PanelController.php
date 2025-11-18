@@ -76,15 +76,18 @@ class PanelController extends Controller
         }
         
         // Get current permissions from cookie
-        $permissions = CookieMng::$instance->services->getPermissionCookie($siteHandle);
-        $permissions = $permissions ? $permissions : '';
+        $permissions = CookieMng::$instance->services->getPermissionCookie($siteHandle) ?: '';
+        $permissionsList = [];
+        if ($permissions !== '') {
+            $permissionsList = array_values(array_filter(explode(',', $permissions)));
+        }
         
         // Render the panel HTML
         $html = Craft::$app->view->renderTemplate(
             'cookiemng/panel/bar.twig',
             [
                 'settings' => $settings,
-                'permissions' => $permissions ? explode(',', $permissions) : false,
+                'permissions' => $permissionsList ? $permissionsList : false,
                 'siteHandle' => $siteHandle,
                 'deactivated' => $deactivated
             ],
@@ -96,7 +99,7 @@ class PanelController extends Controller
             'cookiemng/panel/consentTemplateV2.twig',
             [
                 'settings' => $settings,
-                'permissions' => explode(',', $permissions),
+                'permissions' => $permissionsList,
                 'siteHandle' => $siteHandle
             ],
             View::TEMPLATE_MODE_CP
@@ -107,7 +110,8 @@ class PanelController extends Controller
             'enabled' => true,
             'html' => $html,
             'consentScript' => $consentScript,
-            'hasConsent' => !empty($permissions)
+            'hasConsent' => !empty($permissionsList),
+            'permissions' => $permissionsList
         ]);
     }
 }

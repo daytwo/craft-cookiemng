@@ -4,6 +4,12 @@
  */
 (function() {
     'use strict';
+    let cmEventSequence = 0;
+
+    const nextConsentEventId = () => {
+        cmEventSequence += 1;
+        return 'cm-' + Date.now().toString(36) + '-' + cmEventSequence;
+    };
     
     /**
      * Load the cookie panel from the server
@@ -123,6 +129,73 @@
         let cm_defaultView = document.querySelector(".cm__container[data-cm-view='default']");
         let cm_customizeView = document.querySelector(".cm__container[data-cm-view='customize']");
 
+        const ensureDataLayer = () => {
+            if (typeof window.dataLayer === 'undefined') {
+                window.dataLayer = [];
+            }
+            return window.dataLayer;
+        };
+
+        const collectConsentState = () => {
+            const granted = [];
+            const denied = [];
+            checks.forEach((check)=>{
+                const value = check.getAttribute('value');
+                if (!value) {
+                    return;
+                }
+                if(check.checked){
+                    granted.push(value);
+                }else{
+                    denied.push(value);
+                }
+            });
+            if (!granted.includes('functional')) {
+                granted.unshift('functional');
+            }
+            return {
+                granted: Array.from(new Set(granted)),
+                denied: Array.from(new Set(denied))
+            };
+        };
+
+        const updateConsentState = (source) => {
+            const current = collectConsentState();
+            const normalGranted = current.granted.slice().sort();
+            const normalDenied = current.denied.slice().sort();
+            const signature = normalGranted.join('|') + '::' + normalDenied.join('|');
+            const previous = window.cmConsentState || {};
+            const changed = previous.signature !== signature;
+            window.cmConsentState = {
+                granted: normalGranted,
+                denied: normalDenied,
+                signature: signature,
+                source: source,
+                lastUpdated: Date.now()
+            };
+            return {
+                granted: normalGranted,
+                denied: normalDenied,
+                changed: changed
+            };
+        };
+
+        const pushConsentEvent = (eventName, source, force) => {
+            const state = updateConsentState(source);
+            if (!force && !state.changed) {
+                return state;
+            }
+            const dl = ensureDataLayer();
+            dl.push({
+                event: eventName,
+                consentGranted: state.granted,
+                consentDenied: state.denied,
+                eventSource: source,
+                eventId: nextConsentEventId()
+            });
+            return state;
+        };
+
         let cm_onAll = () => {
             checks.forEach((check,index)=>{
                 check.checked = true;
@@ -156,6 +229,7 @@
             if(cm_triggerGoogleConsentConsent && typeof cm_updateConsent === 'function'){
                 cm_updateConsent(granted,denied);
             }
+            pushConsentEvent('cm_consent_applied', 'user-action');
             fetch('/actions/cookiemng/permission/set',{
                 method: 'POST',
                 headers: {
@@ -219,6 +293,11 @@
                 cm_blocked.classList.add('cm__active');
             }
         }
+
+        pushConsentEvent('cm_consent_ready', 'initial-load', true);
+        window.cmGetConsentState = function(){
+            return window.cmConsentState || {granted: [], denied: []};
+        };
     }
     
     /**
