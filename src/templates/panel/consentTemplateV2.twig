@@ -121,10 +121,13 @@
         {% endif %}
     {% endif %}
     {% if settings.getExtraCookies(siteHandle) %}
+        {% set extraSlug = settings.getExtraCookieProperty(siteHandle) %}
         {% if permissions is iterable and settings.getExtraCookieProperty(siteHandle) in permissions %}
-            cmInitialGranted.push('{{settings.getExtraCookieProperty(siteHandle)}}');
+            cmInitialGranted.push('{{extraSlug}}');
+            cmInitialGranted.push('custom_consent');
         {% else %}
-            cmInitialDenied.push('{{settings.getExtraCookieProperty(siteHandle)}}');
+            cmInitialDenied.push('{{extraSlug}}');
+            cmInitialDenied.push('custom_consent');
         {% endif %}
     {% endif %}
 

@@ -19,13 +19,29 @@ window.cmConsentState; // { granted: [], denied: [], signature, source, lastUpda
 window.cmGetConsentState(); // returns the same object; safe to call before events fire
 ```
 
-These make it easy to build custom variables inside GTM.
+These make it easy to build custom variables inside GTM. If you enable the plugin's optional "Extra" consent category, the plugin always exposes it to GTM under the canonical slug `custom_consent`, even if you rename the category in the control panel. That means you can wire GTM once and editors can rename the UI without breaking the triggers.
 
 ## 2. Preparing Google Tag Manager
 
 1. **Ensure the plugin assets load** on every page (the async loader handles this automatically).
 2. **Publish the GTM container** you are working with.
 3. **Open GTM Preview Mode** so you can watch data layer events in real time while configuring triggers.
+
+### Optional: Import the prebuilt workspace
+
+The repository ships with an importable workspace at `gtm-templates/cookiemng-consent-toolkit.json`. It contains:
+
+- Data Layer variables for `consentGranted`, `consentDenied`, `eventId`, and `eventSource`
+- Helper Custom JS variables that flatten granted/denied categories into comma-separated strings
+- Consent triggers for analytics/advertising/personalization and `custom_consent` (ready, applied, revoked)
+- Three paused example tags that illustrate how to fire on initial consent, mid-session opt-in, and revocation cleanup
+
+To import it:
+
+1. In GTM, go to **Admin → Container → Import Container**.
+2. Choose the JSON file and select either *Existing workspace* (Merge, overwrite conflicting) or create a new workspace.
+3. Review the summary so you understand which variables/triggers/tags will be created.
+4. Publish after replacing the placeholder HTML in the example tags with your production analytics/marketing tags.
 
 ## 3. Create Helpful Data Layer Variables
 
@@ -82,6 +98,10 @@ Apply this trigger as an *Exception* to any tag that requires analytics consent.
 ### Example: Marketing Pixel Requiring Advertising Consent
 
 Use the same pattern with `advertising` instead of `analytics` in the regex condition. The plugin automatically tracks extra/custom categories using the slug defined in the settings, so you can repeat the process for those values as well.
+
+### Example: Optional Custom Consent
+
+If you enable the plugin's extra consent toggle, GTM will always see it as `custom_consent`. Create triggers just like the ones above but match on `custom_consent`. Editors can rename the category for visitors without breaking your GTM wiring.
 
 ## 5. Handling Revocations Without Duplicate Firings
 

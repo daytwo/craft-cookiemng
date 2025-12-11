@@ -1,0 +1,405 @@
+{
+  "exportFormatVersion": 2,
+  "containerVersion": {
+    "accountId": "0",
+    "containerId": "0",
+    "containerVersionId": "0",
+    "name": "CookieMng Consent Toolkit",
+    "description": "Variables, triggers, and example tags for gating analytics/marketing tags from the CookieMng Craft plugin.",
+    "container": {
+      "accountId": "0",
+      "containerId": "0",
+      "name": "CookieMng Consent Toolkit",
+      "publicId": "GTM-XXXXXXX",
+      "usageContext": [
+        "WEB"
+      ]
+    },
+    "variable": [
+      {
+        "accountId": "0",
+        "containerId": "0",
+        "variableId": "1",
+        "name": "CM - Consent Granted (DLV)",
+        "type": "v",
+        "notes": "Array of consent categories granted on the latest CookieMng data layer event.",
+        "parameter": [
+          {"type": "TEMPLATE", "key": "name", "value": "consentGranted"},
+          {"type": "TEMPLATE", "key": "dataLayerVersion", "value": "2"},
+          {"type": "BOOLEAN", "key": "setDefaultValue", "value": "false"}
+        ]
+      },
+      {
+        "accountId": "0",
+        "containerId": "0",
+        "variableId": "2",
+        "name": "CM - Consent Denied (DLV)",
+        "type": "v",
+        "notes": "Array of consent categories denied on the latest CookieMng data layer event.",
+        "parameter": [
+          {"type": "TEMPLATE", "key": "name", "value": "consentDenied"},
+          {"type": "TEMPLATE", "key": "dataLayerVersion", "value": "2"},
+          {"type": "BOOLEAN", "key": "setDefaultValue", "value": "false"}
+        ]
+      },
+      {
+        "accountId": "0",
+        "containerId": "0",
+        "variableId": "3",
+        "name": "CM - Consent Event ID (DLV)",
+        "type": "v",
+        "notes": "Unique eventId pushed with each CookieMng consent event.",
+        "parameter": [
+          {"type": "TEMPLATE", "key": "name", "value": "eventId"},
+          {"type": "TEMPLATE", "key": "dataLayerVersion", "value": "2"},
+          {"type": "BOOLEAN", "key": "setDefaultValue", "value": "false"}
+        ]
+      },
+      {
+        "accountId": "0",
+        "containerId": "0",
+        "variableId": "4",
+        "name": "CM - Consent Source (DLV)",
+        "type": "v",
+        "notes": "Indicates whether the state came from initial-load or user-action.",
+        "parameter": [
+          {"type": "TEMPLATE", "key": "name", "value": "eventSource"},
+          {"type": "TEMPLATE", "key": "dataLayerVersion", "value": "2"},
+          {"type": "BOOLEAN", "key": "setDefaultValue", "value": "false"}
+        ]
+      },
+      {
+        "accountId": "0",
+        "containerId": "0",
+        "variableId": "5",
+        "name": "CM - Granted CSV",
+        "type": "jsm",
+        "notes": "Helper that flattens granted consent categories into a comma separated string for regex matching.",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "javascript",
+            "value": "function() {\n  var granted = {{CM - Consent Granted (DLV)}} || [];\n  if ((!granted || !granted.length) && window.cmGetConsentState) {\n    var state = window.cmGetConsentState();\n    if (state && Array.isArray(state.granted)) {\n      granted = state.granted;\n    }\n  } else if ((!granted || !granted.length) && window.cmConsentState && Array.isArray(window.cmConsentState.granted)) {\n    granted = window.cmConsentState.granted;\n  }\n  if (Array.isArray(granted)) {\n    return granted.join(',');\n  }\n  return '';\n}"
+          }
+        ]
+      },
+      {
+        "accountId": "0",
+        "containerId": "0",
+        "variableId": "6",
+        "name": "CM - Denied CSV",
+        "type": "jsm",
+        "notes": "Helper that flattens denied consent categories for regex checks.",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "javascript",
+            "value": "function() {\n  var denied = {{CM - Consent Denied (DLV)}} || [];\n  if ((!denied || !denied.length) && window.cmGetConsentState) {\n    var state = window.cmGetConsentState();\n    if (state && Array.isArray(state.denied)) {\n      denied = state.denied;\n    }\n  } else if ((!denied || !denied.length) && window.cmConsentState && Array.isArray(window.cmConsentState.denied)) {\n    denied = window.cmConsentState.denied;\n  }\n  if (Array.isArray(denied)) {\n    return denied.join(',');\n  }\n  return '';\n}"
+          }
+        ]
+      }
+    ],
+    "trigger": [
+      {
+        "accountId": "0",
+        "containerId": "0",
+        "triggerId": "1",
+        "name": "CM - Analytics Consent Ready",
+        "type": "CUSTOM_EVENT",
+        "status": "ENABLED",
+        "parameter": [
+          {"type": "TEMPLATE", "key": "eventName", "value": "cm_consent_ready"},
+          {"type": "BOOLEAN", "key": "useRegex", "value": "false"}
+        ],
+        "filter": [
+          {
+            "type": "MATCH_REGEX",
+            "parameter": [
+              {"type": "TEMPLATE", "key": "arg0", "value": "{{CM - Granted CSV}}"},
+              {"type": "TEMPLATE", "key": "arg1", "value": "(^|,)analytics($|,)"}
+            ]
+          }
+        ]
+      },
+      {
+        "accountId": "0",
+        "containerId": "0",
+        "triggerId": "2",
+        "name": "CM - Analytics Consent Applied",
+        "type": "CUSTOM_EVENT",
+        "status": "ENABLED",
+        "parameter": [
+          {"type": "TEMPLATE", "key": "eventName", "value": "cm_consent_applied"},
+          {"type": "BOOLEAN", "key": "useRegex", "value": "false"}
+        ],
+        "filter": [
+          {
+            "type": "MATCH_REGEX",
+            "parameter": [
+              {"type": "TEMPLATE", "key": "arg0", "value": "{{CM - Granted CSV}}"},
+              {"type": "TEMPLATE", "key": "arg1", "value": "(^|,)analytics($|,)"}
+            ]
+          }
+        ]
+      },
+      {
+        "accountId": "0",
+        "containerId": "0",
+        "triggerId": "3",
+        "name": "CM - Advertising Consent Ready",
+        "type": "CUSTOM_EVENT",
+        "status": "ENABLED",
+        "parameter": [
+          {"type": "TEMPLATE", "key": "eventName", "value": "cm_consent_ready"},
+          {"type": "BOOLEAN", "key": "useRegex", "value": "false"}
+        ],
+        "filter": [
+          {
+            "type": "MATCH_REGEX",
+            "parameter": [
+              {"type": "TEMPLATE", "key": "arg0", "value": "{{CM - Granted CSV}}"},
+              {"type": "TEMPLATE", "key": "arg1", "value": "(^|,)advertising($|,)"}
+            ]
+          }
+        ]
+      },
+      {
+        "accountId": "0",
+        "containerId": "0",
+        "triggerId": "4",
+        "name": "CM - Advertising Consent Applied",
+        "type": "CUSTOM_EVENT",
+        "status": "ENABLED",
+        "parameter": [
+          {"type": "TEMPLATE", "key": "eventName", "value": "cm_consent_applied"},
+          {"type": "BOOLEAN", "key": "useRegex", "value": "false"}
+        ],
+        "filter": [
+          {
+            "type": "MATCH_REGEX",
+            "parameter": [
+              {"type": "TEMPLATE", "key": "arg0", "value": "{{CM - Granted CSV}}"},
+              {"type": "TEMPLATE", "key": "arg1", "value": "(^|,)advertising($|,)"}
+            ]
+          }
+        ]
+      },
+      {
+        "accountId": "0",
+        "containerId": "0",
+        "triggerId": "5",
+        "name": "CM - Personalization Consent Ready",
+        "type": "CUSTOM_EVENT",
+        "status": "ENABLED",
+        "parameter": [
+          {"type": "TEMPLATE", "key": "eventName", "value": "cm_consent_ready"},
+          {"type": "BOOLEAN", "key": "useRegex", "value": "false"}
+        ],
+        "filter": [
+          {
+            "type": "MATCH_REGEX",
+            "parameter": [
+              {"type": "TEMPLATE", "key": "arg0", "value": "{{CM - Granted CSV}}"},
+              {"type": "TEMPLATE", "key": "arg1", "value": "(^|,)personalization($|,)"}
+            ]
+          }
+        ]
+      },
+      {
+        "accountId": "0",
+        "containerId": "0",
+        "triggerId": "6",
+        "name": "CM - Personalization Consent Applied",
+        "type": "CUSTOM_EVENT",
+        "status": "ENABLED",
+        "parameter": [
+          {"type": "TEMPLATE", "key": "eventName", "value": "cm_consent_applied"},
+          {"type": "BOOLEAN", "key": "useRegex", "value": "false"}
+        ],
+        "filter": [
+          {
+            "type": "MATCH_REGEX",
+            "parameter": [
+              {"type": "TEMPLATE", "key": "arg0", "value": "{{CM - Granted CSV}}"},
+              {"type": "TEMPLATE", "key": "arg1", "value": "(^|,)personalization($|,)"}
+            ]
+          }
+        ]
+      },
+      {
+        "accountId": "0",
+        "containerId": "0",
+        "triggerId": "7",
+        "name": "CM - Analytics Consent Revoked",
+        "type": "CUSTOM_EVENT",
+        "status": "ENABLED",
+        "parameter": [
+          {"type": "TEMPLATE", "key": "eventName", "value": "cm_consent_applied"},
+          {"type": "BOOLEAN", "key": "useRegex", "value": "false"}
+        ],
+        "filter": [
+          {
+            "type": "MATCH_REGEX",
+            "parameter": [
+              {"type": "TEMPLATE", "key": "arg0", "value": "{{CM - Denied CSV}}"},
+              {"type": "TEMPLATE", "key": "arg1", "value": "(^|,)analytics($|,)"}
+            ]
+          }
+        ]
+      },
+      {
+        "accountId": "0",
+        "containerId": "0",
+        "triggerId": "8",
+        "name": "CM - Advertising Consent Revoked",
+        "type": "CUSTOM_EVENT",
+        "status": "ENABLED",
+        "parameter": [
+          {"type": "TEMPLATE", "key": "eventName", "value": "cm_consent_applied"},
+          {"type": "BOOLEAN", "key": "useRegex", "value": "false"}
+        ],
+        "filter": [
+          {
+            "type": "MATCH_REGEX",
+            "parameter": [
+              {"type": "TEMPLATE", "key": "arg0", "value": "{{CM - Denied CSV}}"},
+              {"type": "TEMPLATE", "key": "arg1", "value": "(^|,)advertising($|,)"}
+            ]
+          }
+        ]
+      },
+      {
+        "accountId": "0",
+        "containerId": "0",
+        "triggerId": "9",
+        "name": "CM - Personalization Consent Revoked",
+        "type": "CUSTOM_EVENT",
+        "status": "ENABLED",
+        "parameter": [
+          {"type": "TEMPLATE", "key": "eventName", "value": "cm_consent_applied"},
+          {"type": "BOOLEAN", "key": "useRegex", "value": "false"}
+        ],
+        "filter": [
+          {
+            "type": "MATCH_REGEX",
+            "parameter": [
+              {"type": "TEMPLATE", "key": "arg0", "value": "{{CM - Denied CSV}}"},
+              {"type": "TEMPLATE", "key": "arg1", "value": "(^|,)personalization($|,)"}
+            ]
+          }
+        ]
+      },
+      {
+        "accountId": "0",
+        "containerId": "0",
+        "triggerId": "10",
+        "name": "CM - Custom Consent Ready",
+        "type": "CUSTOM_EVENT",
+        "status": "ENABLED",
+        "parameter": [
+          {"type": "TEMPLATE", "key": "eventName", "value": "cm_consent_ready"},
+          {"type": "BOOLEAN", "key": "useRegex", "value": "false"}
+        ],
+        "filter": [
+          {
+            "type": "MATCH_REGEX",
+            "parameter": [
+              {"type": "TEMPLATE", "key": "arg0", "value": "{{CM - Granted CSV}}"},
+              {"type": "TEMPLATE", "key": "arg1", "value": "(^|,)custom_consent($|,)"}
+            ]
+          }
+        ]
+      },
+      {
+        "accountId": "0",
+        "containerId": "0",
+        "triggerId": "11",
+        "name": "CM - Custom Consent Applied",
+        "type": "CUSTOM_EVENT",
+        "status": "ENABLED",
+        "parameter": [
+          {"type": "TEMPLATE", "key": "eventName", "value": "cm_consent_applied"},
+          {"type": "BOOLEAN", "key": "useRegex", "value": "false"}
+        ],
+        "filter": [
+          {
+            "type": "MATCH_REGEX",
+            "parameter": [
+              {"type": "TEMPLATE", "key": "arg0", "value": "{{CM - Granted CSV}}"},
+              {"type": "TEMPLATE", "key": "arg1", "value": "(^|,)custom_consent($|,)"}
+            ]
+          }
+        ]
+      },
+      {
+        "accountId": "0",
+        "containerId": "0",
+        "triggerId": "12",
+        "name": "CM - Custom Consent Revoked",
+        "type": "CUSTOM_EVENT",
+        "status": "ENABLED",
+        "parameter": [
+          {"type": "TEMPLATE", "key": "eventName", "value": "cm_consent_applied"},
+          {"type": "BOOLEAN", "key": "useRegex", "value": "false"}
+        ],
+        "filter": [
+          {
+            "type": "MATCH_REGEX",
+            "parameter": [
+              {"type": "TEMPLATE", "key": "arg0", "value": "{{CM - Denied CSV}}"},
+              {"type": "TEMPLATE", "key": "arg1", "value": "(^|,)custom_consent($|,)"}
+            ]
+          }
+        ]
+      }
+    ],
+    "tag": [
+      {
+        "accountId": "0",
+        "containerId": "0",
+        "tagId": "1",
+        "name": "Example - Analytics Tag (Consent Ready)",
+        "type": "html",
+        "status": "PAUSED",
+        "notes": "Replace the HTML with your analytics bootstrap (e.g. GA4 config). Fires once when prior consent already exists.",
+        "firingTriggerId": ["1"],
+        "tagFiringOption": "ONCE_PER_PAGE",
+        "parameter": [
+          {"type": "TEMPLATE", "key": "html", "value": "<!-- Replace with GA4 Configuration tag. This fires after cm_consent_ready when analytics consent already exists. -->"},
+          {"type": "BOOLEAN", "key": "supportDocumentWrite", "value": "false"}
+        ]
+      },
+      {
+        "accountId": "0",
+        "containerId": "0",
+        "tagId": "2",
+        "name": "Example - Analytics Tag (Consent Applied)",
+        "type": "html",
+        "status": "PAUSED",
+        "notes": "Duplicate/replace with your production analytics tag. Fires when a visitor opts in during the session.",
+        "firingTriggerId": ["2"],
+        "tagFiringOption": "ONCE_PER_PAGE",
+        "parameter": [
+          {"type": "TEMPLATE", "key": "html", "value": "<!-- Replace with GA4 Event/Config tag for live opt-in (cm_consent_applied). -->"},
+          {"type": "BOOLEAN", "key": "supportDocumentWrite", "value": "false"}
+        ]
+      },
+      {
+        "accountId": "0",
+        "containerId": "0",
+        "tagId": "3",
+        "name": "Example - Analytics Cleanup (Consent Revoked)",
+        "type": "html",
+        "status": "PAUSED",
+        "notes": "Use this to call API endpoints or delete analytics cookies when consent is withdrawn.",
+        "firingTriggerId": ["7"],
+        "tagFiringOption": "ONCE_PER_PAGE",
+        "parameter": [
+          {"type": "TEMPLATE", "key": "html", "value": "<!-- Clear analytics cookies or send opt-out signal when cm_consent_applied indicates analytics was denied. -->"},
+          {"type": "BOOLEAN", "key": "supportDocumentWrite", "value": "false"}
+        ]
+      }
+    ],
+    "builtInVariable": []
+  }
+}

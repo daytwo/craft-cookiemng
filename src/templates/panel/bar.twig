@@ -40,9 +40,9 @@
                                 <label for="cm_personalizationCookies">{{settings.getPersonalizationTitle(siteHandle)}}</label>
                           </div>
                      {% endif %}
-                     {% if settings.getExtraCookies(siteHandle) %}
-                          <div class="cm__checkbox">
-                                <input type="checkbox" id="cm_extraCookies" name="extraCookies" {{settings.getExtraCookieProperty(siteHandle) in permissions ? 'checked'}} value="{{settings.getExtraCookieProperty(siteHandle)}}">
+                       {% if settings.getExtraCookies(siteHandle) %}
+                           <div class="cm__checkbox">
+                                <input type="checkbox" id="cm_extraCookies" name="extraCookies" {{settings.getExtraCookieProperty(siteHandle) in permissions ? 'checked'}} value="{{settings.getExtraCookieProperty(siteHandle)}}" data-cm-alias="custom_consent">
                                 <label for="cm_extraCookies">{{settings.getExtraTitle(siteHandle)}}</label>
                           </div>
                      {% endif %}
@@ -131,7 +131,7 @@
                           <div class="cm__checkbox">
                                 <div class="cm__accordion">
                                      <div class="cm__acc-header">
-                                          <input type="checkbox" id="cm_extraCookies" name="extraCookies" {{settings.getExtraCookieProperty(siteHandle) in permissions ? 'checked'}} value="{{settings.getExtraCookieProperty(siteHandle)}}">
+                                          <input type="checkbox" id="cm_extraCookies" name="extraCookies" {{settings.getExtraCookieProperty(siteHandle) in permissions ? 'checked'}} value="{{settings.getExtraCookieProperty(siteHandle)}}" data-cm-alias="custom_consent">
                                           <label for="cm_extraCookies">{{settings.getExtraTitle(siteHandle)}}</label>
                                      </div>
                                      <div class="cm__button cm__acc-trigger"></div>

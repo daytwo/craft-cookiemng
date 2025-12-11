@@ -136,7 +136,8 @@
             return window.dataLayer;
         };
 
-        const collectConsentState = () => {
+        const collectConsentState = (options = {}) => {
+            const includeAliases = options.includeAliases !== false;
             const granted = [];
             const denied = [];
             checks.forEach((check)=>{
@@ -144,10 +145,17 @@
                 if (!value) {
                     return;
                 }
+                const alias = includeAliases ? check.getAttribute('data-cm-alias') : null;
                 if(check.checked){
                     granted.push(value);
+                    if (alias) {
+                        granted.push(alias);
+                    }
                 }else{
                     denied.push(value);
+                    if (alias) {
+                        denied.push(alias);
+                    }
                 }
             });
             if (!granted.includes('functional')) {
@@ -215,17 +223,10 @@
         }
         
         let cm_onSave = () => {
-            let values = 'functional';
-            let granted = [];
-            let denied = [];
-            checks.forEach((check,index)=>{
-                if(check.checked){
-                    values += ','+check.value;
-                    granted.push(check.getAttribute('value'));
-                }else{
-                    denied.push(check.getAttribute('value'));
-                }
-            });
+            const rawState = collectConsentState({includeAliases:false});
+            const granted = rawState.granted.slice();
+            const denied = rawState.denied.slice();
+            const grantedValues = granted.join(',');
             if(cm_triggerGoogleConsentConsent && typeof cm_updateConsent === 'function'){
                 cm_updateConsent(granted,denied);
             }
@@ -236,7 +237,7 @@
                     Accept: 'application/json',
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({permissions:values,siteHandle:cm_main.getAttribute('data-site-handle')})
+                body: JSON.stringify({permissions:grantedValues,siteHandle:cm_main.getAttribute('data-site-handle')})
             })
             .then(response => response.json())
             .then(data => {
