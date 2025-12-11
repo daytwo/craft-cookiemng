@@ -40,7 +40,6 @@ class CookieMngVariables
   #TWIG => {{ craft.cookiemng.setPermissionCookie$value, $duration, $secure, $http_only) }}
   public function setPermissionCookie($value, $duration)
   {
-    Craft::$app->view->registerAssetBundle(PluginAssets::class);
     $settings = CookieMng::$instance->getSettings();
     $env = CookieMng::$instance->getEnvValues();
 
@@ -54,7 +53,6 @@ class CookieMngVariables
   #TWIG => {{ craft.cookiemng.getPermissionCookie($name) }}
   public function getPermissionCookie()
   {
-    Craft::$app->view->registerAssetBundle(PluginAssets::class);
     $settings = CookieMng::$instance->getSettings();
     $env = CookieMng::$instance->getEnvValues();
 
@@ -89,7 +87,7 @@ class CookieMngVariables
     }
 
 
-    Craft::$app->view->registerAssetBundle(PluginAssets::class);
+  $this->registerFrontendAssets();
     $settings = CookieMng::$instance->getSettings();
 
     if (!$settings->getCookieEnabled($siteHandle)){
@@ -103,7 +101,6 @@ class CookieMngVariables
   #TWIG => {{ craft.cookiemng.consentTemplate()|raw }}
   public function consentTemplate($siteHandle = "default")
   {
-    Craft::$app->view->registerAssetBundle(PluginAssets::class);
     $settings = CookieMng::$instance->getSettings();
 
     if (!$settings->getCookieEnabled($siteHandle)){
@@ -114,5 +111,22 @@ class CookieMngVariables
     // The async loader (cookiemng-async.js) will inject the consent script
     // This prevents cookie state from being cached in the HTML
     return '';
+  }
+
+  private function registerFrontendAssets(): void
+  {
+    if (!class_exists(PluginAssets::class, false)) {
+      $path = Craft::getAlias('@daytwo/cookiemng/pluginassets/PluginAssets.php');
+      if ($path && is_file($path)) {
+        require_once $path;
+      }
+    }
+
+    if (!class_exists(PluginAssets::class, false)) {
+      Craft::error('CookieMng assets could not be loaded from @daytwo/cookiemng/pluginassets/PluginAssets.php', __METHOD__);
+      return;
+    }
+
+    Craft::$app->view->registerAssetBundle(PluginAssets::class);
   }
 }
