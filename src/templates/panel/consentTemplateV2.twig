@@ -2,6 +2,19 @@
     // Define dataLayer and the gtag function.
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
+
+    let cmEventSequence = 0;
+    const cmNextEventId = () => {
+        cmEventSequence += 1;
+        return 'cm-' + Date.now().toString(36) + '-' + cmEventSequence;
+    };
+
+    const cmEnsureDataLayer = () => {
+        if (typeof window.dataLayer === 'undefined') {
+            window.dataLayer = [];
+        }
+        return window.dataLayer;
+    };
     
     {% if settings.getCookieGoogleEnabled(siteHandle) %}
         let consent = {
@@ -32,6 +45,9 @@
             signature: normalizedGranted.join('|') + '::' + normalizedDenied.join('|'),
             source: source,
             lastUpdated: Date.now()
+        };
+        window.cmGetConsentState = function(){
+            return window.cmConsentState || {granted: [], denied: []};
         };
         return window.cmConsentState;
     };
@@ -93,8 +109,15 @@
         for (const [key, value] of Object.entries(consent_list)) {
             data[key] = value;
         }
-        dataLayer.push({'event': 'consent_update', 'consent': data});
-        window.cmSyncConsentState(granted, denied, 'user-action');
+        const state = window.cmSyncConsentState(granted, denied, 'user-action');
+        cmEnsureDataLayer().push({
+            event: 'cm_consent_applied',
+            consentGranted: state.granted,
+            consentDenied: state.denied,
+            consent: data,
+            eventSource: 'user-action',
+            eventId: cmNextEventId()
+        });
     }
 
     const cmInitialGranted = ['functional'];
@@ -131,5 +154,12 @@
         {% endif %}
     {% endif %}
 
-    window.cmSyncConsentState(cmInitialGranted, cmInitialDenied, 'consent-script');
+    const cmInitialState = window.cmSyncConsentState(cmInitialGranted, cmInitialDenied, 'consent-script');
+    cmEnsureDataLayer().push({
+        event: 'cm_consent_ready',
+        consentGranted: cmInitialState.granted,
+        consentDenied: cmInitialState.denied,
+        eventSource: 'initial-load',
+        eventId: cmNextEventId()
+    });
 </script>

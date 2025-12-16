@@ -34,14 +34,15 @@ The repository ships with an importable workspace at `gtm-templates/cookiemng-co
 - Data Layer variables for `consentGranted`, `consentDenied`, `eventId`, and `eventSource`
 - Helper Custom JS variables that flatten granted/denied categories into comma-separated strings
 - Consent triggers for analytics/advertising/personalization and `custom_consent` (ready, applied, revoked)
-- Three paused example tags that illustrate how to fire on initial consent, mid-session opt-in, and revocation cleanup
+- Paused example tags covering GA4 pageviews (prior + opt-in), LinkedIn Insight, GA4 form events, Google Ads conversions, and consent revocation cleanup
 
 To import it:
 
 1. In GTM, go to **Admin → Container → Import Container**.
 2. Choose the JSON file and select either *Existing workspace* (Merge, overwrite conflicting) or create a new workspace.
 3. Review the summary so you understand which variables/triggers/tags will be created.
-4. Publish after replacing the placeholder HTML in the example tags with your production analytics/marketing tags.
+4. After import, open each example tag and set **Advanced Settings → Tag firing options → Once per page** (the API no longer accepts this flag in JSON exports).
+5. Replace the placeholder HTML in the example tags with your production analytics/marketing tags and publish.
 
 ## 3. Create Helpful Data Layer Variables
 
@@ -98,6 +99,47 @@ Apply this trigger as an *Exception* to any tag that requires analytics consent.
 ### Example: Marketing Pixel Requiring Advertising Consent
 
 Use the same pattern with `advertising` instead of `analytics` in the regex condition. The plugin automatically tracks extra/custom categories using the slug defined in the settings, so you can repeat the process for those values as well.
+
+### Example: GA4 Pageview Tag (Analytics Consent)
+
+Most sites need their GA4 configuration to fire both when returning visitors already have consent and when new visitors opt in mid-session. You can handle both cases with a single GA4 Configuration tag:
+
+1. Import the "Example - GA4 Pageview (Consent Ready + Opt-In)" tag (or recreate it).
+2. Attach **both** `CM - Analytics Consent Ready` and `CM - Analytics Consent Applied` as firing triggers so GTM treats them as an OR condition.
+3. Keep **Advanced Settings → Tag firing options → Once per page** enabled so the tag only executes once per page view even if both events occur.
+
+This ensures GA4 boots immediately for returning visitors and also replays the config call the first time someone opts in without creating duplicate hits.
+
+### Example: LinkedIn Insight Tag (Advertising Consent)
+
+The LinkedIn Insight script is considered advertising/remarketing, so attach it to the `CM - Advertising Consent Ready` and `CM - Advertising Consent Applied` triggers. The toolkit's "Example - LinkedIn Insight (Advertising)" tag already wires the official snippet and pauses it by default. Replace `123456` with your LinkedIn partner ID and publish.
+
+### Example: GA4 Form Sent Event
+
+When a form submission pushes `form_sent` into `dataLayer`, you can forward it to GA4 as long as analytics consent is present:
+
+```javascript
+dataLayer.push({
+  event: 'form_sent',
+  form_name: 'contact_request'
+});
+```
+
+Import or recreate the trigger `CM - Analytics Form Sent` (custom event = `form_sent` + analytics regex) and attach it to a GA4 Event tag that uses `gtag('event','form_sent', {...})`. This guarantees your conversion only fires after the visitor opts into analytics.
+
+### Example: Google Ads Conversion (Advertising Consent)
+
+If you raise Google Ads conversions via GTM, publish a dedicated data layer event whenever the conversion happens:
+
+```javascript
+dataLayer.push({
+  event: 'cm_ads_conversion',
+  conversionValue: 1,
+  conversionCurrency: 'USD'
+});
+```
+
+Map that event to the trigger `CM - Advertising Conversion Event` so the Google Ads conversion tag runs only when the visitor granted advertising consent. The example tag in the toolkit shows the `gtag('event','conversion', { send_to: 'AW-XXXX/label', ... })` pattern Google documents.
 
 ### Example: Optional Custom Consent
 

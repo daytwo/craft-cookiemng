@@ -4,6 +4,89 @@ if(cm_main){
     var cm_triggerGoogleConsentConsent = cm_main.getAttribute('data-google-consent');
     var cm_acc = document.getElementsByClassName("cm__acc-trigger");
 
+    let cmEventSequence = 0;
+    const nextConsentEventId = () => {
+        cmEventSequence += 1;
+        return 'cm-' + Date.now().toString(36) + '-' + cmEventSequence;
+    };
+
+    const ensureDataLayer = () => {
+        if (typeof window.dataLayer === 'undefined') {
+            window.dataLayer = [];
+        }
+        return window.dataLayer;
+    };
+
+    const collectConsentState = (options = {}) => {
+        const includeAliases = options.includeAliases !== false;
+        const granted = [];
+        const denied = [];
+        checks.forEach((check)=>{
+            const value = check.getAttribute('value');
+            if (!value) {
+                return;
+            }
+            const alias = includeAliases ? check.getAttribute('data-cm-alias') : null;
+            if(check.checked){
+                granted.push(value);
+                if (alias) {
+                    granted.push(alias);
+                }
+            }else{
+                denied.push(value);
+                if (alias) {
+                    denied.push(alias);
+                }
+            }
+        });
+        if (!granted.includes('functional')) {
+            granted.unshift('functional');
+        }
+        return {
+            granted: Array.from(new Set(granted)),
+            denied: Array.from(new Set(denied))
+        };
+    };
+
+    const updateConsentState = (source) => {
+        const current = collectConsentState();
+        const normalGranted = current.granted.slice().sort();
+        const normalDenied = current.denied.slice().sort();
+        const signature = normalGranted.join('|') + '::' + normalDenied.join('|');
+        const previous = window.cmConsentState || {};
+        const changed = previous.signature !== signature;
+        window.cmConsentState = {
+            granted: normalGranted,
+            denied: normalDenied,
+            signature: signature,
+            source: source,
+            lastUpdated: Date.now()
+        };
+        return {
+            granted: normalGranted,
+            denied: normalDenied,
+            changed: changed
+        };
+    };
+
+    const pushConsentEvent = (eventName, source, force) => {
+        const state = updateConsentState(source);
+        if (!force && !state.changed) {
+            return state;
+        }
+        ensureDataLayer().push({
+            event: eventName,
+            consentGranted: state.granted,
+            consentDenied: state.denied,
+            eventSource: source,
+            eventId: nextConsentEventId()
+        });
+        window.cmGetConsentState = function(){
+            return window.cmConsentState || {granted: [], denied: []};
+        };
+        return state;
+    };
+
     if(cm_acc && cm_acc.length > 0){
         for (let i = 0; i < cm_acc.length; i++) {
         cm_acc[i].addEventListener("click", function() {
@@ -50,20 +133,15 @@ if(cm_main){
         cm_onSave();
     }
     let cm_onSave = () => {
-        let values = 'functional';
-        let granted = [];
-        let denied = [];
-        checks.forEach((check,index)=>{
-            if(check.checked){
-                values += ','+check.value;
-                granted.push(check.getAttribute('value'));
-            }else{
-                denied.push(check.getAttribute('value'));
-            }
-        });
-        if(cm_triggerGoogleConsentConsent){
+        const stateNoAlias = collectConsentState({includeAliases:false});
+        const granted = stateNoAlias.granted.slice();
+        const denied = stateNoAlias.denied.slice();
+        const values = granted.join(',');
+
+        if(cm_triggerGoogleConsentConsent && typeof cm_updateConsent === 'function'){
             cm_updateConsent(granted,denied);
         }
+        pushConsentEvent('cm_consent_applied', 'user-action');
         fetch('/actions/cookiemng/permission/set',{
             method: 'POST',
             headers: {
@@ -124,4 +202,6 @@ if(cm_main){
             cm_blocked.classList.add('cm__active');
         }
     }
+
+    pushConsentEvent('cm_consent_ready', 'initial-load', true);
 }
