@@ -3,6 +3,17 @@
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
 
+    const cmStableStringify = (obj) => {
+        if (!obj || typeof obj !== 'object') {
+            return JSON.stringify(obj);
+        }
+        const sorted = {};
+        Object.keys(obj).sort().forEach((key) => {
+            sorted[key] = obj[key];
+        });
+        return JSON.stringify(sorted);
+    };
+
     let cmEventSequence = 0;
     const cmNextEventId = () => {
         cmEventSequence += 1;
@@ -32,6 +43,9 @@
         {% endif %}
         
         gtag('consent', 'default', consent);
+
+        // Track the last applied Google consent object so we can avoid sending redundant updates.
+        window.cmGoogleConsentLast = cmStableStringify(consent);
 
     {% endif %}
     window.cmSyncConsentState = function(granted, denied, source){
@@ -109,6 +123,21 @@
         for (const [key, value] of Object.entries(consent_list)) {
             data[key] = value;
         }
+
+        // Only send Google Consent Mode updates when the effective consent object changes.
+        const nextSignature = cmStableStringify(data);
+        if (window.cmGoogleConsentLast === nextSignature) {
+            return;
+        }
+        window.cmGoogleConsentLast = nextSignature;
+
+        // Update Google Consent Mode BEFORE emitting consent events.
+        try {
+            gtag('consent', 'update', data);
+        } catch (e) {
+            // Ignore runtime errors (e.g., blocked gtag); dataLayer event still fires.
+        }
+
         const state = window.cmSyncConsentState(granted, denied, 'user-action');
         cmEnsureDataLayer().push({
             event: 'cm_consent_applied',
