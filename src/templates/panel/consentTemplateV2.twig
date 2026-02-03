@@ -3,6 +3,10 @@
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
 
+    const cmSiteHandle = '{{ siteHandle|e('js') }}' || 'default';
+    window.cmConsentEventsEmitted = window.cmConsentEventsEmitted || {};
+    const cmConsentReadyKey = 'cm_consent_ready::' + cmSiteHandle;
+
     const cmStableStringify = (obj) => {
         if (!obj || typeof obj !== 'object') {
             return JSON.stringify(obj);
@@ -184,11 +188,14 @@
     {% endif %}
 
     const cmInitialState = window.cmSyncConsentState(cmInitialGranted, cmInitialDenied, 'consent-script');
-    cmEnsureDataLayer().push({
-        event: 'cm_consent_ready',
-        consentGranted: cmInitialState.granted,
-        consentDenied: cmInitialState.denied,
-        eventSource: 'initial-load',
-        eventId: cmNextEventId()
-    });
+    if (!window.cmConsentEventsEmitted[cmConsentReadyKey]) {
+        window.cmConsentEventsEmitted[cmConsentReadyKey] = true;
+        cmEnsureDataLayer().push({
+            event: 'cm_consent_ready',
+            consentGranted: cmInitialState.granted,
+            consentDenied: cmInitialState.denied,
+            eventSource: 'initial-load',
+            eventId: cmNextEventId()
+        });
+    }
 </script>
