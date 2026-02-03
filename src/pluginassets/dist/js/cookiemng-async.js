@@ -4,6 +4,10 @@
  */
 (function() {
     'use strict';
+    if (window.__cookiemngAsyncLoaderInitialized) {
+        return;
+    }
+    window.__cookiemngAsyncLoaderInitialized = true;
     let cmEventSequence = 0;
 
     const nextConsentEventId = () => {
@@ -295,7 +299,18 @@
             }
         }
 
-        pushConsentEvent('cm_consent_ready', 'initial-load', true);
+        // Prefer the async-injected consent script as the single source of truth for cm_consent_ready.
+        // Only emit from this initializer if the consent script was not loaded/executed.
+        if (typeof window.cmSyncConsentState !== 'function') {
+            var cm_siteHandle = cm_main.getAttribute('data-site-handle') || 'default';
+            var cm_readyKey = 'cm_consent_ready::' + cm_siteHandle;
+            if (!(window.cmConsentEventsEmitted && window.cmConsentEventsEmitted[cm_readyKey])) {
+                window.cmConsentEventsEmitted = window.cmConsentEventsEmitted || {};
+                window.cmConsentEventsEmitted[cm_readyKey] = true;
+                pushConsentEvent('cm_consent_ready', 'initial-load', true);
+            }
+        }
+
         window.cmGetConsentState = function(){
             return window.cmConsentState || {granted: [], denied: []};
         };

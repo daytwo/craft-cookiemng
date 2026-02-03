@@ -1,5 +1,11 @@
+if (window.__cookiemngSyncInitialized) {
+    // Prevent double-binding if the script is included twice.
+} else {
+    window.__cookiemngSyncInitialized = true;
+}
+
 var cm_main = document.querySelector(".__cookiemng__");
-if(cm_main){
+if(cm_main && window.__cookiemngSyncInitialized){
     var cm_blocked = document.querySelector(".cm__blocked");
     var cm_triggerGoogleConsentConsent = cm_main.getAttribute('data-google-consent');
     var cm_acc = document.getElementsByClassName("cm__acc-trigger");
@@ -203,5 +209,15 @@ if(cm_main){
         }
     }
 
-    pushConsentEvent('cm_consent_ready', 'initial-load', true);
+    // Prefer the consent script as the single source of truth for cm_consent_ready.
+    // Only emit from this legacy initializer if the consent script was not loaded.
+    if (typeof window.cmSyncConsentState !== 'function') {
+        var cm_siteHandle = cm_main.getAttribute('data-site-handle') || 'default';
+        var cm_readyKey = 'cm_consent_ready::' + cm_siteHandle;
+        if (!(window.cmConsentEventsEmitted && window.cmConsentEventsEmitted[cm_readyKey])) {
+            window.cmConsentEventsEmitted = window.cmConsentEventsEmitted || {};
+            window.cmConsentEventsEmitted[cm_readyKey] = true;
+            pushConsentEvent('cm_consent_ready', 'initial-load', true);
+        }
+    }
 }
