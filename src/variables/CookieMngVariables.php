@@ -29,7 +29,7 @@ use craft\web\View;
 class CookieMngVariables
 {
 
-  public function skipCookiePanelDisplay($siteHandle = "default",$segments){
+  public function skipCookiePanelDisplay($siteHandle = "default", $segments = null){
     if($segments && count($segments) > 0){
       $settings = CookieMng::$instance->getSettings();
       $split = explode('/',$settings->getCookiesReadMoreLink($siteHandle));
@@ -40,7 +40,6 @@ class CookieMngVariables
   #TWIG => {{ craft.cookiemng.setPermissionCookie$value, $duration, $secure, $http_only) }}
   public function setPermissionCookie($value, $duration)
   {
-    Craft::$app->view->registerAssetBundle(PluginAssets::class);
     $settings = CookieMng::$instance->getSettings();
     $env = CookieMng::$instance->getEnvValues();
 
@@ -54,7 +53,6 @@ class CookieMngVariables
   #TWIG => {{ craft.cookiemng.getPermissionCookie($name) }}
   public function getPermissionCookie()
   {
-    Craft::$app->view->registerAssetBundle(PluginAssets::class);
     $settings = CookieMng::$instance->getSettings();
     $env = CookieMng::$instance->getEnvValues();
 
@@ -66,9 +64,8 @@ class CookieMngVariables
   }
   
   #TWIG => {{ craft.cookiemng.render()|raw }}
-  public function render($siteHandle = "default", $hidenInReadMore = false)
+  public function render($siteHandle = "default", $hidenInReadMore = false, $deactivated = false)
   {
-    $deactivated = false;
     if($hidenInReadMore){
       $segments =Craft::$app->getRequest()->segments;
       if($segments && count($segments) > 0){
@@ -90,32 +87,46 @@ class CookieMngVariables
     }
 
 
-    Craft::$app->view->registerAssetBundle(PluginAssets::class);
+	$this->registerFrontendAssets();
     $settings = CookieMng::$instance->getSettings();
-    //$env = CookieMng::$instance->getEnvValues();
 
     if (!$settings->getCookieEnabled($siteHandle)){
       return '';
     }
 
-    $permissions = CookieMng::$instance->services->getPermissionCookie($siteHandle);
-    $permissions = $permissions ? $permissions : '';
-    return Craft::$app->view->renderTemplate('cookiemng/panel/bar.twig',['settings'=>$settings,'permissions'=>$permissions ? explode(',',$permissions) : false,'siteHandle'=>$siteHandle,'deactivated'=>$deactivated],View::TEMPLATE_MODE_CP);
+    // Return placeholder template for async loading to avoid CDN caching
+    return Craft::$app->view->renderTemplate('cookiemng/panel/placeholder.twig',['siteHandle'=>$siteHandle,'deactivated'=>$deactivated],View::TEMPLATE_MODE_CP);
   }
 
   #TWIG => {{ craft.cookiemng.consentTemplate()|raw }}
   public function consentTemplate($siteHandle = "default")
   {
-    Craft::$app->view->registerAssetBundle(PluginAssets::class);
     $settings = CookieMng::$instance->getSettings();
-    //$env = CookieMng::$instance->getEnvValues();
 
     if (!$settings->getCookieEnabled($siteHandle)){
       return '';
     }
-        
-    $permissions = CookieMng::$instance->services->getPermissionCookie($siteHandle);
-    $permissions = $permissions ? $permissions : '';
-    return Craft::$app->view->renderTemplate('cookiemng/panel/consentTemplateV2.twig',['settings'=>$settings,'permissions'=>explode(',',$permissions),'siteHandle'=>$siteHandle],View::TEMPLATE_MODE_CP);
+    
+    // Return empty string - consent template is now loaded asynchronously
+    // The async loader (cookiemng-async.js) will inject the consent script
+    // This prevents cookie state from being cached in the HTML
+    return '';
+  }
+
+  private function registerFrontendAssets(): void
+  {
+    if (!class_exists(PluginAssets::class, false)) {
+      $path = Craft::getAlias('@daytwo/cookiemng/pluginassets/PluginAssets.php');
+      if ($path && is_file($path)) {
+        require_once $path;
+      }
+    }
+
+    if (!class_exists(PluginAssets::class, false)) {
+      Craft::error('CookieMng assets could not be loaded from @daytwo/cookiemng/pluginassets/PluginAssets.php', __METHOD__);
+      return;
+    }
+
+    Craft::$app->view->registerAssetBundle(PluginAssets::class);
   }
 }

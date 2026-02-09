@@ -2,8 +2,37 @@
     // Define dataLayer and the gtag function.
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
+
+    const cmSiteHandle = '{{ siteHandle|e('js') }}' || 'default';
+    window.cmConsentEventsEmitted = window.cmConsentEventsEmitted || {};
+    const cmConsentReadyKey = 'cm_consent_ready::' + cmSiteHandle;
+
+    const cmStableStringify = (obj) => {
+        if (!obj || typeof obj !== 'object') {
+            return JSON.stringify(obj);
+        }
+        const sorted = {};
+        Object.keys(obj).sort().forEach((key) => {
+            sorted[key] = obj[key];
+        });
+        return JSON.stringify(sorted);
+    };
+
+    let cmEventSequence = 0;
+    const cmNextEventId = () => {
+        cmEventSequence += 1;
+        return 'cm-' + Date.now().toString(36) + '-' + cmEventSequence;
+    };
+
+    const cmEnsureDataLayer = () => {
+        if (typeof window.dataLayer === 'undefined') {
+            window.dataLayer = [];
+        }
+        return window.dataLayer;
+    };
+    
     {% if settings.getCookieGoogleEnabled(siteHandle) %}
-        let object = {
+        let consent = {
             'ad_storage': '{{"advertising" in permissions ? 'granted' : 'denied'}}', //advertising
             'ad_user_data': '{{"advertising" in permissions ? 'granted' : 'denied'}}', //advertising
             'ad_personalization': '{{"personalization" in permissions ? 'granted' : 'denied'}}', //personalization
@@ -11,23 +40,36 @@
             'analytics_storage': '{{"analytics" in permissions ? 'granted' : 'denied'}}', //analytics
             'functionality_storage': 'granted', //functional
             'security_storage': 'granted' //functional
-        }
-        gtag('consent', 'default', object);
-
-        let data = {
-            'event': 'd2_cookiemng_consent_update',
-            'ad_storage': '{{"advertising" in permissions ? 'granted' : 'denied'}}', //advertising
-            'ad_user_data': '{{"advertising" in permissions ? 'granted' : 'denied'}}', //advertising
-            'ad_personalization': '{{"personalization" in permissions ? 'granted' : 'denied'}}', //personalization
-            'personalization_storage': '{{"personalization" in permissions ? 'granted' : 'denied'}}', //personalization
-            'analytics_storage': '{{"analytics" in permissions ? 'granted' : 'denied'}}', //analytics
-            'functionality_storage': 'granted', //functional
-            'security_storage': 'granted' //functional
-        }
-
-        dataLayer.push(data);
+        };
         
+        {% if settings.getExtraCookies(siteHandle) %}
+            consent['{{settings.getExtraCookieProperty(siteHandle)}}'] = "{{settings.getExtraCookieProperty(siteHandle) in permissions ? 'granted' : 'denied'}}";
+        {% endif %}
+        
+        gtag('consent', 'default', consent);
+
+        // Track the last applied Google consent object so we can avoid sending redundant updates.
+        window.cmGoogleConsentLast = cmStableStringify(consent);
+
     {% endif %}
+    window.cmSyncConsentState = function(granted, denied, source){
+        const grantList = Array.from(new Set(['functional'].concat(granted || [])));
+        const denyList = Array.from(new Set((denied || []).filter((value)=>grantList.indexOf(value) === -1)));
+        const normalizedGranted = grantList.slice().sort();
+        const normalizedDenied = denyList.slice().sort();
+        window.cmConsentState = {
+            granted: normalizedGranted,
+            denied: normalizedDenied,
+            signature: normalizedGranted.join('|') + '::' + normalizedDenied.join('|'),
+            source: source,
+            lastUpdated: Date.now()
+        };
+        window.cmGetConsentState = function(){
+            return window.cmConsentState || {granted: [], denied: []};
+        };
+        return window.cmConsentState;
+    };
+
     let cm_updateConsent = (granted,denied) => {
         {% if not settings.getCookieGoogleEnabled(siteHandle) %}
             return;
@@ -50,6 +92,11 @@
                     consent_list['personalization_storage'] = 'granted'
                     consent_list['ad_personalization'] = 'granted'
                     break;
+                {% if settings.getExtraCookies(siteHandle) %}
+                    case '{{settings.getExtraCookieProperty(siteHandle)}}':
+                        consent_list['{{settings.getExtraCookieProperty(siteHandle)}}'] = 'granted';
+                        break;
+                {% endif %}
             }
         });
         denied.forEach((prop)=>{
@@ -69,18 +116,86 @@
                     consent_list['personalization_storage'] = 'denied'
                     consent_list['ad_personalization'] = 'denied'
                     break;
+                {% if settings.getExtraCookies(siteHandle) %}
+                    case '{{settings.getExtraCookieProperty(siteHandle)}}':
+                        consent_list['{{settings.getExtraCookieProperty(siteHandle)}}'] = 'denied';
+                        break;
+                {% endif %}
             }
         });
-        let object = {};
-        let data = {
-            'event': 'd2_cookiemng_consent_update',
-        }
+        let data = {};
         for (const [key, value] of Object.entries(consent_list)) {
-            object[key] = value;
             data[key] = value;
         }
-        gtag('consent', 'update', object);
 
-        dataLayer.push(data);
+        // Only send Google Consent Mode updates when the effective consent object changes.
+        const nextSignature = cmStableStringify(data);
+        if (window.cmGoogleConsentLast === nextSignature) {
+            return;
+        }
+        window.cmGoogleConsentLast = nextSignature;
+
+        // Update Google Consent Mode BEFORE emitting consent events.
+        try {
+            gtag('consent', 'update', data);
+        } catch (e) {
+            // Ignore runtime errors (e.g., blocked gtag); dataLayer event still fires.
+        }
+
+        const state = window.cmSyncConsentState(granted, denied, 'user-action');
+        cmEnsureDataLayer().push({
+            event: 'cm_consent_applied',
+            consentGranted: state.granted,
+            consentDenied: state.denied,
+            consent: data,
+            eventSource: 'user-action',
+            eventId: cmNextEventId()
+        });
+    }
+
+    const cmInitialGranted = ['functional'];
+    const cmInitialDenied = [];
+    {% if settings.getAnalyticsCookies(siteHandle) %}
+        {% if permissions is iterable and 'analytics' in permissions %}
+            cmInitialGranted.push('analytics');
+        {% else %}
+            cmInitialDenied.push('analytics');
+        {% endif %}
+    {% endif %}
+    {% if settings.getAdvertisingCookies(siteHandle) %}
+        {% if permissions is iterable and 'advertising' in permissions %}
+            cmInitialGranted.push('advertising');
+        {% else %}
+            cmInitialDenied.push('advertising');
+        {% endif %}
+    {% endif %}
+    {% if settings.getPersonalizationCookies(siteHandle) %}
+        {% if permissions is iterable and 'personalization' in permissions %}
+            cmInitialGranted.push('personalization');
+        {% else %}
+            cmInitialDenied.push('personalization');
+        {% endif %}
+    {% endif %}
+    {% if settings.getExtraCookies(siteHandle) %}
+        {% set extraSlug = settings.getExtraCookieProperty(siteHandle) %}
+        {% if permissions is iterable and settings.getExtraCookieProperty(siteHandle) in permissions %}
+            cmInitialGranted.push('{{extraSlug}}');
+            cmInitialGranted.push('custom_consent');
+        {% else %}
+            cmInitialDenied.push('{{extraSlug}}');
+            cmInitialDenied.push('custom_consent');
+        {% endif %}
+    {% endif %}
+
+    const cmInitialState = window.cmSyncConsentState(cmInitialGranted, cmInitialDenied, 'consent-script');
+    if (!window.cmConsentEventsEmitted[cmConsentReadyKey]) {
+        window.cmConsentEventsEmitted[cmConsentReadyKey] = true;
+        cmEnsureDataLayer().push({
+            event: 'cm_consent_ready',
+            consentGranted: cmInitialState.granted,
+            consentDenied: cmInitialState.denied,
+            eventSource: 'initial-load',
+            eventId: cmNextEventId()
+        });
     }
 </script>

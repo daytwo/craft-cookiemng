@@ -2,6 +2,11 @@
 
 Interface to manage cookies preferences
 
+## Documentation
+
+- Async loading overview: `ASYNC_LOADING.md`
+- Google Tag Manager integration: `docs/gtm-integration.md`
+
 ## Requirements
 
 This plugin requires Craft CMS 4.5.0 or later, and PHP 8.0.2 or later.
@@ -115,15 +120,12 @@ return [
 
 In order to do add the cookie manager panel to your website you must add this to your templates:
 
-Right after the opening the `<head>` tag
-```
-{{craft.cookiemng.consentTemplate(currentSite.handle)|raw}}
-````
-
 Right before closing the `<body/>` tag
 ```
 {{ craft.cookiemng.render(currentSite.handle,true|false)|raw }}
 ```
+
+`consentTemplate()` is kept for backwards compatibility, but with async loading enabled it intentionally returns an empty string.
 
 THe second parameter defines if the popup should be hidden when the user access the "Read More" link. When 'true' the plugin will check if the current requested url matches the url pattern from the "read more" page, which is usually a privacy policy page, and hide the popup automatically (so users can properly read it).
 
