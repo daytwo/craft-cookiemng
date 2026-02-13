@@ -6,6 +6,7 @@ Interface to manage cookies preferences
 
 - Async loading overview: `ASYNC_LOADING.md`
 - Google Tag Manager integration: `docs/gtm-integration.md`
+- GTM implementation (template-based): `GTM_IMPLEMENTATION.md`
 
 ## Requirements
 

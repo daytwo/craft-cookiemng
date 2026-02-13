@@ -2,6 +2,8 @@
 
 This guide explains how to connect the Cookie Manager plugin with Google Tag Manager (GTM) so that marketing/analytics tags only fire after the correct consent level has been granted. The integration is fully GDPR-compliant and works with the plugin's asynchronous loading workflow.
 
+For a template-accurate setup checklist, see `GTM_IMPLEMENTATION.md`.
+
 ## 1. Data Layer Events Exposed by the Plugin
 
 The plugin pushes structured events into `window.dataLayer` whenever consent data is available or changes. Each event includes a unique `eventId` so GTM can be configured to fire once per page.
@@ -10,7 +12,8 @@ The plugin pushes structured events into `window.dataLayer` whenever consent dat
 |------------|---------------|----------------|
 | `cm_consent_ready` | Immediately after the consent panel is injected and the current cookie state is read | `consentGranted` (array), `consentDenied` (array), `eventSource="initial-load"`, `eventId` |
 | `cm_consent_applied` | Every time a visitor saves preferences from the panel (Accept All, Save, etc.). Only emitted when the consent state actually changes. | `consentGranted` (array), `consentDenied` (array), `eventSource="user-action"`, `eventId` |
-| `consent_update` | (Legacy) still emitted by the consent script for backwards compatibility. Mirrors Google Consent Mode calls. | `consent` object used by gtag | 
+
+When Google Consent Mode is enabled, the consent script updates Google via `gtag('consent', 'update', ...)` before consent events are emitted.
 
 Additionally, the plugin exposes helper getters:
 
@@ -34,7 +37,7 @@ The repository ships with an importable workspace at `gtm-templates/cookiemng-co
 - Data Layer variables for `consentGranted`, `consentDenied`, `eventId`, and `eventSource`
 - Helper Custom JS variables that flatten granted/denied categories into comma-separated strings
 - Consent triggers for analytics/advertising/personalization and `custom_consent` (ready, applied, revoked)
-- Paused example tags covering GA4 pageviews (prior + opt-in), LinkedIn Insight, GA4 form events, Google Ads conversions, and consent revocation cleanup
+- Three paused example HTML tags for analytics ready/applied and analytics revocation cleanup
 
 To import it:
 
@@ -104,7 +107,7 @@ Use the same pattern with `advertising` instead of `analytics` in the regex cond
 
 Most sites need their GA4 configuration to fire both when returning visitors already have consent and when new visitors opt in mid-session. You can handle both cases with a single GA4 Configuration tag:
 
-1. Import the "Example - GA4 Pageview (Consent Ready + Opt-In)" tag (or recreate it).
+1. Create or duplicate your GA4 Configuration tag in GTM.
 2. Attach **both** `CM - Analytics Consent Ready` and `CM - Analytics Consent Applied` as firing triggers so GTM treats them as an OR condition.
 3. Keep **Advanced Settings → Tag firing options → Once per page** enabled so the tag only executes once per page view even if both events occur.
 
@@ -112,7 +115,7 @@ This ensures GA4 boots immediately for returning visitors and also replays the c
 
 ### Example: LinkedIn Insight Tag (Advertising Consent)
 
-The LinkedIn Insight script is considered advertising/remarketing, so attach it to the `CM - Advertising Consent Ready` and `CM - Advertising Consent Applied` triggers. The toolkit's "Example - LinkedIn Insight (Advertising)" tag already wires the official snippet and pauses it by default. Replace `123456` with your LinkedIn partner ID and publish.
+The LinkedIn Insight script is considered advertising/remarketing, so attach it to the `CM - Advertising Consent Ready` and `CM - Advertising Consent Applied` triggers. The toolkit does not ship a dedicated LinkedIn example tag, so create this tag directly in GTM.
 
 ### Example: GA4 Form Sent Event
 
@@ -127,6 +130,8 @@ dataLayer.push({
 
 Import or recreate the trigger `CM - Analytics Form Sent` (custom event = `form_sent` + analytics regex) and attach it to a GA4 Event tag that uses `gtag('event','form_sent', {...})`. This guarantees your conversion only fires after the visitor opts into analytics.
 
+The toolkit does not include this trigger by default; create it manually in your workspace.
+
 ### Example: Google Ads Conversion (Advertising Consent)
 
 If you raise Google Ads conversions via GTM, publish a dedicated data layer event whenever the conversion happens:
@@ -139,7 +144,9 @@ dataLayer.push({
 });
 ```
 
-Map that event to the trigger `CM - Advertising Conversion Event` so the Google Ads conversion tag runs only when the visitor granted advertising consent. The example tag in the toolkit shows the `gtag('event','conversion', { send_to: 'AW-XXXX/label', ... })` pattern Google documents.
+Map that event to the trigger `CM - Advertising Conversion Event` so the Google Ads conversion tag runs only when the visitor granted advertising consent. Use the `gtag('event','conversion', { send_to: 'AW-XXXX/label', ... })` pattern Google documents.
+
+The toolkit does not include this trigger/tag by default; create both manually in GTM.
 
 ### Example: Optional Custom Consent
 
@@ -150,9 +157,9 @@ If you enable the plugin's extra consent toggle, GTM will always see it as `cust
 - Every consent event carries a unique `eventId`. When you set a tag’s **Advanced Settings → Tag firing options → Once per page**, GTM ensures the tag will run just once per page view, even if a visitor toggles consent repeatedly.
 - If you need to run *cleanup* logic when consent is removed (e.g., wipe cookies), create a tag triggered on `cm_consent_applied` where the condition checks `{{CM - Denied String}}` matches the relevant category. Also set that tag to fire once per page to avoid duplicate cleanups.
 
-## 6. Optional: Listen for Legacy `consent_update` Events
+## 6. Optional: Listen for Google Consent Mode Updates
 
-Some existing implementations may already listen for `consent_update`. The plugin continues to emit this event, but it fires every time `cm_updateConsent` runs, regardless of whether the selection changed. For new setups, prefer the scoped `cm_consent_ready` and `cm_consent_applied` events described above.
+If Google Consent Mode is enabled in plugin settings, CookieMng calls `gtag('consent', 'update', data)` when consent changes. For GTM trigger logic, still use `cm_consent_ready` and `cm_consent_applied` as the primary integration points.
 
 ## 7. Reusable Custom Template (Variable)
 
@@ -203,6 +210,6 @@ You can now reference this variable directly inside trigger conditions (e.g., `{
 
 - **Do I have to use both `cm_consent_ready` and `cm_consent_applied`?** Yes, if you want tags to fire for returning visitors and for people who opt-in during the session.
 - **What happens if the panel never loads (e.g., blocking JS)?** `window.cmConsentState` remains `undefined`, so the reusable template or helper variables will return `false` and tags stay suppressed.
-- **Can I map the events to GTM Consent Mode directly?** Yes. Use a Custom HTML tag listening for `cm_consent_applied` to call `gtag('consent','update', {...})` with your own mappings if needed. The plugin already does this when Google Consent Mode is enabled, but GTM mappings can provide a second layer of control.
+- **Can I map the events to GTM Consent Mode directly?** Yes. Use a Custom HTML tag listening for `cm_consent_applied` to call `gtag('consent','update', {...})` with your own mappings if needed. The plugin already performs Consent Mode updates when enabled, but GTM mappings can provide a second layer of control.
 
 With these steps, your GTM setup only fires tags when the visitor has explicitly granted the required consent level, preventing accidental tracking and keeping you compliant with GDPR and related regulations.

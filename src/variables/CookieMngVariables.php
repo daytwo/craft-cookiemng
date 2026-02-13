@@ -3,7 +3,7 @@
 namespace daytwo\cookiemng\variables;
 
 /**
-* Cookie Management module for Craft CMS 4.x
+ * Cookie Management module for Craft CMS 5.x
 *
 *
 * @link      https://daytwo.no
