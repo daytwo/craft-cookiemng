@@ -107,9 +107,14 @@
         "name": "CM - Analytics Consent Ready",
         "type": "CUSTOM_EVENT",
         "status": "ENABLED",
-        "parameter": [
-          {"type": "TEMPLATE", "key": "eventName", "value": "cm_consent_ready"},
-          {"type": "BOOLEAN", "key": "useRegex", "value": "false"}
+        "customEventFilter": [
+          {
+            "type": "EQUALS",
+            "parameter": [
+              {"type": "TEMPLATE", "key": "arg0", "value": "{{_event}}"},
+              {"type": "TEMPLATE", "key": "arg1", "value": "cm_consent_ready"}
+            ]
+          }
         ],
         "filter": [
           {
@@ -128,9 +133,14 @@
         "name": "CM - Analytics Consent Applied",
         "type": "CUSTOM_EVENT",
         "status": "ENABLED",
-        "parameter": [
-          {"type": "TEMPLATE", "key": "eventName", "value": "cm_consent_applied"},
-          {"type": "BOOLEAN", "key": "useRegex", "value": "false"}
+        "customEventFilter": [
+          {
+            "type": "EQUALS",
+            "parameter": [
+              {"type": "TEMPLATE", "key": "arg0", "value": "{{_event}}"},
+              {"type": "TEMPLATE", "key": "arg1", "value": "cm_consent_applied"}
+            ]
+          }
         ],
         "filter": [
           {
@@ -149,9 +159,14 @@
         "name": "CM - Advertising Consent Ready",
         "type": "CUSTOM_EVENT",
         "status": "ENABLED",
-        "parameter": [
-          {"type": "TEMPLATE", "key": "eventName", "value": "cm_consent_ready"},
-          {"type": "BOOLEAN", "key": "useRegex", "value": "false"}
+        "customEventFilter": [
+          {
+            "type": "EQUALS",
+            "parameter": [
+              {"type": "TEMPLATE", "key": "arg0", "value": "{{_event}}"},
+              {"type": "TEMPLATE", "key": "arg1", "value": "cm_consent_ready"}
+            ]
+          }
         ],
         "filter": [
           {
@@ -170,9 +185,14 @@
         "name": "CM - Advertising Consent Applied",
         "type": "CUSTOM_EVENT",
         "status": "ENABLED",
-        "parameter": [
-          {"type": "TEMPLATE", "key": "eventName", "value": "cm_consent_applied"},
-          {"type": "BOOLEAN", "key": "useRegex", "value": "false"}
+        "customEventFilter": [
+          {
+            "type": "EQUALS",
+            "parameter": [
+              {"type": "TEMPLATE", "key": "arg0", "value": "{{_event}}"},
+              {"type": "TEMPLATE", "key": "arg1", "value": "cm_consent_applied"}
+            ]
+          }
         ],
         "filter": [
           {
@@ -191,9 +211,14 @@
         "name": "CM - Personalization Consent Ready",
         "type": "CUSTOM_EVENT",
         "status": "ENABLED",
-        "parameter": [
-          {"type": "TEMPLATE", "key": "eventName", "value": "cm_consent_ready"},
-          {"type": "BOOLEAN", "key": "useRegex", "value": "false"}
+        "customEventFilter": [
+          {
+            "type": "EQUALS",
+            "parameter": [
+              {"type": "TEMPLATE", "key": "arg0", "value": "{{_event}}"},
+              {"type": "TEMPLATE", "key": "arg1", "value": "cm_consent_ready"}
+            ]
+          }
         ],
         "filter": [
           {
@@ -212,9 +237,14 @@
         "name": "CM - Personalization Consent Applied",
         "type": "CUSTOM_EVENT",
         "status": "ENABLED",
-        "parameter": [
-          {"type": "TEMPLATE", "key": "eventName", "value": "cm_consent_applied"},
-          {"type": "BOOLEAN", "key": "useRegex", "value": "false"}
+        "customEventFilter": [
+          {
+            "type": "EQUALS",
+            "parameter": [
+              {"type": "TEMPLATE", "key": "arg0", "value": "{{_event}}"},
+              {"type": "TEMPLATE", "key": "arg1", "value": "cm_consent_applied"}
+            ]
+          }
         ],
         "filter": [
           {
@@ -233,9 +263,14 @@
         "name": "CM - Analytics Consent Revoked",
         "type": "CUSTOM_EVENT",
         "status": "ENABLED",
-        "parameter": [
-          {"type": "TEMPLATE", "key": "eventName", "value": "cm_consent_applied"},
-          {"type": "BOOLEAN", "key": "useRegex", "value": "false"}
+        "customEventFilter": [
+          {
+            "type": "EQUALS",
+            "parameter": [
+              {"type": "TEMPLATE", "key": "arg0", "value": "{{_event}}"},
+              {"type": "TEMPLATE", "key": "arg1", "value": "cm_consent_applied"}
+            ]
+          }
         ],
         "filter": [
           {
@@ -254,9 +289,14 @@
         "name": "CM - Advertising Consent Revoked",
         "type": "CUSTOM_EVENT",
         "status": "ENABLED",
-        "parameter": [
-          {"type": "TEMPLATE", "key": "eventName", "value": "cm_consent_applied"},
-          {"type": "BOOLEAN", "key": "useRegex", "value": "false"}
+        "customEventFilter": [
+          {
+            "type": "EQUALS",
+            "parameter": [
+              {"type": "TEMPLATE", "key": "arg0", "value": "{{_event}}"},
+              {"type": "TEMPLATE", "key": "arg1", "value": "cm_consent_applied"}
+            ]
+          }
         ],
         "filter": [
           {
@@ -275,9 +315,14 @@
         "name": "CM - Personalization Consent Revoked",
         "type": "CUSTOM_EVENT",
         "status": "ENABLED",
-        "parameter": [
-          {"type": "TEMPLATE", "key": "eventName", "value": "cm_consent_applied"},
-          {"type": "BOOLEAN", "key": "useRegex", "value": "false"}
+        "customEventFilter": [
+          {
+            "type": "EQUALS",
+            "parameter": [
+              {"type": "TEMPLATE", "key": "arg0", "value": "{{_event}}"},
+              {"type": "TEMPLATE", "key": "arg1", "value": "cm_consent_applied"}
+            ]
+          }
         ],
         "filter": [
           {
@@ -296,9 +341,14 @@
         "name": "CM - Custom Consent Ready",
         "type": "CUSTOM_EVENT",
         "status": "ENABLED",
-        "parameter": [
-          {"type": "TEMPLATE", "key": "eventName", "value": "cm_consent_ready"},
-          {"type": "BOOLEAN", "key": "useRegex", "value": "false"}
+        "customEventFilter": [
+          {
+            "type": "EQUALS",
+            "parameter": [
+              {"type": "TEMPLATE", "key": "arg0", "value": "{{_event}}"},
+              {"type": "TEMPLATE", "key": "arg1", "value": "cm_consent_ready"}
+            ]
+          }
         ],
         "filter": [
           {
@@ -317,9 +367,14 @@
         "name": "CM - Custom Consent Applied",
         "type": "CUSTOM_EVENT",
         "status": "ENABLED",
-        "parameter": [
-          {"type": "TEMPLATE", "key": "eventName", "value": "cm_consent_applied"},
-          {"type": "BOOLEAN", "key": "useRegex", "value": "false"}
+        "customEventFilter": [
+          {
+            "type": "EQUALS",
+            "parameter": [
+              {"type": "TEMPLATE", "key": "arg0", "value": "{{_event}}"},
+              {"type": "TEMPLATE", "key": "arg1", "value": "cm_consent_applied"}
+            ]
+          }
         ],
         "filter": [
           {
@@ -338,9 +393,14 @@
         "name": "CM - Custom Consent Revoked",
         "type": "CUSTOM_EVENT",
         "status": "ENABLED",
-        "parameter": [
-          {"type": "TEMPLATE", "key": "eventName", "value": "cm_consent_applied"},
-          {"type": "BOOLEAN", "key": "useRegex", "value": "false"}
+        "customEventFilter": [
+          {
+            "type": "EQUALS",
+            "parameter": [
+              {"type": "TEMPLATE", "key": "arg0", "value": "{{_event}}"},
+              {"type": "TEMPLATE", "key": "arg1", "value": "cm_consent_applied"}
+            ]
+          }
         ],
         "filter": [
           {
@@ -363,7 +423,7 @@
         "status": "PAUSED",
         "notes": "Replace the HTML with your analytics bootstrap (e.g. GA4 config). Fires once when prior consent already exists.",
         "firingTriggerId": ["1"],
-        "tagFiringOption": "ONCE_PER_PAGE",
+        "tagFiringOption": "ONCE_PER_LOAD",
         "parameter": [
           {"type": "TEMPLATE", "key": "html", "value": "<!-- Replace with GA4 Configuration tag. This fires after cm_consent_ready when analytics consent already exists. -->"},
           {"type": "BOOLEAN", "key": "supportDocumentWrite", "value": "false"}
@@ -378,7 +438,7 @@
         "status": "PAUSED",
         "notes": "Duplicate/replace with your production analytics tag. Fires when a visitor opts in during the session.",
         "firingTriggerId": ["2"],
-        "tagFiringOption": "ONCE_PER_PAGE",
+        "tagFiringOption": "ONCE_PER_LOAD",
         "parameter": [
           {"type": "TEMPLATE", "key": "html", "value": "<!-- Replace with GA4 Event/Config tag for live opt-in (cm_consent_applied). -->"},
           {"type": "BOOLEAN", "key": "supportDocumentWrite", "value": "false"}
@@ -393,7 +453,7 @@
         "status": "PAUSED",
         "notes": "Use this to call API endpoints or delete analytics cookies when consent is withdrawn.",
         "firingTriggerId": ["7"],
-        "tagFiringOption": "ONCE_PER_PAGE",
+        "tagFiringOption": "ONCE_PER_LOAD",
         "parameter": [
           {"type": "TEMPLATE", "key": "html", "value": "<!-- Clear analytics cookies or send opt-out signal when cm_consent_applied indicates analytics was denied. -->"},
           {"type": "BOOLEAN", "key": "supportDocumentWrite", "value": "false"}
