@@ -34,12 +34,6 @@
                                 <label for="cm_advertisingCookies">{{settings.getAdvertisingTitle(siteHandle)}}</label>
                           </div>
                      {% endif %}
-                     {% if settings.getPersonalizationCookies(siteHandle) %}
-                          <div class="cm__checkbox">
-                                <input type="checkbox" id="cm_personalizationCookies" name="personalizationCookies" {{"personalization" in permissions ? 'checked'}} value="personalization"  aria-label="{{settings.getPersonalizationTitle(siteHandle)}}">
-                                <label for="cm_personalizationCookies">{{settings.getPersonalizationTitle(siteHandle)}}</label>
-                          </div>
-                     {% endif %}
                        {% if settings.getExtraCookies(siteHandle) %}
                            <div class="cm__checkbox">
                                 <input type="checkbox" id="cm_extraCookies" name="extraCookies" {{settings.getExtraCookieProperty(siteHandle) in permissions ? 'checked'}} value="{{settings.getExtraCookieProperty(siteHandle)}}" data-cm-alias="custom_consent">
@@ -109,20 +103,6 @@
                                      <div class="cm__button cm__acc-trigger"></div>
                                      <div class="cm__acc-panel">
                                           <p>{{settings.getAdvertisingDescription(siteHandle)|nl2br}}</p>
-                                     </div>
-                                </div>
-                          </div>
-                     {% endif %}
-                     {% if settings.getPersonalizationCookies(siteHandle) %}
-                          <div class="cm__checkbox">
-                                <div class="cm__accordion">
-                                     <div class="cm__acc-header">
-                                          <input type="checkbox" id="cm_personalizationCookies" name="personalizationCookies" {{"personalization" in permissions ? 'checked'}} value="personalization">
-                                          <label for="cm_personalizationCookies">{{settings.getPersonalizationTitle(siteHandle)}}</label>
-                                     </div>
-                                     <div class="cm__button cm__acc-trigger"></div>
-                                     <div class="cm__acc-panel">
-                                          <p>{{settings.getPersonalizationDescription(siteHandle)|nl2br}}</p>
                                      </div>
                                 </div>
                           </div>

@@ -32,7 +32,6 @@ The template defines Custom Event triggers for these consent categories:
 
 - `analytics`
 - `advertising`
-- `personalization`
 - `custom_consent`
 
 Event coverage in the template:
@@ -49,9 +48,6 @@ Trigger names included:
 - `CM - Advertising Consent Ready`
 - `CM - Advertising Consent Applied`
 - `CM - Advertising Consent Revoked`
-- `CM - Personalization Consent Ready`
-- `CM - Personalization Consent Applied`
-- `CM - Personalization Consent Revoked`
 - `CM - Custom Consent Ready`
 - `CM - Custom Consent Applied`
 - `CM - Custom Consent Revoked`
@@ -91,7 +87,6 @@ Triggers use regex against CSV helper variables:
 
 - `(^|,)analytics($|,)`
 - `(^|,)advertising($|,)`
-- `(^|,)personalization($|,)`
 - `(^|,)custom_consent($|,)`
 
 This avoids false positives when multiple categories are present.
@@ -144,7 +139,7 @@ Custom/extra consent should be matched in GTM using the canonical slug:
 
 ### Wrong category behavior
 
-- Verify you are matching the expected slug (`analytics`, `advertising`, `personalization`, `custom_consent`).
+- Verify you are matching the expected slug (`analytics`, `advertising`, `custom_consent`).
 - Inspect `CM - Granted CSV` and `CM - Denied CSV` values in Preview mode.
 
 ### Duplicate firing

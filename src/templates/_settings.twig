@@ -300,32 +300,6 @@
     value: settings.getAdvertisingDescription(),
 }) }}
 
-<hr/>
-
-<h2>Personalization</h2>
-{{ forms.lightswitchField({
-    label: 'Use personalization cookies',
-    name: 'personalizationCookies',
-    on: settings.getPersonalizationCookies(),
-    fieldClass: 'width-25',
-    instructions: 'Display the personalization cookie in the preferences. The event will be triggered when user accepts the personalization cookies (value: personalization).',
-}) }}
-
-{{ forms.textField({
-    label: "Personalization Title"|t('cookiemng'),
-    name: 'personalizationTitle',
-    fieldClass: 'width-25',
-    value: settings.getPersonalizationTitle(),
-}) }}
-
-{{ forms.textAreaField({
-    label: "Personalization Description"|t('cookiemng'),
-    name: 'personalizationDescription',
-    rows: 2,
-    fieldClass: 'width-50',
-    value: settings.getPersonalizationDescription(),
-}) }}
-
 <!--
 <hr/>
 
