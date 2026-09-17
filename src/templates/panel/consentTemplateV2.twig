@@ -30,22 +30,60 @@
         }
         return window.dataLayer;
     };
-    
-    {% if settings.getCookieGoogleEnabled(siteHandle) %}
-        let consent = {
-            'ad_storage': '{{"advertising" in permissions ? 'granted' : 'denied'}}', //advertising
-            'ad_user_data': '{{"advertising" in permissions ? 'granted' : 'denied'}}', //advertising
-            'ad_personalization': '{{"personalization" in permissions ? 'granted' : 'denied'}}', //personalization
-            'personalization_storage': '{{"personalization" in permissions ? 'granted' : 'denied'}}', //personalization
-            'analytics_storage': '{{"analytics" in permissions ? 'granted' : 'denied'}}', //analytics
-            'functionality_storage': 'granted', //functional
-            'security_storage': 'granted' //functional
-        };
-        
-        {% if settings.getExtraCookies(siteHandle) %}
-            consent['{{settings.getExtraCookieProperty(siteHandle)}}'] = "{{settings.getExtraCookieProperty(siteHandle) in permissions ? 'granted' : 'denied'}}";
+
+    const cmInitialGranted = ['functional'];
+    const cmInitialDenied = [];
+    {% if settings.getAnalyticsCookies(siteHandle) %}
+        {% if permissions is iterable and 'analytics' in permissions %}
+            cmInitialGranted.push('analytics');
+        {% else %}
+            cmInitialDenied.push('analytics');
         {% endif %}
-        
+    {% endif %}
+    {% if settings.getAdvertisingCookies(siteHandle) %}
+        {% if permissions is iterable and 'advertising' in permissions %}
+            cmInitialGranted.push('advertising');
+        {% else %}
+            cmInitialDenied.push('advertising');
+        {% endif %}
+    {% endif %}
+    {% if settings.getExtraCookies(siteHandle) %}
+        {% set extraSlug = settings.getExtraCookieProperty(siteHandle) %}
+        {% if permissions is iterable and settings.getExtraCookieProperty(siteHandle) in permissions %}
+            cmInitialGranted.push('{{extraSlug}}');
+            cmInitialGranted.push('custom_consent');
+        {% else %}
+            cmInitialDenied.push('{{extraSlug}}');
+            cmInitialDenied.push('custom_consent');
+        {% endif %}
+    {% endif %}
+
+    {% if settings.getCookieGoogleEnabled(siteHandle) %}
+        // Single source of truth: which Google Consent Mode signals each consent category controls.
+        const cmConsentSignalMap = {
+            functional: ['functionality_storage', 'security_storage'],
+            analytics: ['analytics_storage'],
+            advertising: ['ad_storage', 'ad_user_data', 'ad_personalization', 'personalization_storage']
+            {% if settings.getExtraCookies(siteHandle) %},
+            '{{settings.getExtraCookieProperty(siteHandle)}}': ['{{settings.getExtraCookieProperty(siteHandle)}}']
+            {% endif %}
+        };
+        const cmAllConsentSignals = Object.keys(cmConsentSignalMap).reduce((acc, key) => acc.concat(cmConsentSignalMap[key]), []);
+
+        const cmBuildGoogleConsent = (granted) => {
+            const consent = {};
+            cmAllConsentSignals.forEach((signal) => {
+                consent[signal] = 'denied';
+            });
+            (granted || []).forEach((category) => {
+                (cmConsentSignalMap[category] || []).forEach((signal) => {
+                    consent[signal] = 'granted';
+                });
+            });
+            return consent;
+        };
+
+        let consent = cmBuildGoogleConsent(cmInitialGranted);
         gtag('consent', 'default', consent);
 
         // Track the last applied Google consent object so we can avoid sending redundant updates.
@@ -75,53 +113,15 @@
             return;
         {% endif %}
         let consent_list = {};
-        granted.forEach((prop)=>{
-            switch (prop){
-                case 'functional':
-                    consent_list['functionality_storage'] = 'granted'    
-                    consent_list['security_storage'] = 'granted'
-                    break;
-                case 'analytics':
-                    consent_list['analytics_storage'] = 'granted'
-                    break;
-                case 'advertising':
-                    consent_list['ad_storage'] = 'granted'
-                    consent_list['ad_user_data'] = 'granted'
-                    break;
-                case 'personalization':
-                    consent_list['personalization_storage'] = 'granted'
-                    consent_list['ad_personalization'] = 'granted'
-                    break;
-                {% if settings.getExtraCookies(siteHandle) %}
-                    case '{{settings.getExtraCookieProperty(siteHandle)}}':
-                        consent_list['{{settings.getExtraCookieProperty(siteHandle)}}'] = 'granted';
-                        break;
-                {% endif %}
-            }
+        (granted || []).forEach((prop)=>{
+            (cmConsentSignalMap[prop] || []).forEach((signal)=>{
+                consent_list[signal] = 'granted';
+            });
         });
-        denied.forEach((prop)=>{
-            switch (prop){
-                case 'functional':
-                    consent_list['functionality_storage'] = 'denied'    
-                    consent_list['security_storage'] = 'denied'
-                    break;
-                case 'analytics':
-                    consent_list['analytics_storage'] = 'denied'
-                    break;
-                case 'advertising':
-                    consent_list['ad_storage'] = 'denied'
-                    consent_list['ad_user_data'] = 'denied'
-                    break;
-                case 'personalization':
-                    consent_list['personalization_storage'] = 'denied'
-                    consent_list['ad_personalization'] = 'denied'
-                    break;
-                {% if settings.getExtraCookies(siteHandle) %}
-                    case '{{settings.getExtraCookieProperty(siteHandle)}}':
-                        consent_list['{{settings.getExtraCookieProperty(siteHandle)}}'] = 'denied';
-                        break;
-                {% endif %}
-            }
+        (denied || []).forEach((prop)=>{
+            (cmConsentSignalMap[prop] || []).forEach((signal)=>{
+                consent_list[signal] = 'denied';
+            });
         });
         let data = {};
         for (const [key, value] of Object.entries(consent_list)) {
@@ -152,40 +152,6 @@
             eventId: cmNextEventId()
         });
     }
-
-    const cmInitialGranted = ['functional'];
-    const cmInitialDenied = [];
-    {% if settings.getAnalyticsCookies(siteHandle) %}
-        {% if permissions is iterable and 'analytics' in permissions %}
-            cmInitialGranted.push('analytics');
-        {% else %}
-            cmInitialDenied.push('analytics');
-        {% endif %}
-    {% endif %}
-    {% if settings.getAdvertisingCookies(siteHandle) %}
-        {% if permissions is iterable and 'advertising' in permissions %}
-            cmInitialGranted.push('advertising');
-        {% else %}
-            cmInitialDenied.push('advertising');
-        {% endif %}
-    {% endif %}
-    {% if settings.getPersonalizationCookies(siteHandle) %}
-        {% if permissions is iterable and 'personalization' in permissions %}
-            cmInitialGranted.push('personalization');
-        {% else %}
-            cmInitialDenied.push('personalization');
-        {% endif %}
-    {% endif %}
-    {% if settings.getExtraCookies(siteHandle) %}
-        {% set extraSlug = settings.getExtraCookieProperty(siteHandle) %}
-        {% if permissions is iterable and settings.getExtraCookieProperty(siteHandle) in permissions %}
-            cmInitialGranted.push('{{extraSlug}}');
-            cmInitialGranted.push('custom_consent');
-        {% else %}
-            cmInitialDenied.push('{{extraSlug}}');
-            cmInitialDenied.push('custom_consent');
-        {% endif %}
-    {% endif %}
 
     const cmInitialState = window.cmSyncConsentState(cmInitialGranted, cmInitialDenied, 'consent-script');
     if (!window.cmConsentEventsEmitted[cmConsentReadyKey]) {
