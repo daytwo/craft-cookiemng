@@ -207,58 +207,6 @@
       {
         "accountId": "0",
         "containerId": "0",
-        "triggerId": "5",
-        "name": "CM - Personalization Consent Ready",
-        "type": "CUSTOM_EVENT",
-        "status": "ENABLED",
-        "customEventFilter": [
-          {
-            "type": "EQUALS",
-            "parameter": [
-              {"type": "TEMPLATE", "key": "arg0", "value": "{{_event}}"},
-              {"type": "TEMPLATE", "key": "arg1", "value": "cm_consent_ready"}
-            ]
-          }
-        ],
-        "filter": [
-          {
-            "type": "MATCH_REGEX",
-            "parameter": [
-              {"type": "TEMPLATE", "key": "arg0", "value": "{{CM - Granted CSV}}"},
-              {"type": "TEMPLATE", "key": "arg1", "value": "(^|,)personalization($|,)"}
-            ]
-          }
-        ]
-      },
-      {
-        "accountId": "0",
-        "containerId": "0",
-        "triggerId": "6",
-        "name": "CM - Personalization Consent Applied",
-        "type": "CUSTOM_EVENT",
-        "status": "ENABLED",
-        "customEventFilter": [
-          {
-            "type": "EQUALS",
-            "parameter": [
-              {"type": "TEMPLATE", "key": "arg0", "value": "{{_event}}"},
-              {"type": "TEMPLATE", "key": "arg1", "value": "cm_consent_applied"}
-            ]
-          }
-        ],
-        "filter": [
-          {
-            "type": "MATCH_REGEX",
-            "parameter": [
-              {"type": "TEMPLATE", "key": "arg0", "value": "{{CM - Granted CSV}}"},
-              {"type": "TEMPLATE", "key": "arg1", "value": "(^|,)personalization($|,)"}
-            ]
-          }
-        ]
-      },
-      {
-        "accountId": "0",
-        "containerId": "0",
         "triggerId": "7",
         "name": "CM - Analytics Consent Revoked",
         "type": "CUSTOM_EVENT",
@@ -304,32 +252,6 @@
             "parameter": [
               {"type": "TEMPLATE", "key": "arg0", "value": "{{CM - Denied CSV}}"},
               {"type": "TEMPLATE", "key": "arg1", "value": "(^|,)advertising($|,)"}
-            ]
-          }
-        ]
-      },
-      {
-        "accountId": "0",
-        "containerId": "0",
-        "triggerId": "9",
-        "name": "CM - Personalization Consent Revoked",
-        "type": "CUSTOM_EVENT",
-        "status": "ENABLED",
-        "customEventFilter": [
-          {
-            "type": "EQUALS",
-            "parameter": [
-              {"type": "TEMPLATE", "key": "arg0", "value": "{{_event}}"},
-              {"type": "TEMPLATE", "key": "arg1", "value": "cm_consent_applied"}
-            ]
-          }
-        ],
-        "filter": [
-          {
-            "type": "MATCH_REGEX",
-            "parameter": [
-              {"type": "TEMPLATE", "key": "arg0", "value": "{{CM - Denied CSV}}"},
-              {"type": "TEMPLATE", "key": "arg1", "value": "(^|,)personalization($|,)"}
             ]
           }
         ]

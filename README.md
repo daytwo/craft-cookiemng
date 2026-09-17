@@ -90,10 +90,6 @@ return [
         'advertisingCookies' => ['default' => true],//disabled the request for consent for this category
         'advertisingDescription' => ['default' => "We use cookies to make our ads more engaging and valuable to people who visit our site. Some common uses for cookies are: selection of advertising based on what is relevant to the user; improving the reporting of advertising campaign results; avoid showing ads that the user has already seen."],
         'advertisingTitle' => ['default' => 'Marketing'],
-        
-        'personalizationCookies' => ['default' => true],//disabled the request for consent for this category
-        'personalizationDescription' => ['default' => 'Allows sharing of behavioral data with advertising partners. This data is used to improve and report on the experience of personalized ads on the websites of partners.'],
-        'personalizationTitle' => ['default' => 'Personalised ads'],
     ],
     'dev' => [
         // Configuration settings for the dev environment (override default settings here)

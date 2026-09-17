@@ -36,7 +36,7 @@ The repository ships with an importable workspace at `gtm-templates/cookiemng-co
 
 - Data Layer variables for `consentGranted`, `consentDenied`, `eventId`, and `eventSource`
 - Helper Custom JS variables that flatten granted/denied categories into comma-separated strings
-- Consent triggers for analytics/advertising/personalization and `custom_consent` (ready, applied, revoked)
+- Consent triggers for analytics/advertising and `custom_consent` (ready, applied, revoked)
 - Three paused example HTML tags for analytics ready/applied and analytics revocation cleanup
 
 To import it:
@@ -46,6 +46,7 @@ To import it:
 3. Review the summary so you understand which variables/triggers/tags will be created.
 4. After import, open each example tag and set **Advanced Settings → Tag firing options → Once per page** (the API no longer accepts this flag in JSON exports).
 5. Replace the placeholder HTML in the example tags with your production analytics/marketing tags and publish.
+6. **Upgrading from an earlier import?** The toolkit no longer ships the `CM - Personalization *` triggers because the personalization category was removed in favour of advertising. If you imported an earlier version, delete those triggers and re-point any tags using them to the matching `CM - Advertising *` triggers. Visitors who previously granted only personalization count as denied for `ad_personalization` and `personalization_storage` until they accept advertising.
 
 ## 3. Create Helpful Data Layer Variables
 
@@ -191,7 +192,7 @@ A reusable variable template allows your entire team to ask “is consent grante
    return hasConsent;
    ```
 4. Add two input fields under **Fields**:
-   - *Select* `consentCategory` with options `functional`, `analytics`, `advertising`, `personalization`, plus any custom slug you use
+   - *Select* `consentCategory` with options `functional`, `analytics`, `advertising`, plus any custom slug you use
    - *Checkbox* `fireOnReady` (label “Fallback to cmConsentState when data layer has not fired yet”)
 5. Save the template (suggested name: **CookieMng Consent Gate**)
 6. Create a new variable using the template. Choose the category (e.g., Analytics) and enable fallback if you want to use the variable before `cm_consent_ready` fires.

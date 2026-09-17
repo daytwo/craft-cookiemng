@@ -162,19 +162,6 @@ class Settings extends Model
         return \craft\helpers\ConfigHelper::localizedValue($this->advertisingDescription, $siteHandle);
     }
 
-    public $personalizationCookies;
-    public $personalizationTitle;
-    public $personalizationDescription;
-    public function getPersonalizationCookies(string $siteHandle = null) {
-        return \craft\helpers\ConfigHelper::localizedValue($this->personalizationCookies, $siteHandle);
-    }
-    public function getPersonalizationTitle(string $siteHandle = null) {
-        return \craft\helpers\ConfigHelper::localizedValue($this->personalizationTitle, $siteHandle);
-    }
-    public function getPersonalizationDescription(string $siteHandle = null) {
-        return \craft\helpers\ConfigHelper::localizedValue($this->personalizationDescription, $siteHandle);
-    }
-
     public $extraCookies;
     public $extraCookieProperty;
     public $extraTitle;
